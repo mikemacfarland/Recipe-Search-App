@@ -1,0 +1,25 @@
+* {
+  font-family: "Poppins", sans-serif;
+}
+
+.app {
+  border: 1px red solid;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.nav {
+  border: 1px blue solid;
+}
+
+.search {
+  border: 1px orange solid;
+}
+
+.content {
+  border: 1px green solid;
+}
+
+/*# sourceMappingURL=index.css.map */

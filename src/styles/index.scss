@@ -1,0 +1,27 @@
+*{
+    font-family: 'Poppins', sans-serif;
+}
+
+@mixin flex($direction,$justify,$align){
+    display: flex;
+    flex-direction: $direction;
+    justify-content: $justify;
+    align-items: $align;
+}
+
+.app{
+    border: 1px red solid;
+    @include flex(column,flex-start,center)
+}
+
+.nav{
+    border: 1px blue solid;
+}
+
+.search{
+    border: 1px orange solid;
+}
+
+.content{
+    border: 1px green solid;
+}
