@@ -1,11 +1,12 @@
 import Home from "./pages/Home";
 import About from "./pages/About";
+import Nav from "./components/Nav";
 import {BrowserRouter as Router,Routes,Route} from 'react-router-dom'
 
 function App() {
   return (
-    <div className="app">container
-      <nav className="nav">nav</nav>
+    <div className="app">
+      <Nav/>
       <Router>
         <Routes>
           <Route exact path='/' element={<Home/>} />
