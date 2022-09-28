@@ -17,7 +17,7 @@ function SearchFilter() {
       {/*  make select into a reusable component since there will be multiple */}
       <select name="" id="">
         {/* by default display random recipes or newest recipes until serach q is completed */}
-        <option value="" disabled={true}>--Cuisine--</option>
+        <option value="" >--Cuisine--</option>
         {recipeCuisines.map(cuisine=>{
           return (
             <option key={cuisine}>{cuisine}</option>
