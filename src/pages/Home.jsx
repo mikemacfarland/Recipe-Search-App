@@ -1,13 +1,11 @@
-import Search from '../components/Search'
-import Filter from '../components/Filter'
+import SearchFilter from '../components/SearchFilter'
 
 import React from 'react'
 
 function Home() {
   return (
     <div className="content">
-        <Search/>
-        <Filter/>
+        <SearchFilter/>
         <div className="content">
         content
         </div>

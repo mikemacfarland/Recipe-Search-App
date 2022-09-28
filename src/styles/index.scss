@@ -4,6 +4,10 @@
     padding: 0;
 }
 
+
+// MIXINS
+
+// DISPLAY FLEX MIXIN
 @mixin flex($direction,$justify,$align){
     display: flex;
     flex-direction: $direction;
@@ -11,37 +15,84 @@
     align-items: $align;
 }
 
+@mixin box-shadow($alpha){
+    box-shadow: 0 2px 4px rgba(0,0,0, $alpha);
+}
+
+@mixin hover-scale($scale){
+    &:hover{
+        transition: .3s all ease;
+        transform: scale($scale);  
+    }
+    &:not(hover){
+        transition: .3s all ease; 
+    }
+    &:active{
+        transition: .1s all ease;
+        background-color: $tertiary-color;
+    }
+}
+
+// COLORS
+$primary-color: #F4F3EE;
+$secondary-color:#CEC9C0;
+// HOVER STATES,ACTIVE
+$tertiary-color:#E0AFA0;
+$quaternary-color:#8A817C;
+
+//BOX SHADOW ALPHAS
+$primary-bsa:.3;
+$secondary-bsa:.7;
+
 // MAIN APP CONTAINER
 .app{
-    border: 1px red solid;
     @include flex(column,flex-start,center);
+    background-color: $primary-color;
     min-height: 100vh;
 }
 
 // MAIN NAV
 .nav{
-    width: 100%;
-    border: 1px blue solid;
+    width: 95%;
+    margin: .5rem 1rem;
 
     &__ul{
         list-style-type: none;
         text-align: center;
+
+        &__li{
+            @include flex(column,center,center);
+            @include box-shadow($primary-bsa);
+            @include hover-scale(.99);
+            cursor: pointer;
+            height: 1.9rem;
+            margin: .5rem 0;
+            background-color: $secondary-color;
+            border-radius: .2rem;
+            
+            &__link{
+                @include flex(column,center,center);
+                color: inherit;
+                font: inherit;
+                text-decoration: none;
+                height: 100%;
+                width: 100%;
+            }
+        }
     }
 }
 
-
 .content{
-    min-width: 100%;
+    min-width: 95%;
     border: 1px green solid;
 }
 
 .search{
     @include flex(row,flex-start,center);
-    min-width: 100%;
+    margin: .5rem 1rem;
     border: 1px orange solid;
+
 }
-
-
 
 .footer{
     margin: auto auto .4rem auto;
