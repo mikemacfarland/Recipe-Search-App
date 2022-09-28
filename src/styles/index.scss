@@ -1,5 +1,7 @@
 *{
     font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
 }
 
 @mixin flex($direction,$justify,$align){
@@ -9,19 +11,38 @@
     align-items: $align;
 }
 
+// MAIN APP CONTAINER
 .app{
     border: 1px red solid;
-    @include flex(column,flex-start,center)
+    @include flex(column,flex-start,center);
+    min-height: 100vh;
 }
 
+// MAIN NAV
 .nav{
+    width: 100%;
     border: 1px blue solid;
+
+    &__ul{
+        list-style-type: none;
+        text-align: center;
+    }
+}
+
+
+.content{
+    min-width: 100%;
+    border: 1px green solid;
 }
 
 .search{
+    @include flex(row,flex-start,center);
+    min-width: 100%;
     border: 1px orange solid;
 }
 
-.content{
-    border: 1px green solid;
+
+
+.footer{
+    margin: auto auto .4rem auto;
 }

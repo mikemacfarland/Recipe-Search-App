@@ -1,5 +1,7 @@
 * {
   font-family: "Poppins", sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
 .app {
@@ -8,18 +10,34 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
+  min-height: 100vh;
 }
 
 .nav {
+  width: 100%;
   border: 1px blue solid;
 }
-
-.search {
-  border: 1px orange solid;
+.nav__ul {
+  list-style-type: none;
+  text-align: center;
 }
 
 .content {
+  min-width: 100%;
   border: 1px green solid;
+}
+
+.search {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  min-width: 100%;
+  border: 1px orange solid;
+}
+
+.footer {
+  margin: auto auto 0.4rem auto;
 }
 
 /*# sourceMappingURL=index.css.map */
