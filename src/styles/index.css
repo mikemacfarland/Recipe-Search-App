@@ -14,10 +14,19 @@
 }
 
 .nav {
-  width: 95%;
-  margin: 0.5rem 1rem;
+  font-weight: 600;
+  letter-spacing: 0.07rem;
+  background-color: #8A817C;
+  color: #F4F3EE;
+  width: 100%;
+  padding-top: 0.5rem;
 }
 .nav__ul {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
   list-style-type: none;
   text-align: center;
 }
@@ -28,9 +37,9 @@
   align-items: center;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   cursor: pointer;
+  width: 300px;
   height: 1.9rem;
   margin: 0.5rem 0;
-  background-color: #CEC9C0;
   border-radius: 0.2rem;
 }
 .nav__ul__li:hover {
@@ -56,9 +65,45 @@
   width: 100%;
 }
 
-.content {
+.home {
   min-width: 95%;
-  border: 1px green solid;
+  max-width: 95%;
+}
+.home__content {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+.home__content__item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 300px;
+  height: 350px;
+  background-color: #CEC9C0;
+  border-radius: 0.25rem;
+  border: #F4F3EE 1px solid;
+  box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.3);
+}
+.home__content__item h3 {
+  margin-top: 0.5rem;
+  font-size: 1rem;
+}
+.home__content__item img {
+  cursor: pointer;
+  width: 100%;
+  border-radius: 0.25rem;
+  margin: 0.5rem auto 0.5rem auto;
+}
+.home__content__item p {
+  width: 90%;
+  overflow: hidden;
+  margin: 0.5rem auto;
 }
 
 .search {
@@ -66,12 +111,55 @@
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  margin: 0.5rem 1rem;
-  border: 1px orange solid;
+  background-color: #8A817C;
+  flex-wrap: wrap;
+  height: 0;
+  display: none;
+}
+.search.active {
+  display: block;
+  height: fit-content;
+  z-index: 2;
+}
+.search__input {
+  width: 100%;
+  position: relative;
+}
+.search__input input {
+  position: relative;
+  outline: none;
+  border: none;
+}
+.search__input input {
+  text-indent: 1rem;
+  width: 100%;
+  height: 30px;
+}
+.search__input button {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  position: absolute;
+  border: none;
+  background-color: #8A817C;
+  border-radius: 50%;
+  height: 27px;
+  width: 27px;
+  right: 1.5px;
+  top: 1.5px;
+}
+.search__input button img {
+  height: 23px;
+  width: 23px;
+}
+.search select {
+  text-align: center;
 }
 
 .footer {
-  margin: auto auto 0.4rem auto;
+  margin: 2rem auto 0.4rem auto;
 }
 
 /*# sourceMappingURL=index.css.map */

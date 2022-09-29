@@ -1,18 +1,17 @@
 import SearchFilter from '../components/SearchFilter'
 import RecipeContext from '../context/RecipeContext'
 import {useContext} from 'react'
+import Content from '../components/Content'
 
 function Home() {
 
-  const {randomRecipes} = useContext(RecipeContext)
-  
+  const {recipes} = useContext(RecipeContext)
+  console.log(recipes)
 
   return (
-    <div className="content">
+    <div className="home">
         <SearchFilter/>
-        <div className="content">
-        content
-        </div>
+        <Content/>
     </div>
   )
 }

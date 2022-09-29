@@ -53,10 +53,16 @@ $secondary-bsa:.7;
 
 // MAIN NAV
 .nav{
-    width: 95%;
-    margin: .5rem 1rem;
+    font-weight: 600;
+    letter-spacing: .07rem;
+    background-color: #8A817C;
+    color: $primary-color;
+    width: 100%;
+    padding-top: .5rem;
 
     &__ul{
+        @include flex(row,center,center);
+        flex-wrap: wrap;
         list-style-type: none;
         text-align: center;
 
@@ -65,10 +71,12 @@ $secondary-bsa:.7;
             @include box-shadow($primary-bsa);
             @include hover-scale(.99);
             cursor: pointer;
+            width: 300px;
             height: 1.9rem;
             margin: .5rem 0;
-            background-color: $secondary-color;
+            // background-color: $secondary-color;
             border-radius: .2rem;
+
             
             &__link{
                 @include flex(column,center,center);
@@ -82,18 +90,100 @@ $secondary-bsa:.7;
     }
 }
 
-.content{
+.home{
     min-width: 95%;
-    border: 1px green solid;
+    max-width:95%;
+    
+    &__content{
+        @include flex(row,center,center );
+        flex-wrap: wrap;
+        margin-top: 1rem;
+
+        &__item{
+            @include flex(column,center,center);
+            width: 100%;
+            max-width: 300px;
+            height: 350px;
+            background-color: $secondary-color;
+            border-radius: .25rem;
+            border: $primary-color 1px solid;
+            box-shadow: inset 0 1px 4px rgba($color: #000000, $alpha: .3);
+
+            & h3{
+                margin-top: .5rem;
+                font-size: 1rem;
+            }
+
+            & img{
+                cursor: pointer;
+                width: 100%;
+                border-radius: .25rem;
+                margin: .5rem auto .5rem auto;
+            }
+
+            & p{
+                width: 90%;
+                overflow: hidden;
+                margin:.5rem auto;
+            }
+        }
+    }
 }
 
 .search{
     @include flex(row,flex-start,center);
-    margin: .5rem 1rem;
-    border: 1px orange solid;
+    background-color: $quaternary-color;
+    flex-wrap: wrap;
+    height: 0;
+    display: none;
+    // margin: .5rem 1rem;
+
+    &.active{
+        display: block;
+        height: fit-content;
+        z-index: 2;
+    }
+
+    &__input{
+        width: 100%;
+        position: relative;
+        & input{
+            position: relative;
+            outline: none;
+            border: none;
+        }
+    
+        & input{
+            text-indent: 1rem;
+            width: 100%;
+            height: 30px;
+        }
+    
+        & button{
+            @include flex(column,center,center);
+            cursor: pointer;
+            position: absolute;
+            border: none;
+            background-color: $quaternary-color;
+            border-radius: 50%;
+            height: 27px;
+            width: 27px;
+            right: 1.5px;
+            top: 1.5px;
+            & img{
+                height: 23px;
+                width: 23px;
+            }
+        }
+    }
+
+    & select{
+        text-align: center;
+    }
+    
 
 }
 
 .footer{
-    margin: auto auto .4rem auto;
+    margin: 2rem auto .4rem auto;
 }
