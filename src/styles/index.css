@@ -114,6 +114,8 @@
   flex-wrap: wrap;
 }
 .search h4 {
+  color: inherit;
+  background-color: inherit;
   font-weight: 200;
   text-align: center;
 }
@@ -156,7 +158,6 @@
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  border: red solid 1px;
   width: 100%;
   color: #F4F3EE;
 }
@@ -170,13 +171,24 @@
   cursor: pointer;
   height: 30px;
 }
+.search__filters__item h4 {
+  width: 100%;
+  user-select: none;
+}
 .search__filters__item__list {
   list-style: none;
   background-color: #8A817C;
   position: absolute;
-  top: 0;
+  top: 30px;
   left: 0;
   width: 100%;
+  height: 0;
+  z-index: 3;
+  display: none;
+}
+.search__filters__item__list.--active {
+  display: block;
+  height: fit-content;
 }
 .search__filters__item__list__li input {
   display: none;

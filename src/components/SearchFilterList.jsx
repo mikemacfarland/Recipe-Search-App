@@ -10,10 +10,23 @@ function SearchFilterList({title,filter}) {
         }
         console.log(forLabel)
         console.log(e.target.id)
-    }        
+    }
+
+    const openList = (e)=>{
+        const filterLists = document.querySelectorAll('.search__filters__item__list')
+        for(let i = 0; i < filterLists.length; i++){
+            if(!e.target.nextSibling.classList.contains('--active') && filterLists[i].previousSibling === e.target){
+                filterLists[i].classList.add('--active')
+                console.log(filterLists[i])
+            }
+            else{
+                filterLists[i].classList.remove('--active')
+            }
+        }
+    }
 
   return (<div className="search__filters__item">
-            <h4>{title}</h4>
+            <h4 onClick={(e)=>openList(e)}>{title}</h4>
             <ul className="search__filters__item__list">
             {filter.map(filter=>{
                 return(
@@ -26,7 +39,6 @@ function SearchFilterList({title,filter}) {
             </ul>
         </div>
   )
-
 }
 
 export default SearchFilterList

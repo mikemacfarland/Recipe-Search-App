@@ -138,6 +138,8 @@ $secondary-bsa:.7;
     // margin: .5rem 1rem;
     }
     & h4{
+        color: inherit;
+        background-color: inherit;
         font-weight: 200;
         text-align: center;
     }
@@ -178,7 +180,6 @@ $secondary-bsa:.7;
     &__filters{
         @include flex(row,center,center);
         flex-wrap: wrap;
-        border: red solid 1px;
         width: 100%;
         color: $primary-color;
 
@@ -191,15 +192,26 @@ $secondary-bsa:.7;
             cursor: pointer;
             height: 30px;
 
+            & h4{
+                width: 100%;
+                user-select: none;
+            }
+
             &__list{
             list-style: none;
             background-color: $quaternary-color;
             position: absolute;
-            top: 0;
+            top: 30px;
             left: 0;
             width: 100%;
-            // height: 0;
-            // display: none;
+            height: 0;
+            z-index: 3;
+            display: none;
+
+            &.--active{
+                display: block;
+                height: fit-content;
+            }
 
             &__li{
 
