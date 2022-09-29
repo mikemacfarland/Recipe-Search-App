@@ -1,6 +1,8 @@
 
 function SearchFilterList({title,filter}) {
 
+    //@TODO add search functionality for api endpoints based on selections within this function, use a state to manage this
+    //@TODO refactor for loop in this function
     const checkCheck = (e)=>{
         const labels = document.querySelectorAll('label')
         let forLabel = ''
@@ -12,6 +14,7 @@ function SearchFilterList({title,filter}) {
         console.log(e.target.id)
     }
 
+    //@TODO refactor for loop in this function
     const openList = (e)=>{
         const filterLists = document.querySelectorAll('.search__filters__item__list')
         for(let i = 0; i < filterLists.length; i++){

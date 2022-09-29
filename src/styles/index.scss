@@ -138,8 +138,8 @@ $secondary-bsa:.7;
     // margin: .5rem 1rem;
     }
     & h4{
-        color: inherit;
-        background-color: inherit;
+        color: $primary-color;
+        background-color: $quaternary-color;
         font-weight: 200;
         text-align: center;
     }
