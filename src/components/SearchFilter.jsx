@@ -13,22 +13,20 @@ function SearchFilter() {
 
 
   return (
-    <div>
+    <div className='search'>
       <h4>Filters</h4>
-      <form onSubmit={handleSubmit} className='search active'>
+      <form onSubmit={handleSubmit} className='search__form'>
         <div className='search__input'>
           <input type="text" placeholder='Keyword'/>
           <button type='submit'><img src={Icons.searchIcon} alt="search" /></button>
         </div>
 
-        <div>
-          <SearchFilterList filter={filters.recipeType}/>
-          <SearchFilterList filter={filters.diets}/>
-          <SearchFilterList filter={filters.cuisines}/>
-          <SearchFilterList filter={filters.intolorances}/>
+        <div className='search__filters'>
+          <SearchFilterList title='Recipe Type' filter={filters.recipeType}/>
+          <SearchFilterList title='Diet' filter={filters.diets}/>
+          <SearchFilterList title='Cuisine' filter={filters.cuisines}/>
+          <SearchFilterList title='Intolorances' filter={filters.intolorances}/>
         </div>
-          
-        
       </form>
     </div>
   )
