@@ -15,7 +15,7 @@
     align-items: $align;
 }
 
-@mixin box-shadow($alpha){
+@mixin box-shadow($y,$x,$grow,$alpha){
     box-shadow: 0 2px 4px rgba(0,0,0, $alpha);
 }
 
@@ -60,6 +60,13 @@ $secondary-bsa:.7;
     width: 100%;
     padding-top: .5rem;
 
+    & .logo{
+        stroke: $primary-color;
+        stroke-width: 4px;
+        fill: none;
+        height: 50px;
+    }
+
     &__ul{
         @include flex(row,center,center);
         flex-wrap: wrap;
@@ -68,11 +75,11 @@ $secondary-bsa:.7;
 
         &__li{
             @include flex(column,center,center);
-            @include box-shadow($primary-bsa);
+            @include box-shadow(0,2px,4px,$primary-bsa);
             @include hover-scale(.99);
             cursor: pointer;
-            width: 300px;
-            height: 1.9rem;
+            width: fit-content;
+            height: fit-content;
             margin: .5rem 0;
             // background-color: $secondary-color;
             border-radius: .2rem;
@@ -85,6 +92,12 @@ $secondary-bsa:.7;
                 text-decoration: none;
                 height: 100%;
                 width: 100%;
+                margin: 1rem;
+
+                & h4{
+                    font-size: 1.8rem;
+                    letter-spacing: .2rem;
+                }
             }
         }
     }
@@ -145,35 +158,29 @@ $secondary-bsa:.7;
     }
 
     &__input{
+        outline: none;
+        border: none;
+        text-indent: 1rem;
         width: 100%;
-        position: relative;
-        & input{
-            position: relative;
-            outline: none;
-            border: none;
+        height: 30px;
         }
     
-        & input{
-            text-indent: 1rem;
-            width: 100%;
-            height: 30px;
-        }
-    
-        & button{
-            @include flex(column,center,center);
-            cursor: pointer;
-            position: absolute;
-            border: none;
-            background-color: $quaternary-color;
-            border-radius: 50%;
-            height: 27px;
-            width: 27px;
-            right: 1.5px;
-            top: 1.5px;
-            & img{
-                height: 23px;
-                width: 23px;
-            }
+    & button{
+        @include flex(row,center,center);
+        cursor: pointer;
+        border: none;
+        outline: none;
+        color: $primary-color;
+        background-color: $quaternary-color;
+        border-radius: 30%;
+        height: 35px;
+        width: 100%;
+        right: 1.5px;
+        top: 1.5px;
+        border-bottom: $primary-color solid 3px;
+        & img{
+            height: 23px;
+            width: 23px;
         }
     }
 
@@ -188,9 +195,12 @@ $secondary-bsa:.7;
         &__item{
             @include flex(column,center,center);
             position: relative;
+            
             width: 50%;
             cursor: pointer;
-            height: 30px;
+            height: 35px;
+            border-bottom: rgba($color: #000000, $alpha: .1) solid 3px;
+            
 
             & h4{
                 width: 100%;

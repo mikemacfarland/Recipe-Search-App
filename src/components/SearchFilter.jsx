@@ -16,11 +16,8 @@ function SearchFilter() {
     <div className='search'>
       <h4>Filters</h4>
       <form onSubmit={handleSubmit} className='search__form'>
-        <div className='search__input'>
-          <input type="text" placeholder='Keyword'/>
-          <button type='submit'><img src={Icons.searchIcon} alt="search" /></button>
-        </div>
-
+          <input className='search__input' type="text" placeholder='Search Keyword'/>
+          <button type='submit'>Search<img src={Icons.searchIcon} alt="search" /></button>
         <div className='search__filters'>
           <SearchFilterList title='Recipe Type' filter={filters.recipeType}/>
           <SearchFilterList title='Diet' filter={filters.diets}/>
