@@ -4,7 +4,7 @@
     padding: 0;
 }
 
-
+//@TODO REFACTOR SCSS
 // MIXINS
 
 // DISPLAY FLEX MIXIN
@@ -58,7 +58,7 @@ $secondary-bsa:.7;
     background-color: #8A817C;
     color: $primary-color;
     width: 100%;
-    padding-top: .5rem;
+    padding: 1rem 0;
 
     & .logo{
         stroke: $primary-color;
@@ -92,7 +92,7 @@ $secondary-bsa:.7;
                 text-decoration: none;
                 height: 100%;
                 width: 100%;
-                margin: 1rem;
+                margin: auto 1rem;
 
                 & h4{
                     font-size: 1.8rem;
@@ -143,12 +143,12 @@ $secondary-bsa:.7;
 }
 
 .search{
+    background-color: $quaternary-color;
 
     &__form{
     @include flex(column,flex-start,center);
     background-color: $quaternary-color;
     flex-wrap: wrap;
-    // margin: .5rem 1rem;
     }
     & h4{
         color: $primary-color;
@@ -172,12 +172,21 @@ $secondary-bsa:.7;
         outline: none;
         color: $primary-color;
         background-color: $quaternary-color;
-        border-radius: 30%;
+        border-bottom-left-radius: 30%;
+        border-bottom-right-radius: 30%;
         height: 35px;
         width: 100%;
         right: 1.5px;
         top: 1.5px;
         border-bottom: $primary-color solid 3px;
+        @include hover-scale(1.03);
+
+        &:active{
+            background-color: $tertiary-color;
+        }
+
+
+
         & img{
             height: 23px;
             width: 23px;
@@ -211,16 +220,19 @@ $secondary-bsa:.7;
             list-style: none;
             background-color: $quaternary-color;
             position: absolute;
-            top: 30px;
+            top: 35px;
             left: 0;
             width: 100%;
             height: 0;
             z-index: 3;
             display: none;
+            transition: all .3s ease;
 
             &.--active{
                 display: block;
                 height: fit-content;
+                transition: all .3s ease;
+                @include box-shadow(0,2px,4px,.5 )
             }
 
             &__li{

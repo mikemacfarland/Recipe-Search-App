@@ -11,7 +11,7 @@ function App() {
   return (
     <RecipeProvider>
       <Router>
-        <div className="app">-
+        <div className="app">
             <Nav/>
             <Routes>
               <Route exact path='/' element={<Home/>} />

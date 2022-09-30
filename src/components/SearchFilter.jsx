@@ -14,7 +14,6 @@ function SearchFilter() {
 
   return (
     <div className='search'>
-      <h4>Filters</h4>
       <form onSubmit={handleSubmit} className='search__form'>
           <input className='search__input' type="text" placeholder='Search Keyword'/>
           <button type='submit'>Search<img src={Icons.searchIcon} alt="search" /></button>

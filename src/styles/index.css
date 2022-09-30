@@ -19,7 +19,7 @@
   background-color: #8A817C;
   color: #F4F3EE;
   width: 100%;
-  padding-top: 0.5rem;
+  padding: 1rem 0;
 }
 .nav .logo {
   stroke: #F4F3EE;
@@ -69,7 +69,7 @@
   text-decoration: none;
   height: 100%;
   width: 100%;
-  margin: 1rem;
+  margin: auto 1rem;
 }
 .nav__ul__li__link h4 {
   font-size: 1.8rem;
@@ -116,6 +116,9 @@
   margin: 0.5rem auto;
 }
 
+.search {
+  background-color: #8A817C;
+}
 .search__form {
   display: flex;
   flex-direction: column;
@@ -147,12 +150,27 @@
   outline: none;
   color: #F4F3EE;
   background-color: #8A817C;
-  border-radius: 30%;
+  border-bottom-left-radius: 30%;
+  border-bottom-right-radius: 30%;
   height: 35px;
   width: 100%;
   right: 1.5px;
   top: 1.5px;
   border-bottom: #F4F3EE solid 3px;
+}
+.search button:hover {
+  transition: 0.3s all ease;
+  transform: scale(1.03);
+}
+.search button:not(hover) {
+  transition: 0.3s all ease;
+}
+.search button:active {
+  transition: 0.1s all ease;
+  background-color: #E0AFA0;
+}
+.search button:active {
+  background-color: #E0AFA0;
 }
 .search button img {
   height: 23px;
@@ -186,16 +204,19 @@
   list-style: none;
   background-color: #8A817C;
   position: absolute;
-  top: 30px;
+  top: 35px;
   left: 0;
   width: 100%;
   height: 0;
   z-index: 3;
   display: none;
+  transition: all 0.3s ease;
 }
 .search__filters__item__list.--active {
   display: block;
   height: fit-content;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 .search__filters__item__list__li input {
   display: none;
