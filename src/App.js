@@ -18,7 +18,6 @@ function App() {
               <Route exact path='/about' element={<About/>}/>
               <Route exact path='/favorites' element={<Favorites/>} />
               <Route exact path='/login' element={<Login/>}/>
-              
             </Routes>
             <Footer/>
         </div>

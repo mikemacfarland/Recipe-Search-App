@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import {ReactComponent as SpoonFork} from '../assets/icons/spoonfork.svg'
+import LogoLink from './LogoLink'
+
 
 //@TODO add favorites page
 //@TODO move about link to bottom of page
@@ -13,9 +14,7 @@ function Nav() {
         <ul className='nav__ul'>
             <li className='nav__ul__li'>
               <Link className='nav__ul__li__link' to='/'>
-                <h4>THE</h4>
-                <SpoonFork className='logo'/>
-                <h4>SAUCE</h4>
+                <LogoLink/>
               </Link>
             </li>
         </ul>

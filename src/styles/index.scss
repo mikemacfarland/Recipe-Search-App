@@ -60,13 +60,6 @@ $secondary-bsa:.7;
     width: 100%;
     padding: 1rem 0;
 
-    & .logo{
-        stroke: $primary-color;
-        stroke-width: 4px;
-        fill: none;
-        height: 50px;
-    }
-
     &__ul{
         @include flex(row,center,center);
         flex-wrap: wrap;
@@ -94,7 +87,14 @@ $secondary-bsa:.7;
                 width: 100%;
                 margin: auto 1rem;
 
-                & h4{
+                & .logo__img{
+                    stroke: $primary-color;
+                    stroke-width: 4px;
+                    fill: none;
+                    height: 50px;
+                }
+
+                & .logo__text{
                     font-size: 1.8rem;
                     letter-spacing: .2rem;
                 }
@@ -138,6 +138,18 @@ $secondary-bsa:.7;
                 overflow: hidden;
                 margin:.5rem auto;
             }
+        }
+    }
+}
+
+.about{
+    margin: 2rem;
+
+    &__list{
+        margin: 1rem auto;
+
+        & li{
+            margin-left: 3rem;
         }
     }
 }
@@ -262,5 +274,7 @@ $secondary-bsa:.7;
     }
 
 .footer{
-    margin: 2rem auto .4rem auto;
+    @include flex(column,center ,center);
+    padding-top: 2rem;
+    margin: auto auto .4rem auto;
 }
