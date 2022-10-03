@@ -195,9 +195,9 @@ $secondary-bsa:.7;
         top: 1.5px;
         border-bottom: $primary-color solid 3px;
         
-        &:hover{
-            background-color: $;
-        }
+        // &:hover{
+        //     background-color: $;
+        // }
 
         &:active{
             background-color: $tertiary-color;
