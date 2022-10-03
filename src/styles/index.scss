@@ -180,6 +180,9 @@ $secondary-bsa:.7;
     & button{
         @include flex(row,center,center);
         cursor: pointer;
+        font-size: 1rem;
+        font-weight: 600;
+        letter-spacing: .07rem;
         border: none;
         outline: none;
         color: $primary-color;
@@ -191,13 +194,14 @@ $secondary-bsa:.7;
         right: 1.5px;
         top: 1.5px;
         border-bottom: $primary-color solid 3px;
-        @include hover-scale(1.03);
+        
+        &:hover{
+            background-color: $;
+        }
 
         &:active{
             background-color: $tertiary-color;
         }
-
-
 
         & img{
             height: 23px;
