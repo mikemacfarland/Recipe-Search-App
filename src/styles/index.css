@@ -247,6 +247,23 @@
   background-color: #E0AFA0;
 }
 
+.login {
+  width: 90%;
+}
+.login__form legend {
+  height: 50px;
+  text-align: center;
+}
+.login__form fieldset {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 1.5rem auto;
+  width: 100%;
+  border: none;
+}
+
 .footer {
   display: flex;
   flex-direction: column;

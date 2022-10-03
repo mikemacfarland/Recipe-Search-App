@@ -287,6 +287,24 @@ $secondary-bsa:.7;
     }
     }
 
+.login{
+    width: 90%;
+
+    &__form{
+
+        & legend{
+            height: 50px;
+            text-align: center;
+        }
+    
+        & fieldset {
+            @include flex(column, center, center);
+            margin: 1.5rem auto;
+            width: 100%;
+            border: none;            
+            }
+    }
+}
 .footer{
     @include flex(column,center ,center);
     padding-top: 2rem;

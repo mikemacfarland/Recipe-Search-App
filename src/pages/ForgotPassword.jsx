@@ -1,18 +1,15 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link } from "react-router-dom"
 
-function Login() {
+function ForgotPassword() {
   return (
     <div className='login'>
       <form className='login__form' action="signIn">
         <fieldset>
-          <legend>LOGIN</legend>
+          <legend>LOST PASSWORD</legend>
           <label htmlFor="email">Email</label>
           <input id='email' type="text" />
-          <label htmlFor="password">Password</label>
-          <input id='password' type="text" />
-          <Link to='/ForgotPassword'>Forgot Password?</Link>
-          <button>Login</button>
+          <button>Send Password Reset</button>
+          <p>Already have an account?&nbsp;<Link to='/Login'>Login</Link></p>
           <p>Dont have an account?&nbsp;<Link to='/Signup'>Signup</Link></p>
         </fieldset>
       </form>
@@ -20,4 +17,4 @@ function Login() {
   )
 }
 
-export default Login
+export default ForgotPassword
