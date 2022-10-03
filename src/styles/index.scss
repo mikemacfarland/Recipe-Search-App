@@ -61,7 +61,8 @@ $secondary-bsa:.7;
     padding: 1rem 0;
 
     &__ul{
-        @include flex(row,center,center);
+        @include flex(column,center,center);
+        user-select: none;
         flex-wrap: wrap;
         list-style-type: none;
         text-align: center;
@@ -71,31 +72,40 @@ $secondary-bsa:.7;
             @include box-shadow(0,2px,4px,$primary-bsa);
             @include hover-scale(.99);
             cursor: pointer;
-            width: fit-content;
-            height: fit-content;
-            margin: .5rem 0;
-            // background-color: $secondary-color;
+            height: 50px;
             border-radius: .2rem;
+            width: 90%;
 
-            
             &__link{
                 @include flex(column,center,center);
+                color: inherit;
+                text-decoration: none;
+                font: inherit;
+                width: 100%;
+                height: 100%;
+            }
+
+            // STYLES FOR HOME LINK
+            & .logo{
+                @include flex(row,space-between,center);
+                user-select: none;
                 color: inherit;
                 font: inherit;
                 text-decoration: none;
                 height: 100%;
-                width: 100%;
-                margin: auto 1rem;
+                padding-left: 5%;
+                padding-right: 5%;
+                width: 90%;
 
                 & .logo__img{
                     stroke: $primary-color;
                     stroke-width: 4px;
                     fill: none;
-                    height: 50px;
+                    height: 35px;
                 }
 
                 & .logo__text{
-                    font-size: 1.8rem;
+                    font-size: 1.6rem;
                     letter-spacing: .2rem;
                 }
             }

@@ -13,7 +13,6 @@ function About() {
         </strong> to generate content.
       </p>
     <ul className='about__list'>Future updates will include:
-      <li>Firebase Baas</li>
       <li>User Login/Registration</li>
       <li>filter logic and usability</li>
       <li>favorites page and recipe page</li>

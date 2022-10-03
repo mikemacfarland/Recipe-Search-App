@@ -13,9 +13,13 @@ function Nav() {
     <nav className='nav'>
         <ul className='nav__ul'>
             <li className='nav__ul__li'>
-              <Link className='nav__ul__li__link' to='/'>
                 <LogoLink/>
-              </Link>
+            </li>
+            <li className='nav__ul__li'>
+              <Link className='nav__ul__li__link' to='/Login'>Login</Link>
+            </li>
+            <li className='nav__ul__li'>
+              <Link className='nav__ul__li__link' to='/Favorites' >Favorites</Link>
             </li>
         </ul>
     </nav>
