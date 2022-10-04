@@ -8,17 +8,25 @@ function Signup() {
 
   const checkEmail = (e)=>{
     const email = e.target.value
-    //@TODO use funciton to check if real email (make sure @ symbol make sure . is present)
-    setEmail(email)
+    if(email.length > 3 && email.includes('@') && email.includes('.')){
+      setEmail(email)
+    }
+    else{
+      console.log('please enter valid email')
+    }    
   }
 
   const checkPw = (e)=>{
     const password = e.target.value
-    //@TODO use function to validate password requirements (8characters, one capital one special)
+    
+    //use regex to check password 
+    if(password.length >= 8 && password.includes('!','@','#','$','%','^','&','*'))
+    console.log(password)
     setPassword(password)
   }
 
   const signup = (e)=>{
+    
     e.preventDefault()
     signUp()
   }
