@@ -11,6 +11,28 @@
   align-items: center;
   background-color: #F4F3EE;
   min-height: 100vh;
+  position: relative;
+}
+
+.error {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 20%;
+  height: 60px;
+  background-color: firebrick;
+  color: white;
+  width: 300px;
+  border-radius: 10px;
+  border: 2px dashed white;
+  opacity: 0;
+  transition: all 1s ease;
+}
+.error.--active {
+  opacity: 1;
+  transition: all 1s ease;
 }
 
 .nav {

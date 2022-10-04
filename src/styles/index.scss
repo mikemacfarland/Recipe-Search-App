@@ -36,7 +36,7 @@
 // COLORS
 $primary-color: #F4F3EE;
 $secondary-color:#CEC9C0;
-// HOVER STATES,ACTIVE
+// HOVER STATES,ACTIVEf
 $tertiary-color:#E0AFA0;
 $quaternary-color:#8A817C;
 
@@ -49,7 +49,31 @@ $secondary-bsa:.7;
     @include flex(column,flex-start,center);
     background-color: $primary-color;
     min-height: 100vh;
+    position: relative;
 }
+
+// ERROR
+.error{
+    @include flex(row,center,center);
+    position: fixed;
+    top: 20%;
+    height: 60px;
+    background-color: firebrick;
+    color: white;
+    width: 300px;
+    border-radius: 10px;
+    border: 2px dashed white;
+    opacity: 0;
+    transition: all 1s ease;
+
+    &.--active{
+        opacity:1;
+    transition: all 1s ease;
+    }
+
+}
+
+
 
 // MAIN NAV
 .nav{

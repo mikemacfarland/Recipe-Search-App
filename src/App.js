@@ -6,6 +6,7 @@ import Signup from "./pages/Signup";
 import Profile from "./pages/Profile";
 import ForgotPassword from "./pages/ForgotPassword";
 import Nav from "./components/Nav";
+import Error from "./components/Error";
 import Footer from "./components/Footer";
 import {BrowserRouter as Router,Routes,Route} from 'react-router-dom'
 import {RecipeProvider} from "./context/RecipeContext";
@@ -16,6 +17,7 @@ function App() {
       <Router>
         <div className="app">
             <Nav/>
+            <Error/>
             <Routes>
               <Route exact path='/' element={<Home/>} />
               <Route exact path='/about' element={<About/>}/>

@@ -1,9 +1,11 @@
 import { createContext,useState,useEffect} from "react";
 
-import {getAuth,createUserWithEmailAndPassword,
+import {
+    getAuth,createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
-    signOut,onAuthStateChanged} 
-    from 'firebase/auth'
+    signOut,
+    onAuthStateChanged
+} from 'firebase/auth'
 
     //import auth from firebase config file where auth is defined and
     // exported
@@ -20,22 +22,29 @@ export const RecipeProvider = ({children}) =>{
     // USERS
 
     //@TODO maybe use email for all 3 forms?
+    const [error,setError] = useState('')
     const [email,setEmail] = useState('')
-    //@TODO maybe use password for both forms?
     const [password,setPassword] = useState('')
     const auth = getAuth();
 
     const signUp = ()=>{
         createUserWithEmailAndPassword(auth, email, password)
           .then((userCredential) => {
-            // Signed in
             const user = userCredential.user;
-            // ...
+            console.log(user)
           })
+          // Handle Error
           .catch((error) => {
             const errorCode = error.code;
             const errorMessage = error.message;
-            // ..
+            errorCode === 'auth/email-already-in-use' ? setError('User already exists') : setError('')
+            if(!error === ''){
+                const errEl = document.querySelector('.error')
+                errEl.classList.add('--active')
+                setTimeout(()=>{
+                errEl.classList.remove('--active')
+                },3000) 
+            }
           });
     }
 
@@ -75,6 +84,7 @@ export const RecipeProvider = ({children}) =>{
     // this is a functional component with children passed into it
     return <RecipeContext.Provider value={{
         recipes,
+        error,
         setRecipes,
         setPassword,
         setEmail,
