@@ -14,23 +14,34 @@
   position: relative;
 }
 
-.error {
+.alert {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   position: fixed;
-  top: 20%;
-  height: 60px;
   background-color: firebrick;
   color: white;
+  top: 10%;
+  height: 60px;
   width: 300px;
+  padding: 1rem;
   border-radius: 10px;
   border: 2px dashed white;
   opacity: 0;
+  z-index: -1;
   transition: all 1s ease;
 }
-.error.--active {
+.alert.--error {
+  z-index: 1;
+  background-color: firebrick;
+  color: white;
+  opacity: 1;
+  transition: all 1s ease;
+}
+.alert.--message {
+  z-index: 1;
+  background-color: #CEC9C0;
   opacity: 1;
   transition: all 1s ease;
 }

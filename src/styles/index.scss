@@ -52,23 +52,37 @@ $secondary-bsa:.7;
     position: relative;
 }
 
-// ERROR
-.error{
+// ERROR/MESSAGE
+
+
+.alert{
     @include flex(row,center,center);
     position: fixed;
-    top: 20%;
-    height: 60px;
     background-color: firebrick;
     color: white;
+    top: 10%;
+    height: 60px;
     width: 300px;
+    padding: 1rem;
     border-radius: 10px;
     border: 2px dashed white;
     opacity: 0;
+    z-index: -1;
     transition: all 1s ease;
 
-    &.--active{
+    &.--error{
+        z-index: 1;
+        background-color: firebrick;
+        color: white;
         opacity:1;
-    transition: all 1s ease;
+        transition: all 1s ease;
+    }
+
+    &.--message{
+        z-index: 1;
+        background-color: $secondary-color;
+        opacity:1;
+        transition: all 1s ease;
     }
 
 }
