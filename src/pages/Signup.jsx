@@ -4,36 +4,19 @@ import RecipeContext from '../context/RecipeContext'
 
 function Signup() {
 
-  const {setEmail,setPassword,signUp} = useContext(RecipeContext)
+  const {signUp,checkEmail,checkPw} = useContext(RecipeContext)
 
-  const checkEmail = (e)=>{
-    const email = e.target.value
-    if(email.length > 3 && email.includes('@') && email.includes('.')){
-      setEmail(email)
-    }
-    else{
-      console.log('please enter valid email')
-    }    
-  }
-
-  const checkPw = (e)=>{
-    const password = e.target.value
-    
-    //use regex to check password 
-    if(password.length >= 8 && password.includes('!','@','#','$','%','^','&','*'))
-    console.log(password)
-    setPassword(password)
-  }
-
-  const signup = (e)=>{
-    
+  const handleSignUp = (e)=>{
+    //@TODO take to home page after signup
+    //@TODO check to see if user is signed in after signup
+    //@TODO make button unclickable if credentials dont meet checks
     e.preventDefault()
     signUp()
   }
 
   return (
     <div className='login'>
-      <form onSubmit={signup} className='login__form' action="signIn">
+      <form onSubmit={handleSignUp} className='login__form' action="signIn">
         <fieldset>
           <legend>SIGNUP</legend>
           <label htmlFor="email">Email</label>

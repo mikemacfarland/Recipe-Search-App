@@ -27,6 +27,7 @@ export const RecipeProvider = ({children}) =>{
     const [password,setPassword] = useState('')
     const auth = getAuth();
 
+    // SIGNUP WITH ERROR HANDLE
     const signUp = ()=>{
         createUserWithEmailAndPassword(auth, email, password)
           .then((userCredential) => {
@@ -48,17 +49,20 @@ export const RecipeProvider = ({children}) =>{
           });
     }
 
+    // LOGIN WITH ERROR HANDLE
     const login = async ()=>{
-        // signInWithEmailAndPassword(auth, email, password)
-        //     .then((userCredential) => {
-        //         // Signed in 
-        //         const user = userCredential.user;
-        //         // ...
-        //     })
-        //     .catch((error) => {
-        //         const errorCode = error.code;
-        //         const errorMessage = error.message;
-        //     });
+        signInWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                const user = userCredential.user;
+                console.log(user)
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                console.log(errorCode)
+                console.log(errorMessage)
+                
+            });
         console.log('login')
     }
 
@@ -80,6 +84,30 @@ export const RecipeProvider = ({children}) =>{
         getRecipes(url)
     },[])
 
+    //HELPER FUNCTIONS
+
+    //check email
+    const checkEmail = (e)=>{
+        const email = e.target.value
+        if(email.length > 3 && email.includes('@') && email.includes('.')){
+          setEmail(email)
+        }
+        else{
+          console.log('please enter valid email')
+        }    
+      }
+
+    // check password - signup, login
+    const checkPw = (e)=>{
+        const password = e.target.value
+        
+        //use regex to check password 
+        if(password.length >= 8 && password.includes('!','@','#','$','%','^','&','*'))
+        console.log(password)
+        setPassword(password)
+    }
+
+
     //return provider with children
     // this is a functional component with children passed into it
     return <RecipeContext.Provider value={{
@@ -90,7 +118,9 @@ export const RecipeProvider = ({children}) =>{
         setEmail,
         signUp,
         login,
-        lostPassword
+        lostPassword,
+        checkEmail,
+        checkPw
         }}>
         {children}
     </RecipeContext.Provider>
