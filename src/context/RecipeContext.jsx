@@ -3,6 +3,7 @@ import { createContext,useState,useEffect} from "react";
 import {
     getAuth,createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
+    sendPasswordResetEmail,
     signOut,
     onAuthStateChanged
 } from 'firebase/auth'
@@ -67,7 +68,17 @@ export const RecipeProvider = ({children}) =>{
     }
 
     const lostPassword = async ()=>{
-        console.log('lost password',email)
+        sendPasswordResetEmail(auth, email)
+        .then(() => {
+            console.log(`pw reset sent to ${email}`)
+            // Password reset email sent!
+            // ..
+        })
+        .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            // ..
+        });
     }
 
 
@@ -102,6 +113,7 @@ export const RecipeProvider = ({children}) =>{
         const password = e.target.value
         
         //use regex to check password 
+        //@TODO conditional filtering should only be used for signup
         if(password.length >= 8 && password.includes('!','@','#','$','%','^','&','*'))
         console.log(password)
         setPassword(password)
