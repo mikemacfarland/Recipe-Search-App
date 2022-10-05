@@ -5,6 +5,7 @@ function About() {
   return (
     <div className='about'>
       <h1>About</h1>
+      <h5>The Sauce V.06 - Development Build</h5>
       <p>Developed and Designed by &nbsp;
         <strong>Mike Macfarland</strong>
         <br/>This SPA currently uses the &nbsp;
@@ -13,9 +14,11 @@ function About() {
         </strong> to generate content.
       </p>
     <ul className='about__list'>Future updates will include:
-      <li>User Login/Registration</li>
-      <li>filter logic and usability</li>
-      <li>favorites page and recipe page</li>
+      <li>domain name change - will use thesaucecooking.com</li>
+      <li>filtering recipes</li>
+      <li>favorites page lists</li>
+      <li>recipe page from recipes in search</li>
+      <li>complete rebuild in vue for mobile app</li>
       
     </ul>
     <Link className='__homeLink' to='/'>Back to Recipes</Link></div>

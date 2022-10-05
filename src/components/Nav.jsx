@@ -22,11 +22,12 @@ function Nav() {
               : <Link className='nav__ul__li__link' to='/Login'>Login</Link>
               }
             </li>
-            {signedIn ? <li className='nav__ul__li'>
+            <li className='nav__ul__li'>
+            {signedIn ? 
               <Link className='nav__ul__li__link' to='/Favorites' >Favorites</Link>
-            </li> : ''
+             : <Link className='nav__ul__li__link' to='/Signup' >Signup</Link>
             }
-            
+            </li>
         </ul>
     </nav>
   )
