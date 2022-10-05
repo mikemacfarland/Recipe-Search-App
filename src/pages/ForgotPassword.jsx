@@ -4,11 +4,21 @@ import { Link } from "react-router-dom"
 
 function ForgotPassword() {
 
-  const {lostPassword,checkEmail} = useContext(RecipeContext)
+  const {lostPassword,email,checkEmail,showAlert,setEmail,setAlert} = useContext(RecipeContext)
 
   const handleLostPassword = (e)=>{
     e.preventDefault()
-    lostPassword()
+    if(!checkEmail()){
+      setAlert('Invalid email')
+      showAlert('error')
+    }
+    else if(checkEmail()){
+      lostPassword()
+    }
+  }
+
+  const handleSetEmail =(e)=>{
+    setEmail(e.target.value)
   }
 
 
@@ -18,7 +28,7 @@ function ForgotPassword() {
         <fieldset >
           <legend>LOST PASSWORD</legend>
           <label htmlFor="email">Email</label>
-          <input onBlur={checkEmail} id='email' type="text" />
+          <input onBlur={handleSetEmail} id='email' type="text" />
           <button>Send Password Reset</button>
           <p>Remembered your password?&nbsp;<Link to='/Login'>Login</Link></p>
           <p>Dont have an account?&nbsp;<Link to='/Signup'>Signup</Link></p>

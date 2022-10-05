@@ -41,6 +41,7 @@
 }
 .alert.--message {
   z-index: 1;
+  color: black;
   background-color: #CEC9C0;
   opacity: 1;
   transition: all 1s ease;

@@ -21,6 +21,7 @@ const url = 'https://api.spoonacular.com/recipes/random?number=2&apiKey=033797df
 export const RecipeProvider = ({children}) =>{
     const navigate = useNavigate()
     const [alert,setAlert] = useState('')
+    const [userName,setUserName] = useState('')
     const [email,setEmail] = useState('')
     const [password,setPassword] = useState('')
     const [signedIn,setSignedIn] = useState(false)
@@ -80,13 +81,15 @@ export const RecipeProvider = ({children}) =>{
         sendPasswordResetEmail(auth, email)
         .then(() => {
             setAlert(`email sent to ${email}`)
-            showAlert()
+            showAlert('message')
         })
         .catch((error) => {
             const errorCode = error.code;
             //@TODO modify this message
-            // errorCode === 'auth/user-not-found' ? setAlert('User not found') : setAlert('')
-            // showAlert()
+            console.log(errorCode)
+            errorCode === 'auth/user-not-found' ? setAlert('User not found/Invalid Email') : 
+            errorCode === 'auth/too-many-requests' ? setAlert('Too many requests, Try again later') : setAlert('')
+            showAlert('error')
         });
     }
 
@@ -107,16 +110,16 @@ export const RecipeProvider = ({children}) =>{
     //HELPER FUNCTIONS
 
     //@TODO set this funciton to pass weather error or message. to display properly for messages
-    const showAlert = ()=>{
-        const alertTimeout = ()=>setTimeout(()=>{
-            alertEl.classList.remove('--error')
-        },4000)
-        if(alertEl.classList.contains('--error')){
-            clearTimeout(alertTimeout)
+    const showAlert =(type)=> {
+        const alertTimeout = () => setTimeout(() => {
+            alertEl.classList.remove(`--${type}`);
+        }, 4000);
+        if (alertEl.classList.contains(`--${type}`)) {
+            clearTimeout(alertTimeout);
         }
-        else{
-            alertEl.classList.add('--error')
-            alertTimeout()
+        else {
+            alertEl.classList.add(`--${type}`);
+            alertTimeout();
         }
     }
 
@@ -150,6 +153,7 @@ export const RecipeProvider = ({children}) =>{
         setRecipes,
         setPassword,
         setEmail,
+        setUserName,
         //functions
         showAlert,
         signUp,
