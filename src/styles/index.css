@@ -11,6 +11,39 @@
   align-items: center;
   background-color: #F4F3EE;
   min-height: 100vh;
+  position: relative;
+}
+
+.alert {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  background-color: firebrick;
+  color: white;
+  top: 10%;
+  height: 60px;
+  width: 300px;
+  padding: 1rem;
+  border-radius: 10px;
+  border: 2px dashed white;
+  opacity: 0;
+  z-index: -1;
+  transition: all 1s ease;
+}
+.alert.--error {
+  z-index: 1;
+  background-color: firebrick;
+  color: white;
+  opacity: 1;
+  transition: all 1s ease;
+}
+.alert.--message {
+  z-index: 1;
+  background-color: #CEC9C0;
+  opacity: 1;
+  transition: all 1s ease;
 }
 
 .nav {
@@ -129,6 +162,14 @@
   margin: 0.5rem auto;
 }
 
+.account {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  margin-top: 1.5rem;
+}
+
 .about {
   margin: 2rem;
 }
@@ -245,6 +286,23 @@
 }
 .search__filters__item__list__li label.--checked {
   background-color: #E0AFA0;
+}
+
+.login {
+  width: 90%;
+}
+.login__form legend {
+  height: 50px;
+  text-align: center;
+}
+.login__form fieldset {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 1.5rem auto;
+  width: 100%;
+  border: none;
 }
 
 .footer {
