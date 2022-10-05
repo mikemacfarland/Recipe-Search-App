@@ -11,7 +11,7 @@ import {
 
     //import auth from firebase config file where auth is defined and
     // exported
-    // import {auth} from '../firebase_config'
+    import {auth} from '../firebase_config'
 
 
 const RecipeContext = createContext()
