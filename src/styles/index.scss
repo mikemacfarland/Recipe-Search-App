@@ -190,6 +190,13 @@ $secondary-bsa:.7;
     }
 }
 
+.account{
+    @include flex(column,center,flex-start);
+    margin-top: 1.5rem;
+    
+
+}
+
 .about{
     margin: 2rem;
 

@@ -1,4 +1,6 @@
 import { createContext,useState,useEffect} from "react";
+import { useNavigate } from "react-router-dom";
+
 
 import {
     getAuth,createUserWithEmailAndPassword,
@@ -18,19 +20,23 @@ const url = 'https://api.spoonacular.com/recipes/random?number=2&apiKey=033797df
 // const url = 'https://randomuser.me/api/?results=2'
 
 export const RecipeProvider = ({children}) =>{
-
+    const navigate = useNavigate()
     const [alert,setAlert] = useState('')
     const [email,setEmail] = useState('')
     const [password,setPassword] = useState('')
-    const auth = getAuth();
+    const [signedIn,setSignedIn] = useState(false)
+    const [currentUser,setCurrentUser] = useState('')
+    const auth = getAuth()
     const alertEl = document.querySelector('.alert')
     
-    // SIGNUP
+    //SIGNUP & LOGIN
     const signUp = ()=>{
         createUserWithEmailAndPassword(auth, email, password)
           .then((userCredential) => {
             const user = userCredential.user;
             console.log(user)
+            login(auth,email,password)
+            // navigate('/')
           })
           // Handle Error
           .catch((error) => {
@@ -49,7 +55,9 @@ export const RecipeProvider = ({children}) =>{
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 const user = userCredential.user;
-                console.log(user)
+                setSignedIn(true)
+                setCurrentUser(user)
+                navigate('/')
             })
             // Handle Error
             .catch((error) => {
@@ -65,6 +73,15 @@ export const RecipeProvider = ({children}) =>{
             });
     }
 
+    //LOGOUT
+    const logOut = ()=>{
+        signOut(auth).then(() => {
+            setSignedIn(false)
+            // Sign-out successful.
+        }).catch((error) => {
+            // An error happened.
+        });
+    }
     //LOST PW
     const lostPassword = async ()=>{
         sendPasswordResetEmail(auth, email)
@@ -80,6 +97,21 @@ export const RecipeProvider = ({children}) =>{
         });
     }
 
+    //USER PROPERTIES
+    // onAuthStateChanged(auth, (user) => {
+    //     if (user) {
+    //       // User is signed in, see docs for a list of available properties
+    //       // https://firebase.google.com/docs/reference/js/firebase.User
+    //       setSignedIn(true)
+    //       setCurrentUser(user)
+    //       const uid = user.uid; 
+    //       // ...
+    //     } else {
+    //       console.log('User is signed out')
+    //       setSignedIn(false)
+    //     }
+    //   });
+
 
     // RECIPES
     const [recipes,setRecipes] = useState([])
@@ -90,6 +122,7 @@ export const RecipeProvider = ({children}) =>{
         setRecipes(data.recipes)
     }
 
+    //@TODO change initial api call for more results.
     useEffect(()=>{
         getRecipes(url)
     },[])
@@ -99,14 +132,20 @@ export const RecipeProvider = ({children}) =>{
 
     //show alert
     const showAlert = ()=>{
-        alertEl.classList.toggle('--error')
-                setTimeout(()=>{
-                    alertEl.classList.toggle('--error')
-                },3000)
+        const alertTimeout = ()=>setTimeout(()=>{
+            alertEl.classList.remove('--error')
+        },4000)
+        if(alertEl.classList.contains('--error')){
+            clearTimeout(alertTimeout)
+        }
+        else{
+            alertEl.classList.add('--error')
+            alertTimeout()
+        }
     }
 
     //check email
-    //@TODO put the checking in the function to call
+    //@TODO put the checking in the function to login/signup?
     const checkEmail = (e)=>{
         const email = e.target.value
         if(email.length > 3 && email.includes('@') && email.includes('.')){
@@ -119,31 +158,31 @@ export const RecipeProvider = ({children}) =>{
       }
 
     // check password - signup, login components
-    // @TODO put the checking in the function to call 
+    // @TODO put the checking in the function to login/signup?
     const checkPw = (e)=>{
         const password = e.target.value
-        
-        //use regex to check password 
+        //use regex to check password ?
         //@TODO conditional filtering should only be used for signup
-        if(password.length >= 8 && password.includes('!','@','#','$','%','^','&','*'))
-        setPassword(password)
+        if(password.length >= 8 && /[A-Z]/.test(password) && /[a-z]/.test(password) && /[!@#$%^&*?]/.test(password) && /[0-9]/.test(password)){
+            setPassword(password)
+        }
         else{
             setAlert('weak password. required length: 8 characters and at least 1 special character')
             showAlert()
         }
     }
 
-
-    //return provider with children
-    // this is a functional component with children passed into it
     return <RecipeContext.Provider value={{
         recipes,
         alert,
+        signedIn,
+        currentUser,
         setRecipes,
         setPassword,
         setEmail,
         signUp,
         login,
+        logOut,
         lostPassword,
         checkEmail,
         checkPw

@@ -1,6 +1,6 @@
 import {useContext} from 'react'
 import RecipeContext from '../context/RecipeContext'
-import { Link } from 'react-router-dom'
+import { Link,} from 'react-router-dom'
 
 function Login() {
   //@TODO take to home page after signup
@@ -11,6 +11,7 @@ function Login() {
   const handleSignIn = (e)=>{
     e.preventDefault()
     login()
+    
   }
 
   return (

@@ -162,6 +162,14 @@
   margin: 0.5rem auto;
 }
 
+.account {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  margin-top: 1.5rem;
+}
+
 .about {
   margin: 2rem;
 }

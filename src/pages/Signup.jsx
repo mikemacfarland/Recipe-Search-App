@@ -7,9 +7,7 @@ function Signup() {
   const {signUp,checkEmail,checkPw} = useContext(RecipeContext)
 
   const handleSignUp = (e)=>{
-    //@TODO take to home page after signup
     //@TODO check to see if user is signed in after signup
-    //@TODO make button unclickable if credentials dont meet checks
     e.preventDefault()
     signUp()
   }
