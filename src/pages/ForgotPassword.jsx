@@ -20,7 +20,7 @@ function ForgotPassword() {
           <label htmlFor="email">Email</label>
           <input onBlur={checkEmail} id='email' type="text" />
           <button>Send Password Reset</button>
-          <p>Already have an account?&nbsp;<Link to='/Login'>Login</Link></p>
+          <p>Remembered your password?&nbsp;<Link to='/Login'>Login</Link></p>
           <p>Dont have an account?&nbsp;<Link to='/Signup'>Signup</Link></p>
         </fieldset>
       </form>

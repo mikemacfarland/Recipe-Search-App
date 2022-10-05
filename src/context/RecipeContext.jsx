@@ -36,14 +36,12 @@ export const RecipeProvider = ({children}) =>{
             console.log(user)
             login(auth,email,password)
           })
-          // Handle Error
+          // Handle Additional errors
           .catch((error) => {
             const errorCode = error.code;
-            //@TODO work on error message handling
             console.log(errorCode)
-            errorCode === 'auth/email-already-in-use' ? setAlert('User already exists') : 
-            errorCode === 'auth/internal-error' ? setAlert('Password required') : 
-
+            errorCode === 'auth/email-already-in-use' ? setAlert('User already exists') : setAlert('')
+            
             showAlert()
           });
     }
@@ -57,12 +55,11 @@ export const RecipeProvider = ({children}) =>{
                 setCurrentUser(user)
                 navigate('/')
             })
-            // Handle Error
+            // Handle Additional Errors
             .catch((error) => {
                 const errorCode = error.code;
                 const errorMessage = error.message;
-                //@TODO work on error message handling
-                errorCode === 'auth/user-not-found' ? setAlert('User not found, invalid Email') :
+                errorCode === 'auth/user-not-found' ? setAlert('User not found/invalid Email') :
                 errorCode === 'auth/internal-error' ? setAlert('Invalid email/password') :
                 errorCode === 'auth/wrong-password' ? setAlert('Invalid Password') : setAlert('')
                 console.log(errorCode)
@@ -88,8 +85,8 @@ export const RecipeProvider = ({children}) =>{
         .catch((error) => {
             const errorCode = error.code;
             //@TODO modify this message
-            errorCode === 'auth/user-not-found' ? setAlert('User not found') : setAlert('')
-            showAlert()
+            // errorCode === 'auth/user-not-found' ? setAlert('User not found') : setAlert('')
+            // showAlert()
         });
     }
 
@@ -106,7 +103,6 @@ export const RecipeProvider = ({children}) =>{
     useEffect(()=>{
         getRecipes(url)
     },[])
-
 
     //HELPER FUNCTIONS
 
@@ -125,26 +121,22 @@ export const RecipeProvider = ({children}) =>{
     }
 
     // CHECK EMAIL FOR SIGNUP, LOGIN & LOST PW
-    const checkEmail = (e)=>{
-        const email = e.target.value
-        if(email.length > 3 && email.includes('@') && email.includes('.')){
-          setEmail(email)
+    const checkEmail = ()=>{
+        if(email.length > 5 && email.includes('@') && email.includes('.')){
+          return true
         }
         else{
-          setAlert('Please enter a valid Email')
-          showAlert()
+          return false
         }    
-      }
+    }
 
     // CHECK PW FOR SIGNUP
-    const checkPw = (e)=>{
-        const password = e.target.value
+    const checkPw = ()=>{
         if(password.length >= 8 && /[A-Z]/.test(password) && /[a-z]/.test(password) && /[!@#$%^&*?]/.test(password) && /[0-9]/.test(password)){
-            setPassword(password)
+            return true
         }
         else{
-            setAlert('weak password. required length: 8 characters and at least 1 special character')
-            showAlert()
+            return false
         }
     }
 
@@ -153,9 +145,13 @@ export const RecipeProvider = ({children}) =>{
         alert,
         signedIn,
         currentUser,
+        //setters
+        setAlert,
         setRecipes,
         setPassword,
         setEmail,
+        //functions
+        showAlert,
         signUp,
         login,
         logOut,

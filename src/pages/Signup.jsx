@@ -4,12 +4,34 @@ import RecipeContext from '../context/RecipeContext'
 
 function Signup() {
 
-  const {signUp,checkEmail,checkPw} = useContext(RecipeContext)
+  const {signUp,checkEmail,checkPw,setPassword,setEmail,setAlert,showAlert} = useContext(RecipeContext)
 
   const handleSignUp = (e)=>{
-    //@TODO check to see if user is signed in after signup
     e.preventDefault()
-    signUp()
+    console.log(`email=${checkEmail()}  Pw=${checkPw()}`)
+    if(!checkPw() && !checkEmail()){
+      setAlert('invalid password or email')
+      showAlert()
+    }
+    if(!checkPw() && checkEmail()){
+      setAlert('password must be 8 characters long with 1 uppercase letter, 1 number and 1 special character')
+      showAlert()
+    }
+    if(!checkEmail() && checkPw()){
+      setAlert('invalid email')
+      showAlert()
+    }
+    else if(checkEmail() && checkPw()){
+      signUp()
+    }
+  }
+
+  const handleSetPw = (e)=>{
+    setPassword(e.target.value)
+  }
+
+  const handleSetEmail = (e) =>{
+    setEmail(e.target.value)
   }
 
   return (
@@ -18,9 +40,9 @@ function Signup() {
         <fieldset>
           <legend>SIGNUP</legend>
           <label htmlFor="email">Email</label>
-          <input onBlur={checkEmail} id='email' type="text" />
+          <input onBlur={handleSetEmail} id='email' type="text" />
           <label htmlFor="password">Password</label>
-          <input onBlur={checkPw} id='password' type="text" />
+          <input onBlur={handleSetPw} id='password' type="text" />
           <button>Signup</button>
           <p>Already have an account?&nbsp;<Link to='/Login'>Login</Link></p>
         </fieldset>

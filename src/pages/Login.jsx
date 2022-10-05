@@ -6,12 +6,30 @@ function Login() {
   //@TODO take to home page after signup
     //@TODO check to see if user is signed in after signup
     //@TODO make button unclickable if credentials dont meet checks
-  const {checkEmail,checkPw,login} = useContext(RecipeContext)
+  const {checkEmail,checkPw,login,showAlert,setAlert,setEmail,setPassword} = useContext(RecipeContext)
 
   const handleSignIn = (e)=>{
     e.preventDefault()
-    login()
+    if(!checkEmail() && checkPw()){
+      setAlert('Invalid Email adress')
+      showAlert()
+    }
+    if(checkEmail() && !checkPw()){
+      setAlert('Invalid Password')
+      showAlert()
+    }
+    else if(checkEmail() && checkPw()){
+      login()
+    }
     
+  }
+
+  const handleSetEmail =(e)=>{
+    setEmail(e.target.value)
+  }
+
+  const handleSetPassword = (e)=>{
+    setPassword(e.target.value)
   }
 
   return (
@@ -20,9 +38,9 @@ function Login() {
         <fieldset>
           <legend>LOGIN</legend>
           <label htmlFor="email">Email</label>
-          <input onBlur={checkEmail} id='email' type="text" />
+          <input onBlur={handleSetEmail} id='email' type="text" />
           <label htmlFor="password">Password</label>
-          <input onBlur={checkPw} id='password' type="text" />
+          <input onBlur={handleSetPassword} id='password' type="text" />
           <Link to='/ForgotPassword'>Forgot Password?</Link>
           <button>Login</button>
           <p>Dont have an account?&nbsp;<Link to='/Signup'>Signup</Link></p>
