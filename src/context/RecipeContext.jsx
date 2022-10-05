@@ -1,18 +1,17 @@
 import { createContext,useState,useEffect} from "react";
 import { useNavigate } from "react-router-dom";
-
-
 import {
     getAuth,createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
     sendPasswordResetEmail,
     signOut,
-    onAuthStateChanged
+    // onAuthStateChanged
+    // MAY NEED ONAUTHSTATECHANGED IN FUTURE FOR USER  MANAGEMENT
 } from 'firebase/auth'
 
     //import auth from firebase config file where auth is defined and
     // exported
-    import {auth} from '../firebase_config'
+    // import {auth} from '../firebase_config'
 
 
 const RecipeContext = createContext()
@@ -36,12 +35,11 @@ export const RecipeProvider = ({children}) =>{
             const user = userCredential.user;
             console.log(user)
             login(auth,email,password)
-            // navigate('/')
           })
           // Handle Error
           .catch((error) => {
             const errorCode = error.code;
-            // const errorMessage = error.message;
+            //@TODO work on error message handling
             console.log(errorCode)
             errorCode === 'auth/email-already-in-use' ? setAlert('User already exists') : 
             errorCode === 'auth/internal-error' ? setAlert('Password required') : 
@@ -63,7 +61,7 @@ export const RecipeProvider = ({children}) =>{
             .catch((error) => {
                 const errorCode = error.code;
                 const errorMessage = error.message;
-                //set error according to response
+                //@TODO work on error message handling
                 errorCode === 'auth/user-not-found' ? setAlert('User not found, invalid Email') :
                 errorCode === 'auth/internal-error' ? setAlert('Invalid email/password') :
                 errorCode === 'auth/wrong-password' ? setAlert('Invalid Password') : setAlert('')
@@ -77,9 +75,7 @@ export const RecipeProvider = ({children}) =>{
     const logOut = ()=>{
         signOut(auth).then(() => {
             setSignedIn(false)
-            // Sign-out successful.
         }).catch((error) => {
-            // An error happened.
         });
     }
     //LOST PW
@@ -91,27 +87,11 @@ export const RecipeProvider = ({children}) =>{
         })
         .catch((error) => {
             const errorCode = error.code;
-            // const errorMessage = error.message;
+            //@TODO modify this message
             errorCode === 'auth/user-not-found' ? setAlert('User not found') : setAlert('')
             showAlert()
         });
     }
-
-    //USER PROPERTIES
-    // onAuthStateChanged(auth, (user) => {
-    //     if (user) {
-    //       // User is signed in, see docs for a list of available properties
-    //       // https://firebase.google.com/docs/reference/js/firebase.User
-    //       setSignedIn(true)
-    //       setCurrentUser(user)
-    //       const uid = user.uid; 
-    //       // ...
-    //     } else {
-    //       console.log('User is signed out')
-    //       setSignedIn(false)
-    //     }
-    //   });
-
 
     // RECIPES
     const [recipes,setRecipes] = useState([])
@@ -130,7 +110,7 @@ export const RecipeProvider = ({children}) =>{
 
     //HELPER FUNCTIONS
 
-    //show alert
+    //@TODO set this funciton to pass weather error or message. to display properly for messages
     const showAlert = ()=>{
         const alertTimeout = ()=>setTimeout(()=>{
             alertEl.classList.remove('--error')
@@ -144,8 +124,7 @@ export const RecipeProvider = ({children}) =>{
         }
     }
 
-    //check email
-    //@TODO put the checking in the function to login/signup?
+    // CHECK EMAIL FOR SIGNUP, LOGIN & LOST PW
     const checkEmail = (e)=>{
         const email = e.target.value
         if(email.length > 3 && email.includes('@') && email.includes('.')){
@@ -157,12 +136,9 @@ export const RecipeProvider = ({children}) =>{
         }    
       }
 
-    // check password - signup, login components
-    // @TODO put the checking in the function to login/signup?
+    // CHECK PW FOR SIGNUP
     const checkPw = (e)=>{
         const password = e.target.value
-        //use regex to check password ?
-        //@TODO conditional filtering should only be used for signup
         if(password.length >= 8 && /[A-Z]/.test(password) && /[a-z]/.test(password) && /[!@#$%^&*?]/.test(password) && /[0-9]/.test(password)){
             setPassword(password)
         }
