@@ -11,15 +11,15 @@ function Signup() {
     console.log(`email=${checkEmail()}  Pw=${checkPw()}`)
     if(!checkPw() && !checkEmail()){
       setAlert('invalid password or email')
-      showAlert()
+      showAlert('error')
     }
     if(!checkPw() && checkEmail()){
       setAlert('password must be 8 characters long with 1 uppercase letter, 1 number and 1 special character')
-      showAlert()
+      showAlert('error')
     }
     if(!checkEmail() && checkPw()){
       setAlert('invalid email')
-      showAlert()
+      showAlert('error')
     }
     else if(checkEmail() && checkPw()){
       signUp()

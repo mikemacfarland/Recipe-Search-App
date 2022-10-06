@@ -12,11 +12,11 @@ function Login() {
     e.preventDefault()
     if(!checkEmail() && checkPw()){
       setAlert('Invalid Email adress')
-      showAlert()
+      showAlert('error')
     }
     if(checkEmail() && !checkPw()){
       setAlert('Invalid Password')
-      showAlert()
+      showAlert('error')
     }
     else if(checkEmail() && checkPw()){
       login()

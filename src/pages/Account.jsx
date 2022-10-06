@@ -1,4 +1,4 @@
-import { useContext,useState } from "react"
+import { useContext,useState,useEffect } from "react"
 import RecipeContext from "../context/RecipeContext"
 import {auth} from '../firebase_config'
 
@@ -7,10 +7,11 @@ function Account() {
     const [changeEmail,setChangeEmail] = useState(false)
     const [changeName,setChangeName] = useState(false)
     const [deleteUser,setDeleteUser] = useState(false)
+
+    //@TODO component is getting manually refreshed by window.
+    // add state or mofidy existing state 
     const {
-        // currentUser,
         logOut,
-        // setUserName,
         lostPassword,
         handleUpdate
     } = useContext(RecipeContext)
@@ -25,7 +26,7 @@ function Account() {
     const handleSetChangeName = ()=>{
             setChangeEmail(false)
             !changeName ? setChangeName(true) : setChangeName(false)
-        }
+    }
 
     const handleEmailChange = ()=>{
         const newEmail = document.querySelector('#changeEmail').value
@@ -34,8 +35,8 @@ function Account() {
 
     const handleNameChange = ()=>{
         const newName = document.querySelector('#changeName').value
-        //reads here
         handleUpdate(newName)
+        window.location.reload(false)
     }
 
     const handleLogout=()=>{
@@ -44,17 +45,15 @@ function Account() {
 
     const handleDeleteUser = ()=>{
         console.log('delete user')
-    }
+    }    
 
-
-    console.log(auth.currentUser)
   return (
         <div className="account">
-            <h1>{auth.currentUser? auth.currentUser.displayName : ''}</h1>
+            <h1>{auth.currentUser ? auth.currentUser.displayName : ''}</h1>
             <h4>email</h4>
 
             <div>
-                <p>{auth.currentUser.email}</p>
+                <p>{auth.currentUser? auth.currentUser.email : ''}</p>
                 <div className="account__link" onClick={handleSetChangeEmail} >Change Email</div>
                 {changeEmail ?  <div>
                                     <input id='changeEmail'></input>
@@ -82,9 +81,8 @@ function Account() {
                 <h4>Last Login</h4>
                 <p>{auth.currentUser ? auth.currentUser.metadata.lastSignInTime : ''}</p>
             </div>
-
-            <div>
                 <a onClick={handleLogout} href="/">Logout</a>
+            <div className="danger">
                 <h4>danger zone</h4>
                 <div className="account__link" onClick={(()=>setDeleteUser(true))} >delete account</div>
                 {deleteUser ?   <div>

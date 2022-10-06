@@ -24,6 +24,7 @@ export const RecipeProvider = ({children}) =>{
     
     const navigate = useNavigate()
     const [alert,setAlert] = useState('')
+    const [userName,setUserName] = useState('')
     const [email,setEmail] = useState('')
     const [password,setPassword] = useState('')
     const [signedIn,setSignedIn] = useState(false)
@@ -37,7 +38,7 @@ export const RecipeProvider = ({children}) =>{
             const user = userCredential.user;
             console.log(user)
             login(auth,email,password)
-            handleUpdate()
+            handleUpdate(userName)
           })
           // Handle Additional errors
           .catch((error) => {
@@ -66,7 +67,7 @@ export const RecipeProvider = ({children}) =>{
                 errorCode === 'auth/wrong-password' ? setAlert('Invalid Password') : setAlert('')
                 console.log(errorCode)
                 console.log(errorMessage)
-                showAlert()
+                showAlert('error')
             });
     }
 
@@ -77,11 +78,7 @@ export const RecipeProvider = ({children}) =>{
                 // this area for setting values only
                 // , photoURL: "https://example.com/jane-q-user/profile.jpg"
             }).then(() => {
-                onAuthStateChanged()
-                console.log(auth.currentUser)
                 //run code after values have been set
-                // need to check auth here?
-                // ...
             }).catch((error) => {
                 // An error occurred
                 // ...
@@ -90,11 +87,7 @@ export const RecipeProvider = ({children}) =>{
 
     //ON UPDATE
     useEffect(()=>{
-        onAuthStateChanged()
-    },[auth])
-
-
-        const onAuthStateChanged = (auth, (user) => {
+        onAuthStateChanged(auth, (user) => {
         if (user) {
             // User is signed in, see docs for a list of available properties
             // https://firebase.google.com/docs/reference/js/firebase.User
@@ -106,7 +99,8 @@ export const RecipeProvider = ({children}) =>{
             // ...
         }
         });
-    
+    })
+
     //DELETE USER
     const handleDeleteUser = (user)=>{
         deleteUser(user).then(() => {
@@ -136,7 +130,8 @@ export const RecipeProvider = ({children}) =>{
             const errorCode = error.code;
             //@TODO modify this message
             console.log(errorCode)
-            errorCode === 'auth/user-not-found' ? setAlert('User not found/Invalid Email') : 
+            errorCode === 'auth/invalid-email' ? setAlert('Invalid email') :
+            errorCode === 'auth/user-not-found' ? setAlert('User not found') : 
             errorCode === 'auth/too-many-requests' ? setAlert('Too many requests, Try again later') : setAlert('')
             showAlert('error')
         });
@@ -197,7 +192,9 @@ export const RecipeProvider = ({children}) =>{
         recipes,
         alert,
         signedIn,
+        userName,
         //setters
+        setUserName,
         setAlert,
         setRecipes,
         setPassword,
