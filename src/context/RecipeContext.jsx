@@ -4,6 +4,7 @@ import {
     getAuth,createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
     sendPasswordResetEmail,
+    updateProfile,
     signOut,
     // onAuthStateChanged
     // MAY NEED ONAUTHSTATECHANGED IN FUTURE FOR USER  MANAGEMENT
@@ -36,6 +37,7 @@ export const RecipeProvider = ({children}) =>{
             const user = userCredential.user;
             console.log(user)
             login(auth,email,password)
+            handleUpdate()
           })
           // Handle Additional errors
           .catch((error) => {
@@ -69,6 +71,19 @@ export const RecipeProvider = ({children}) =>{
             });
     }
 
+    //UPDATE PROFILE
+    const handleUpdate = ()=>{
+        updateProfile(auth.currentUser, {
+                displayName: userName
+                // , photoURL: "https://example.com/jane-q-user/profile.jpg"
+            }).then(() => {
+                console.log('Profile updated!')
+                // ...
+            }).catch((error) => {
+                // An error occurred
+                // ...
+        });
+    }
     //LOGOUT
     const logOut = ()=>{
         signOut(auth).then(() => {
@@ -143,6 +158,7 @@ export const RecipeProvider = ({children}) =>{
         }
     }
 
+    //@TODO refactor, if one of these functions and setters is only used in one component
     return <RecipeContext.Provider value={{
         recipes,
         alert,
@@ -161,7 +177,7 @@ export const RecipeProvider = ({children}) =>{
         logOut,
         lostPassword,
         checkEmail,
-        checkPw
+        checkPw,
         }}>
         {children}
     </RecipeContext.Provider>

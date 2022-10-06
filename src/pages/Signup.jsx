@@ -43,12 +43,16 @@ function Signup() {
       <form onSubmit={handleSignUp} className='login__form' action="signIn">
         <fieldset>
           <legend>SIGNUP</legend>
+
           <label htmlFor="userName">UserName</label>
-          <input onBlur={handleSetEmail} id='userName' type="text" />
+          <input onBlur={handleSetUserName} id='userName' type="text" />
+
           <label htmlFor="email">Email</label>
-          <input onBlur={handleSetUserName} id='email' type="text" />
+          <input onBlur={handleSetEmail} id='email' type="text" />
+
           <label htmlFor="password">Password</label>
           <input onBlur={handleSetPw} id='password' type="text" />
+
           <button>Signup</button>
           <p>Already have an account?&nbsp;<Link to='/Login'>Login</Link></p>
         </fieldset>

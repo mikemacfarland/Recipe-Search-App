@@ -170,6 +170,11 @@
   align-items: flex-start;
   margin-top: 1.5rem;
 }
+.account__link {
+  user-select: none;
+  cursor: pointer;
+  text-decoration: underline;
+}
 
 .about {
   margin: 2rem;

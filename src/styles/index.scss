@@ -195,6 +195,11 @@ $secondary-bsa:.7;
     @include flex(column,center,flex-start);
     margin-top: 1.5rem;
     
+    &__link{
+        user-select: none;
+        cursor: pointer;
+        text-decoration: underline;
+    }
 
 }
 
