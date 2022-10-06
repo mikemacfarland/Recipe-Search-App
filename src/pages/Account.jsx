@@ -5,10 +5,8 @@ function Account() {
 
     const [changeEmail,setChangeEmail] = useState(false)
     const [changeName,setChangeName] = useState(false)
-    const {currentUser,logOut,setUserName,lostPassword} = useContext(RecipeContext)
-    console.log(currentUser)
-
-
+    const [deleteUser,setDeleteUser] = useState(false)
+    const {currentUser,logOut,setUserName,lostPassword,handleUpdate} = useContext(RecipeContext)
     
     //@TODO can handle these actions without state
     const handleSetChangeEmail = ()=>{
@@ -29,13 +27,20 @@ function Account() {
 
     const handleNameChange = ()=>{
         const newName = document.querySelector('#changeName').value
-        console.log(newName)
+        setUserName(newName)
+        handleUpdate()
     }
 
     const handleLogout=()=>{
         logOut()
     }
 
+    const handleDeleteUser = ()=>{
+        console.log('delete user')
+    }
+
+    //@TODO change email, change username, delete account process
+    console.log(currentUser.displayName)
   return (
         <div className="account">
             <h1>{currentUser.displayName}</h1>
@@ -60,7 +65,13 @@ function Account() {
             <p>{currentUser.metadata.lastSignInTime}</p>
             <a onClick={handleLogout} href="/">Logout</a>
             <h4>danger zone</h4>
-            <a href="delete account">delete account</a>
+            <div className="account__link" onClick={(()=>setDeleteUser(true))} >delete account</div>
+            {deleteUser ?   <div>
+                                <p>Are you sure?</p>
+                                <button onClick={handleDeleteUser}>Yes</button>
+                                <button onClick={(()=>setDeleteUser(false))}>No</button>
+                            </div> : ''
+            }
 
         </div> 
   )

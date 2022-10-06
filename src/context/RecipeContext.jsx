@@ -6,11 +6,12 @@ import {
     sendPasswordResetEmail,
     updateProfile,
     signOut,
+    deleteUser,
     // onAuthStateChanged
     // MAY NEED ONAUTHSTATECHANGED IN FUTURE FOR USER  MANAGEMENT
 } from 'firebase/auth'
 
-    //import auth from firebase config file where auth is defined and
+    // import auth from firebase config file where auth is defined and
     // exported
     import {auth} from '../firebase_config'
 
@@ -20,6 +21,7 @@ const url = 'https://api.spoonacular.com/recipes/random?number=2&apiKey=033797df
 // const url = 'https://randomuser.me/api/?results=2'
 
 export const RecipeProvider = ({children}) =>{
+    
     const navigate = useNavigate()
     const [alert,setAlert] = useState('')
     const [userName,setUserName] = useState('')
@@ -75,8 +77,10 @@ export const RecipeProvider = ({children}) =>{
     const handleUpdate = ()=>{
         updateProfile(auth.currentUser, {
                 displayName: userName
+                // this area for setting values only
                 // , photoURL: "https://example.com/jane-q-user/profile.jpg"
             }).then(() => {
+                //run code after values have been set
                 console.log('Profile updated!')
                 // ...
             }).catch((error) => {
@@ -84,6 +88,17 @@ export const RecipeProvider = ({children}) =>{
                 // ...
         });
     }
+
+    //DELETE USER
+    const handleDeleteUser = (user)=>{
+        deleteUser(user).then(() => {
+        // User deleted.
+        }).catch((error) => {
+            // An error ocurred
+            // ...
+        });
+    }
+
     //LOGOUT
     const logOut = ()=>{
         signOut(auth).then(() => {
@@ -91,6 +106,7 @@ export const RecipeProvider = ({children}) =>{
         }).catch((error) => {
         });
     }
+
     //LOST PW
     const lostPassword = async ()=>{
         sendPasswordResetEmail(auth, email)
@@ -171,6 +187,7 @@ export const RecipeProvider = ({children}) =>{
         setEmail,
         setUserName,
         //functions
+        handleUpdate,
         showAlert,
         signUp,
         login,
