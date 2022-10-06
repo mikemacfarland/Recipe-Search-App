@@ -1,12 +1,19 @@
 import { useContext,useState } from "react"
 import RecipeContext from "../context/RecipeContext"
+import {auth} from '../firebase_config'
 
 function Account() {
 
     const [changeEmail,setChangeEmail] = useState(false)
     const [changeName,setChangeName] = useState(false)
     const [deleteUser,setDeleteUser] = useState(false)
-    const {currentUser,logOut,setUserName,lostPassword,handleUpdate} = useContext(RecipeContext)
+    const {
+        // currentUser,
+        logOut,
+        // setUserName,
+        lostPassword,
+        handleUpdate
+    } = useContext(RecipeContext)
     
     //@TODO can handle these actions without state
     const handleSetChangeEmail = ()=>{
@@ -27,8 +34,8 @@ function Account() {
 
     const handleNameChange = ()=>{
         const newName = document.querySelector('#changeName').value
-        setUserName(newName)
-        handleUpdate()
+        //reads here
+        handleUpdate(newName)
     }
 
     const handleLogout=()=>{
@@ -40,14 +47,14 @@ function Account() {
     }
 
 
-    console.log(currentUser)
+    console.log(auth.currentUser)
   return (
         <div className="account">
-            <h1>{currentUser.displayName}</h1>
+            <h1>{auth.currentUser? auth.currentUser.displayName : ''}</h1>
             <h4>email</h4>
 
             <div>
-                <p>{currentUser.email}</p>
+                <p>{auth.currentUser.email}</p>
                 <div className="account__link" onClick={handleSetChangeEmail} >Change Email</div>
                 {changeEmail ?  <div>
                                     <input id='changeEmail'></input>
@@ -68,12 +75,12 @@ function Account() {
             <div className="account__link" onClick={lostPassword}>Request Change Password</div>
             <div>
                 <h4>Member since</h4> 
-                <p>{currentUser? currentUser.metadata.creationTime : ''}</p>
+                <p>{auth.currentUser? auth.currentUser.metadata.creationTime : ''}</p>
             </div>
 
             <div>
                 <h4>Last Login</h4>
-                <p>{currentUser ? currentUser.metadata.lastSignInTime : ''}</p>
+                <p>{auth.currentUser ? auth.currentUser.metadata.lastSignInTime : ''}</p>
             </div>
 
             <div>

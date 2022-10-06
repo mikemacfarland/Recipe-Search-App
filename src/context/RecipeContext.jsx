@@ -24,11 +24,9 @@ export const RecipeProvider = ({children}) =>{
     
     const navigate = useNavigate()
     const [alert,setAlert] = useState('')
-    const [userName,setUserName] = useState('')
     const [email,setEmail] = useState('')
     const [password,setPassword] = useState('')
     const [signedIn,setSignedIn] = useState(false)
-    const [currentUser,setCurrentUser] = useState('')
     const auth = getAuth()
     const alertEl = document.querySelector('.alert')
     
@@ -57,7 +55,6 @@ export const RecipeProvider = ({children}) =>{
             .then((userCredential) => {
                 const user = userCredential.user;
                 setSignedIn(true)
-                setCurrentUser(user)
                 navigate('/')
             })
             // Handle Additional Errors
@@ -74,16 +71,16 @@ export const RecipeProvider = ({children}) =>{
     }
 
     //UPDATE PROFILE
-    const handleUpdate = ()=>{
+    const handleUpdate = (name)=>{
         updateProfile(auth.currentUser, {
-                displayName: userName
+                displayName: name
                 // this area for setting values only
                 // , photoURL: "https://example.com/jane-q-user/profile.jpg"
             }).then(() => {
+                onAuthStateChanged()
+                console.log(auth.currentUser)
                 //run code after values have been set
-                // need to check auth here
-                // setCurrentUser(auth.currentUser)
-                setCurrentUser(auth.currentUser)
+                // need to check auth here?
                 // ...
             }).catch((error) => {
                 // An error occurred
@@ -93,12 +90,15 @@ export const RecipeProvider = ({children}) =>{
 
     //ON UPDATE
     useEffect(()=>{
-        onAuthStateChanged(auth, (user) => {
+        onAuthStateChanged()
+    },[auth])
+
+
+        const onAuthStateChanged = (auth, (user) => {
         if (user) {
             // User is signed in, see docs for a list of available properties
             // https://firebase.google.com/docs/reference/js/firebase.User
             // const uid = user.uid;
-            setCurrentUser(user)
             setSignedIn(true)
             // ...
         } else {
@@ -106,11 +106,7 @@ export const RecipeProvider = ({children}) =>{
             // ...
         }
         });
-    },[auth])
     
-
-    
-
     //DELETE USER
     const handleDeleteUser = (user)=>{
         deleteUser(user).then(() => {
@@ -201,13 +197,11 @@ export const RecipeProvider = ({children}) =>{
         recipes,
         alert,
         signedIn,
-        currentUser,
         //setters
         setAlert,
         setRecipes,
         setPassword,
         setEmail,
-        setUserName,
         //functions
         handleUpdate,
         showAlert,
