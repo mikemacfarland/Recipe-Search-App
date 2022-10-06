@@ -7,7 +7,7 @@ import {
     updateProfile,
     signOut,
     deleteUser,
-    // onAuthStateChanged
+    onAuthStateChanged
     // MAY NEED ONAUTHSTATECHANGED IN FUTURE FOR USER  MANAGEMENT
 } from 'firebase/auth'
 
@@ -81,13 +81,35 @@ export const RecipeProvider = ({children}) =>{
                 // , photoURL: "https://example.com/jane-q-user/profile.jpg"
             }).then(() => {
                 //run code after values have been set
-                console.log('Profile updated!')
+                // need to check auth here
+                // setCurrentUser(auth.currentUser)
+                setCurrentUser(auth.currentUser)
                 // ...
             }).catch((error) => {
                 // An error occurred
                 // ...
         });
     }
+
+    //ON UPDATE
+    useEffect(()=>{
+        onAuthStateChanged(auth, (user) => {
+        if (user) {
+            // User is signed in, see docs for a list of available properties
+            // https://firebase.google.com/docs/reference/js/firebase.User
+            // const uid = user.uid;
+            setCurrentUser(user)
+            setSignedIn(true)
+            // ...
+        } else {
+            // User is signed out
+            // ...
+        }
+        });
+    },[auth])
+    
+
+    
 
     //DELETE USER
     const handleDeleteUser = (user)=>{
