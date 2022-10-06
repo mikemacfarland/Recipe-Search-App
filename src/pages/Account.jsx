@@ -39,8 +39,8 @@ function Account() {
         console.log('delete user')
     }
 
-    //@TODO change email, change username, delete account process
-    console.log(currentUser.displayName)
+
+    console.log(currentUser)
   return (
         <div className="account">
             <h1>{currentUser.displayName}</h1>
@@ -68,12 +68,12 @@ function Account() {
             <div className="account__link" onClick={lostPassword}>Request Change Password</div>
             <div>
                 <h4>Member since</h4> 
-                <p>{currentUser.metadata.creationTime}</p>
+                <p>{currentUser? currentUser.metadata.creationTime : ''}</p>
             </div>
 
             <div>
                 <h4>Last Login</h4>
-                <p>{currentUser.metadata.lastSignInTime}</p>
+                <p>{currentUser ? currentUser.metadata.lastSignInTime : ''}</p>
             </div>
 
             <div>
