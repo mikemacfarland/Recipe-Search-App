@@ -17,12 +17,13 @@ import {
 
 
 const RecipeContext = createContext()
-const url = 'https://api.spoonacular.com/recipes/random?number=2&apiKey=033797df84694890b040b816a119b147'
-// const url = 'https://randomuser.me/api/?results=2'
 
 export const RecipeProvider = ({children}) =>{
-    
+    const randomOffset = Math.floor((Math.random() * 2000))
+    //@TODO STORE THIS API KEY ELSEWHWERE
+    const searchUrl = `https://api.spoonacular.com/recipes/complexSearch?number=2&offset=${randomOffset}&apiKey=033797df84694890b040b816a119b147`
     const navigate = useNavigate()
+    const [url,setUrl] = useState(searchUrl)
     const [alert,setAlert] = useState('')
     const [userName,setUserName] = useState('')
     const [email,setEmail] = useState('')
@@ -31,6 +32,9 @@ export const RecipeProvider = ({children}) =>{
     const auth = getAuth()
     const alertEl = document.querySelector('.alert')
     
+    
+    
+
     //SIGNUP & LOGIN
     const signUp = ()=>{
         createUserWithEmailAndPassword(auth, email, password)
@@ -104,8 +108,11 @@ export const RecipeProvider = ({children}) =>{
     //DELETE USER
     const handleDeleteUser = (user)=>{
         deleteUser(user).then(() => {
-        // User deleted.
+            // setSignedIn(false)
+            // User deleted.
+            console.log('userDELETE')
         }).catch((error) => {
+            console.log(error)
             // An error ocurred
             // ...
         });
@@ -140,10 +147,11 @@ export const RecipeProvider = ({children}) =>{
     // RECIPES
     const [recipes,setRecipes] = useState([])
 
-    const getRecipes = async (url)=>{
+    async function getRecipes(url){
         const response = await fetch(url)
         const data = await response.json()
-        setRecipes(data.recipes)
+        console.log(data)
+        setRecipes(data.results)
     }
 
     //@TODO change initial api call for more results.
@@ -193,13 +201,16 @@ export const RecipeProvider = ({children}) =>{
         alert,
         signedIn,
         userName,
+        url,
         //setters
+        setUrl,
         setUserName,
         setAlert,
         setRecipes,
         setPassword,
         setEmail,
         //functions
+        handleDeleteUser,
         handleUpdate,
         showAlert,
         signUp,
@@ -208,6 +219,7 @@ export const RecipeProvider = ({children}) =>{
         lostPassword,
         checkEmail,
         checkPw,
+        getRecipes
         }}>
         {children}
     </RecipeContext.Provider>

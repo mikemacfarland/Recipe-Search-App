@@ -13,7 +13,8 @@ function Account() {
     const {
         logOut,
         lostPassword,
-        handleUpdate
+        handleUpdate,
+        handleDeleteUser
     } = useContext(RecipeContext)
     
     //@TODO can handle these actions without state
@@ -43,10 +44,6 @@ function Account() {
         logOut()
     }
 
-    const handleDeleteUser = ()=>{
-        console.log('delete user')
-    }    
-
   return (
         <div className="account">
             <h1>{auth.currentUser ? auth.currentUser.displayName : ''}</h1>
@@ -54,12 +51,11 @@ function Account() {
 
             <div>
                 <p>{auth.currentUser? auth.currentUser.email : ''}</p>
-                <div className="account__link" onClick={handleSetChangeEmail} >Change Email</div>
+                {/* <div className="account__link" onClick={handleSetChangeEmail} >Change Email</div>
                 {changeEmail ?  <div>
                                     <input id='changeEmail'></input>
                                     <button onClick={handleEmailChange}>Change Email</button>
-                                </div> : ''
-                }
+                                </div> : '' */}
             </div>
 
             <div>
@@ -82,7 +78,7 @@ function Account() {
                 <p>{auth.currentUser ? auth.currentUser.metadata.lastSignInTime : ''}</p>
             </div>
                 <a onClick={handleLogout} href="/">Logout</a>
-            <div className="danger">
+            {/* <div className="danger">
                 <h4>danger zone</h4>
                 <div className="account__link" onClick={(()=>setDeleteUser(true))} >delete account</div>
                 {deleteUser ?   <div>
@@ -91,7 +87,7 @@ function Account() {
                                     <button onClick={(()=>setDeleteUser(false))}>No</button>
                                 </div> : ''
                 }
-            </div>
+            </div> */}
 
         </div> 
   )
