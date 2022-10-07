@@ -1,8 +1,10 @@
 
-function SearchFilterList({title,filter}) {
-
+function SearchFilterList({title,filter,setType}) {
+    
+    
     //@TODO add search functionality for api endpoints based on selections within this function, use a state to manage this
     //@TODO refactor for loop in this function
+
     const checkCheck = (e)=>{
         const labels = document.querySelectorAll('label')
         let forLabel = ''
@@ -10,8 +12,12 @@ function SearchFilterList({title,filter}) {
             if(labels[i].htmlFor === e.target.id)
             labels[i].classList.toggle('--checked')
         }
-        console.log(forLabel)
-        console.log(e.target.id)
+        const inputs = e.target.parentNode.parentNode.querySelectorAll('.--checked')
+        const inputTypes = []
+        inputs.forEach(input=>{
+            inputTypes.push(input.innerText)
+        })
+        setType(inputTypes)
     }
 
     //@TODO refactor for loop in this function
@@ -20,7 +26,6 @@ function SearchFilterList({title,filter}) {
         for(let i = 0; i < filterLists.length; i++){
             if(!e.target.nextSibling.classList.contains('--active') && filterLists[i].previousSibling === e.target){
                 filterLists[i].classList.add('--active')
-                console.log(filterLists[i])
             }
             else{
                 filterLists[i].classList.remove('--active')
@@ -28,6 +33,7 @@ function SearchFilterList({title,filter}) {
         }
     }
 
+    //@TODO UI if selections are made, indicate in the parent element to user
   return (<div className="search__filters__item">
             <h4 onClick={(e)=>openList(e)}>{title}</h4>
             <ul className="search__filters__item__list">

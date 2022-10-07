@@ -28,7 +28,7 @@ const filters = {
         'Vietnamese'],
     diets :[
         'Dairy Free',
-        'Gluetn Free',
+        'Gluten Free',
         'Lacto Vegitarian',
         'Ovo Vegitarian',
         'Vegitarian',
