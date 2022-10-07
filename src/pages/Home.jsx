@@ -6,7 +6,7 @@ import Content from '../components/Content'
 function Home() {
 
   // const {recipes} = useContext(RecipeContext)
-  // console.log(recipes)
+  // (recipes)
 
   return (
     <div className="home">

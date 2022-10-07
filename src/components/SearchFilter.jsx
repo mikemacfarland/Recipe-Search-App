@@ -12,7 +12,7 @@ function SearchFilter() {
   const handleSubmit = (e)=>{
     e.preventDefault()
     getRecipes(searchUrl)
-    console.log('formsubmit')
+    ('formsubmit')
   }
 
   const [searchTerm,setSearchTerm] = useState('')

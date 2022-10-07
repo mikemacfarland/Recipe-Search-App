@@ -5,13 +5,12 @@ import RecipeContext from "../context/RecipeContext"
 //@TODO add transition and hovers to content items
 function Content() {
     const {recipes} = useContext(RecipeContext)
-    console.log(recipes)
+
 
     const handleOpenRecipe = async(id)=>{
         //@TODO STORE API KEY ELSEWHERE
         const response = await fetch(`https://api.spoonacular.com/recipes/${id}/information?apiKey=033797df84694890b040b816a119b147`)
         const data = await response.json()
-        console.log(data)
     }
 
     return(

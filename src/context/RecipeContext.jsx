@@ -8,7 +8,6 @@ import {
     signOut,
     deleteUser,
     onAuthStateChanged
-    // MAY NEED ONAUTHSTATECHANGED IN FUTURE FOR USER  MANAGEMENT
 } from 'firebase/auth'
 
     // import auth from firebase config file where auth is defined and
@@ -40,14 +39,12 @@ export const RecipeProvider = ({children}) =>{
         createUserWithEmailAndPassword(auth, email, password)
           .then((userCredential) => {
             const user = userCredential.user;
-            console.log(user)
             login(auth,email,password)
             handleUpdate(userName)
           })
           // Handle Additional errors
           .catch((error) => {
             const errorCode = error.code;
-            console.log(errorCode)
             errorCode === 'auth/email-already-in-use' ? setAlert('User already exists') : setAlert('')
             
             showAlert()
@@ -69,8 +66,8 @@ export const RecipeProvider = ({children}) =>{
                 errorCode === 'auth/user-not-found' ? setAlert('User not found/invalid Email') :
                 errorCode === 'auth/internal-error' ? setAlert('Invalid email/password') :
                 errorCode === 'auth/wrong-password' ? setAlert('Invalid Password') : setAlert('')
-                console.log(errorCode)
-                console.log(errorMessage)
+                (errorCode)
+                (errorMessage)
                 showAlert('error')
             });
     }
@@ -79,8 +76,6 @@ export const RecipeProvider = ({children}) =>{
     const handleUpdate = (name)=>{
         updateProfile(auth.currentUser, {
                 displayName: name
-                // this area for setting values only
-                // , photoURL: "https://example.com/jane-q-user/profile.jpg"
             }).then(() => {
                 //run code after values have been set
             }).catch((error) => {
@@ -106,11 +101,12 @@ export const RecipeProvider = ({children}) =>{
     })
 
     //DELETE USER
+    //@TODO GET DELETE USER WORKING
     const handleDeleteUser = (user)=>{
         deleteUser(user).then(() => {
             // setSignedIn(false)
             // User deleted.
-            console.log('userDELETE')
+            ('userDELETE')
         }).catch((error) => {
             console.log(error)
             // An error ocurred
@@ -135,8 +131,6 @@ export const RecipeProvider = ({children}) =>{
         })
         .catch((error) => {
             const errorCode = error.code;
-            //@TODO modify this message
-            console.log(errorCode)
             errorCode === 'auth/invalid-email' ? setAlert('Invalid email') :
             errorCode === 'auth/user-not-found' ? setAlert('User not found') : 
             errorCode === 'auth/too-many-requests' ? setAlert('Too many requests, Try again later') : setAlert('')
@@ -150,18 +144,17 @@ export const RecipeProvider = ({children}) =>{
     async function getRecipes(url){
         const response = await fetch(url)
         const data = await response.json()
-        console.log(data)
         setRecipes(data.results)
     }
 
-    //@TODO change initial api call for more results.
+    //@TODO fix this useeffect
     useEffect(()=>{
         getRecipes(url)
     },[])
 
     //HELPER FUNCTIONS
 
-    //@TODO set this funciton to pass weather error or message. to display properly for messages
+    //@TODO set this funciton to pass error or message. to display properly for messages
     const showAlert =(type)=> {
         const alertTimeout = () => setTimeout(() => {
             alertEl.classList.remove(`--${type}`);

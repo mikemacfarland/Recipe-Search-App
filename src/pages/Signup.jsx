@@ -8,7 +8,7 @@ function Signup() {
 
   const handleSignUp = (e)=>{
     e.preventDefault()
-    console.log(`email=${checkEmail()}  Pw=${checkPw()}`)
+    (`email=${checkEmail()}  Pw=${checkPw()}`)
     if(!checkPw() && !checkEmail()){
       setAlert('invalid password or email')
       showAlert('error')

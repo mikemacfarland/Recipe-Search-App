@@ -31,7 +31,7 @@ function Account() {
 
     const handleEmailChange = ()=>{
         const newEmail = document.querySelector('#changeEmail').value
-        console.log(newEmail)
+        (newEmail)
     }
 
     const handleNameChange = ()=>{
