@@ -8,17 +8,18 @@ import SearchFilterList from './SearchFilterList'
 function SearchFilter() {
 
   const {
-        handleGetRecipes,
+      setOffset,
         setRecipeType,
         setDiet,
         setCuisine,
         setIntolorances,
         setSearchTerm,
+        handleSetUrl,
   } = useContext(RecipeContext)
   
   const handleSubmit = (e)=>{
     e.preventDefault()
-    handleGetRecipes()
+    setOffset(0)
   }
 
   const handleSetSearchTerm = ()=>{

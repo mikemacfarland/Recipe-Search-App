@@ -1,4 +1,4 @@
-import { createContext,useState,useEffect} from "react";
+import { createContext,useState,useEffect,useLayoutEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import {
     getAuth,createUserWithEmailAndPassword,
@@ -13,7 +13,6 @@ import {
     // import auth from firebase config file where auth is defined and
     // exported
     import {auth} from '../firebase_config'
-
 
 const RecipeContext = createContext()
 
@@ -35,27 +34,42 @@ export const RecipeProvider = ({children}) =>{
     // URL/RECIPE STATES
     const randomOffset = Math.floor((Math.random() * 2000))
     
-    const [offset,setOffset] = useState(0)
+    const [offset,setOffset] = useState(randomOffset)
     const [searchTerm,setSearchTerm] = useState('')
     const [recipeType,setRecipeType] = useState('')
     const [diet,setDiet] = useState('')
     const [cuisine,setCuisine] = useState('')
     const [intolorances,setIntolorances] = useState('')
-    const defaultUrl = `https://api.spoonacular.com/recipes/complexSearch?number=8&offset=${randomOffset}&apiKey=033797df84694890b040b816a119b147`
-    const [url,setUrl] = useState(defaultUrl)
+    const [url,setUrl] = useState(`https://api.spoonacular.com/recipes/complexSearch?query=${searchTerm}&number=1&offset=${offset}&cuisine=${cuisine}&diet=${diet}&intolorances=${intolorances}&type=${recipeType}&apiKey=033797df84694890b040b816a119b147`)
 
-    // RECIPES
+    //RECIPES
 
+    //ON LOAD
+    //@TODO fix exhaustive dependencies
+    //on page load api call for recipes
     useEffect(()=>{
         handleGetRecipes()
-    // eslint-disable-next-line react-hooks/exhaustive-deps 
-    },[])
-
-    useEffect(()=>{
-        setUrl(`https://api.spoonacular.com/recipes/complexSearch?query=${searchTerm}&number=16&offset=${offset}&cuisine=${cuisine}&diet=${diet}&intolorances=${intolorances}&type=${recipeType}&apiKey=033797df84694890b040b816a119b147`)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[searchTerm,offset,searchTerm,recipeType,diet,cuisine,intolorances])
+    },[])
+     
+    //this is for search and offset
+    useEffect(()=>{
+        handleSetUrl()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[offset])
 
+    //recipes api call on url update (search and offset update)
+    useEffect(()=>{
+        handleGetRecipes()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[url])
+
+    //setUrl callback
+    const handleSetUrl=()=>{
+        setUrl(`https://api.spoonacular.com/recipes/complexSearch?query=${searchTerm}&number=1&offset=${offset}&cuisine=${cuisine}&diet=${diet}&intolorances=${intolorances}&type=${recipeType}&apiKey=033797df84694890b040b816a119b147`)    
+    }
+    
+    // getRecipes callback
     const handleGetRecipes = ()=>{
         getRecipes(url)
     }
@@ -65,11 +79,6 @@ export const RecipeProvider = ({children}) =>{
         const data = await response.json()
         setRecipes(data.results)
     }
-
-    //@TODO fix this useeffect
-    useEffect(()=>{
-        getRecipes(url)
-    },[])
 
 
 
@@ -234,7 +243,7 @@ export const RecipeProvider = ({children}) =>{
         setPassword,
         setEmail,
         //functions
-        handleGetRecipes,
+        handleSetUrl,
         handleDeleteUser,
         handleUpdate,
         showAlert,

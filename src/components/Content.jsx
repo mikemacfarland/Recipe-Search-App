@@ -8,14 +8,12 @@ function Content() {
         setOffset,
     } = useContext(RecipeContext)
 
-    console.log(recipes)
-
     //unused for now
     const handleOpenRecipe = async(id)=>{
         //@TODO STORE API KEY ELSEWHERE
-        const response = await fetch(`https://api.spoonacular.com/recipes/${id}/information?apiKey=033797df84694890b040b816a119b147`)
-        const data = await response.json()
-        console.log(data)
+        // const response = await fetch(`https://api.spoonacular.com/recipes/${id}/information?apiKey=033797df84694890b040b816a119b147`)
+        // const data = await response.json()
+        console.log('openrecip[e')
     }
 
     const handleOffset = (e)=>{
