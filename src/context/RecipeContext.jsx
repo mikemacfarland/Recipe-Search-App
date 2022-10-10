@@ -47,28 +47,28 @@ export const RecipeProvider = ({children}) =>{
     // RECIPES
 
     useEffect(()=>{
-        // handleGetRecipes()
+        handleGetRecipes()
     // eslint-disable-next-line react-hooks/exhaustive-deps 
-    },[url])
+    },[])
 
     useEffect(()=>{
-        // setUrl(`https://api.spoonacular.com/recipes/complexSearch?query=${searchTerm}&number=16&offset=${offset}&cuisine=${cuisine}&diet=${diet}&intolorances=${intolorances}&type=${recipeType}&apiKey=033797df84694890b040b816a119b147`)
+        setUrl(`https://api.spoonacular.com/recipes/complexSearch?query=${searchTerm}&number=16&offset=${offset}&cuisine=${cuisine}&diet=${diet}&intolorances=${intolorances}&type=${recipeType}&apiKey=033797df84694890b040b816a119b147`)
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[searchTerm,offset,searchTerm,recipeType,diet,cuisine,intolorances])
 
     const handleGetRecipes = ()=>{
-        // getRecipes(url)
+        getRecipes(url)
     }
 
     async function getRecipes(url){
         const response = await fetch(url)
         const data = await response.json()
-        // setRecipes(data.results)
+        setRecipes(data.results)
     }
 
     //@TODO fix this useeffect
     useEffect(()=>{
-        // getRecipes(url)
+        getRecipes(url)
     },[])
 
 
