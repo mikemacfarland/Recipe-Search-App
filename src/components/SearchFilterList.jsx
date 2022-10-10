@@ -1,6 +1,9 @@
+import { useState } from "react"
 
 function SearchFilterList({title,filter,setType}) {
-    
+
+    const [active,setActive] = useState(false)
+
     //@TODO refactor for loop in this function
     const checkCheck = (e)=>{
         const labels = document.querySelectorAll('label')
@@ -16,28 +19,26 @@ function SearchFilterList({title,filter,setType}) {
         setType(inputTypes)
     }
 
-    const openList = (e)=>{
-        const filterLists = document.querySelectorAll('.search__filters__item__list')
-        for(let i = 0; i < filterLists.length; i++){
-                window.addEventListener('click',(e)=>{
-                    e.target === filterLists[i].previousSibling && filterLists[i].classList.contains('--active') ? filterLists[i].classList.remove('--active') :
-                    e.target === filterLists[i].previousSibling || filterLists[i].contains(e.target) ? filterLists[i].classList.add('--active') :
-                    filterLists[i].classList.remove('--active')
-                })
+    window.addEventListener('click',(e)=>{
+        const lists = document.querySelectorAll('.--active')
+        lists.forEach(list=>{
+            if(!list.contains(e.target) && e.target !== list.previousSibling){
+                setActive(false)
             }
-    }
-
-
+        })
+    })
+    
     //@TODO UI if selections are made, indicate in the parent element to user
   return (<div className="search__filters__item">
-            <h4 onClick={(e)=>openList(e)}>{title}</h4>
-            
-            <ul className="search__filters__item__list">
+            <h4 onClick={(()=>setActive(active ? false : true))}>{title}</h4>
+            <ul className={`search__filters__item__list ${active ? '--active' : ''}`}>
             {filter.map(filter=>{
                 return(
                     <li className='search__filters__item__list__li'  key={filter}>
                         <label htmlFor={filter}>{filter}</label>
-                        <input onChange={(e)=>checkCheck(e)} id={filter} type="checkbox" />
+                        <input 
+                        onChange={(e)=>checkCheck(e)}
+                         id={filter} type="checkbox" />
                     </li>
                 )
             })}

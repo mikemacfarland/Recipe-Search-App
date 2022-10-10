@@ -18,21 +18,60 @@ import {
 const RecipeContext = createContext()
 
 export const RecipeProvider = ({children}) =>{
-    const randomOffset = Math.floor((Math.random() * 2000))
-    //@TODO STORE THIS API KEY ELSEWHWERE
-    const searchUrl = `https://api.spoonacular.com/recipes/complexSearch?number=2&offset=${randomOffset}&apiKey=033797df84694890b040b816a119b147`
+    
+    //@TODO STORE API KEY ELSEWHWERE
     const navigate = useNavigate()
-    const [url,setUrl] = useState(searchUrl)
+
+    // USER STATES
     const [alert,setAlert] = useState('')
     const [userName,setUserName] = useState('')
     const [email,setEmail] = useState('')
     const [password,setPassword] = useState('')
     const [signedIn,setSignedIn] = useState(false)
+    const [recipes,setRecipes] = useState([])
     const auth = getAuth()
     const alertEl = document.querySelector('.alert')
+
+    // URL/RECIPE STATES
+    const randomOffset = Math.floor((Math.random() * 2000))
     
-    
-    
+    const [offset,setOffset] = useState(0)
+    const [searchTerm,setSearchTerm] = useState('')
+    const [recipeType,setRecipeType] = useState('')
+    const [diet,setDiet] = useState('')
+    const [cuisine,setCuisine] = useState('')
+    const [intolorances,setIntolorances] = useState('')
+    const defaultUrl = `https://api.spoonacular.com/recipes/complexSearch?number=8&offset=${randomOffset}&apiKey=033797df84694890b040b816a119b147`
+    const [url,setUrl] = useState(defaultUrl)
+
+    // RECIPES
+
+    useEffect(()=>{
+        // handleGetRecipes()
+    // eslint-disable-next-line react-hooks/exhaustive-deps 
+    },[url])
+
+    useEffect(()=>{
+        // setUrl(`https://api.spoonacular.com/recipes/complexSearch?query=${searchTerm}&number=16&offset=${offset}&cuisine=${cuisine}&diet=${diet}&intolorances=${intolorances}&type=${recipeType}&apiKey=033797df84694890b040b816a119b147`)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[searchTerm,offset,searchTerm,recipeType,diet,cuisine,intolorances])
+
+    const handleGetRecipes = ()=>{
+        // getRecipes(url)
+    }
+
+    async function getRecipes(url){
+        const response = await fetch(url)
+        const data = await response.json()
+        // setRecipes(data.results)
+    }
+
+    //@TODO fix this useeffect
+    useEffect(()=>{
+        // getRecipes(url)
+    },[])
+
+
 
     //SIGNUP & LOGIN
     const signUp = ()=>{
@@ -102,6 +141,7 @@ export const RecipeProvider = ({children}) =>{
 
     //DELETE USER
     //@TODO GET DELETE USER WORKING
+    //reauthenticate?
     const handleDeleteUser = (user)=>{
         deleteUser(user).then(() => {
             // setSignedIn(false)
@@ -138,23 +178,7 @@ export const RecipeProvider = ({children}) =>{
         });
     }
 
-    // RECIPES
-    const [recipes,setRecipes] = useState([])
-
-    async function getRecipes(url){
-        const response = await fetch(url)
-        const data = await response.json()
-        setRecipes(data.results)
-    }
-
-    //@TODO fix this useeffect
-    useEffect(()=>{
-        getRecipes(url)
-    },[])
-
     //HELPER FUNCTIONS
-
-    //@TODO set this funciton to pass error or message. to display properly for messages
     const showAlert =(type)=> {
         const alertTimeout = () => setTimeout(() => {
             alertEl.classList.remove(`--${type}`);
@@ -195,7 +219,14 @@ export const RecipeProvider = ({children}) =>{
         signedIn,
         userName,
         url,
+        offset,
         //setters
+        setSearchTerm,
+        setRecipeType,
+        setDiet,
+        setCuisine,
+        setIntolorances,
+        setOffset,
         setUrl,
         setUserName,
         setAlert,
@@ -203,6 +234,7 @@ export const RecipeProvider = ({children}) =>{
         setPassword,
         setEmail,
         //functions
+        handleGetRecipes,
         handleDeleteUser,
         handleUpdate,
         showAlert,

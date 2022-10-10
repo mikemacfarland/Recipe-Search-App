@@ -1,38 +1,29 @@
 import React from 'react'
-import { useState,useContext} from 'react'
+import {useContext} from 'react'
 import RecipeContext from '../context/RecipeContext'
 import filters from '../assets/filters'
 import Icons from '../assets/icons/icons'
 import SearchFilterList from './SearchFilterList'
-import { useEffect } from 'react'
 
 function SearchFilter() {
 
-  const {getRecipes} = useContext(RecipeContext)
+  const {
+        handleGetRecipes,
+        setRecipeType,
+        setDiet,
+        setCuisine,
+        setIntolorances,
+        setSearchTerm,
+  } = useContext(RecipeContext)
+  
   const handleSubmit = (e)=>{
     e.preventDefault()
-    getRecipes(searchUrl)
-    ('formsubmit')
+    handleGetRecipes()
   }
-
-  const [searchTerm,setSearchTerm] = useState('')
-  const [recipeType,setRecipeType] = useState('')
-  const [diet,setDiet] = useState('')
-  const [cuisine,setCuisine] = useState('')
-  const [intolorances,setIntolorances] = useState('')
-  const [searchUrl,setSearchUrl] = useState(`https://api.spoonacular.com/recipes/complexSearch?query=${searchTerm}&cuisine=${cuisine}&diet=${diet}&intolorances=${intolorances}&type=${recipeType}&apiKey=033797df84694890b040b816a119b147`)
 
   const handleSetSearchTerm = ()=>{
     const userSearchTerm = document.querySelector('#searchTerm').value
     setSearchTerm(userSearchTerm)
-  }
-
-  useEffect(()=>{
-    return handleSetSearchUrl()
-  },[handleSetSearchTerm,setCuisine,setDiet,setIntolorances,setRecipeType])
-
-  const handleSetSearchUrl = ()=>{
-    setSearchUrl(`https://api.spoonacular.com/recipes/complexSearch?query=${searchTerm}&number=3&cuisine=${cuisine}&diet=${diet}&intolorances=${intolorances}&type=${recipeType}&apiKey=033797df84694890b040b816a119b147`)
   }
 
   return (
