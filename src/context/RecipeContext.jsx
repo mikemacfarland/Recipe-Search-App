@@ -14,52 +14,24 @@ import {
 import {auth} from '../firebase_config'
 
 // FIREBASE DATABASE
-
 import { 
     getDatabase,
     ref,
     set,
     onValue
 } from "firebase/database";
-
 import {database} from '../firebase_config'
 
-// WRITE DATA
-const writeUserData = (userId,favorites)=>{
-    const db = getDatabase()
-    set(ref(db, 'users/' + userId), {
-        favorites: favorites
-      });
-    }
 
-// const getUserData = (userId)
-//     const db = getDatabase();
-//     const favoritesRef = ref(db, 'users/' + userId);
-//     onValue(favorites, (snapshot) => {
-//     const data = snapshot.val();
-//     // updateStarCount(postElement, data);
-//     // from stock functions
-//     console.log(favoritesRef)
-// });
-
-
-
-
-
-
-
-
-
-
+// CONTEXT
 const RecipeContext = createContext()
-
 export const RecipeProvider = ({children}) =>{
     
     //@TODO STORE API KEY ELSEWHWERE
     const navigate = useNavigate()
-
     // USER STATES
-    const [currentUser,setCurrentUser] = useState('')
+    
+    
     const [alert,setAlert] = useState('')
     const [userName,setUserName] = useState('')
     const [email,setEmail] = useState('')
@@ -70,10 +42,14 @@ export const RecipeProvider = ({children}) =>{
     const alertEl = document.querySelector('.alert')
 
     // USER STORAGE
+    const [currentUser,setCurrentUser] = useState('')
+    const [userFavorites,setUserFavorites] = useState('')
 
     // URL/RECIPE STATES
-    const randomOffset = Math.floor((Math.random() * 2000))
-    const [offset,setOffset] = useState(randomOffset)
+
+    // RANDOM NUM
+    const randomNum = ()=>{return Math.floor((Math.random() * 2000))}
+    const [offset,setOffset] = useState(randomNum())
     const [searchTerm,setSearchTerm] = useState('')
     const [recipeType,setRecipeType] = useState('')
     const [diet,setDiet] = useState('')
@@ -82,12 +58,39 @@ export const RecipeProvider = ({children}) =>{
     const [noOfResults,setNoOfResults] = useState(2)
     const [url,setUrl] = useState(`https://api.spoonacular.com/recipes/complexSearch?query=${searchTerm}&number=${noOfResults}&offset=${offset}&cuisine=${cuisine}&diet=${diet}&intolorances=${intolorances}&type=${recipeType}&apiKey=033797df84694890b040b816a119b147`)
 
+    // WRITE DATA
+    //@TODO useeffect when user data state is changed, call this to update database
+    const writeUserData = (userId,favorites)=>{
+        const db = getDatabase()
+        set(ref(db, 'users/' + userId), {
+            favorites: favorites
+        });
+    }
 
+    const handleWriteUserData = ()=>{
+        writeUserData(currentUser.uid,userFavorites)
+    }
+
+    const getUserData = (user)=>{
+            const db = getDatabase();
+            const favoritesRef = ref(db, 'users/' + user.uid);
+            onValue(favoritesRef, (snapshot) => {
+            const data = snapshot.val();
+            //snapshot.val returns data from database attatched to user.
+            //data.favorites = favorites array that was set from writeUserData()
+            setUserFavorites(data.favorites);
+        });
+    }
+
+    const handleGetUserData = ()=>{
+        getUserData(currentUser)
+    }
 
     //RECIPES
 
     //ON LOAD
     //@TODO fix exhaustive dependencies
+    //@TODO refactor these callbacks
     //on page load api call for recipes
     useEffect(()=>{
         handleGetRecipes()
@@ -105,6 +108,16 @@ export const RecipeProvider = ({children}) =>{
         handleGetRecipes()
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[url])
+
+    //retrieve users favorites
+    useEffect(()=>{
+        handleGetUserData()
+        console.log('getcurentuserdata')
+    },[currentUser])
+
+    // useEffect(()=>{
+    //     handleWriteUserData()
+    // },[userFavorites])
 
     //setUrl callback
     const handleSetUrl=()=>{
@@ -150,6 +163,7 @@ export const RecipeProvider = ({children}) =>{
                 setSignedIn(true)
                 navigate('/')
                 setCurrentUser(user)
+                getUserData(user.uid)
             })
             // Handle Additional Errors
             .catch((error) => {
@@ -277,6 +291,7 @@ export const RecipeProvider = ({children}) =>{
         url,
         offset,
         currentUser,
+        userFavorites,
         //setters
         setSearchTerm,
         setRecipeType,
@@ -289,8 +304,11 @@ export const RecipeProvider = ({children}) =>{
         setRecipes,
         setPassword,
         setEmail,
+        setUserFavorites,
         //callback functions
+        handleWriteUserData,
         handleSetUrl,
+        getUserData,
         getRecipes,
         handleDeleteUser,
         handleUpdate,
@@ -302,9 +320,6 @@ export const RecipeProvider = ({children}) =>{
         signUp,
         checkEmail,
         checkPw,
-        // data functions
-        writeUserData,
-        // getUserData,
         }}>
         {children}
     </RecipeContext.Provider>

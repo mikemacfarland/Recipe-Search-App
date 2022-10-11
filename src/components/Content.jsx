@@ -1,6 +1,6 @@
 import { useContext } from "react"
 import RecipeContext from "../context/RecipeContext"
-import {ReactComponent as Heart} from '../assets/icons/heart.svg'
+import ContentItem from "./ContentItem"
 
 function Content() {
     
@@ -8,14 +8,6 @@ function Content() {
         offset,
         setOffset,
     } = useContext(RecipeContext)
-
-    //unused for now
-    const handleOpenRecipe = async(id)=>{
-        //@TODO STORE API KEY ELSEWHERE
-        // const response = await fetch(`https://api.spoonacular.com/recipes/${id}/information?apiKey=033797df84694890b040b816a119b147`)
-        // const data = await response.json()
-        console.log('openrecipe')
-    }
 
     const handleOffset = (e)=>{
         const currentOffset = offset
@@ -25,26 +17,11 @@ function Content() {
         window.scrollTo(0,0)
     }
 
-    const handleLike =(id)=>{
-        //push id to user data
-        console.log(id)
-    }
-
     return(
         <div className="home__content">
         {recipes.map(recipe=>{
             return(
-                //@TODO add heart icon for favorite with logic to style
-                <div key={recipe.id} className="home__content__item">
-                    <div className='home__content__item__banner'>
-                        <h3>{recipe.title}</h3>
-                        <div onClick={(()=>handleLike(recipe.id))}className='like'>
-                            {/* //@TODO move this into a component, use state to handle DOM change */}
-                            <Heart className="heart"/>
-                        </div>
-                    </div>
-                    <img onClick={((e)=>handleOpenRecipe(recipe.id))} src={recipe.image} alt="" />
-                </div>
+                <ContentItem key={recipe.id} recipe={recipe}/>
             )
         })}
         <div className="home__content__navigator">

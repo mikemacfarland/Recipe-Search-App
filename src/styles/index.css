@@ -187,6 +187,9 @@
 .home__content__item__banner .like:hover {
   fill: red;
 }
+.home__content__item__banner .like .--liked {
+  fill: red;
+}
 .home__content__item img {
   user-select: none;
   cursor: pointer;

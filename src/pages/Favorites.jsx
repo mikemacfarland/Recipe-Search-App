@@ -3,19 +3,26 @@ import RecipeContext from "../context/RecipeContext"
 
 function Favorites() {
 
-  const {writeUserData,currentUser} = useContext(RecipeContext)
+  const {writeUserData,getUserData,currentUser} = useContext(RecipeContext)
 
-  const favorites = ['12453','241365']
+ 
+  const randomNumber=()=>{
+    return Math.floor(Math.random()*100000)
+  }
+ 
+  const favorites = []
+  for(let i = 0;i<4;i++){
+    favorites.push(randomNumber())
+  }
+  
+  
 
   const getFaves=()=>{
-    console.log('getfaves')
+    getUserData(currentUser)
   }
 
   const setFaves=()=>{
-    console.log(favorites)
-    writeUserData(currentUser.uid,favorites)
-    console.log('setfaves')
-    
+    console.log('set favorites')
   }
 
 
@@ -25,8 +32,6 @@ function Favorites() {
     //use home page filters and layout
     <div>Favorites
 
-      <button onClick={getFaves}>getfaves</button>
-      <button onClick={setFaves}>setfaves</button>
     </div>
   )
 }
