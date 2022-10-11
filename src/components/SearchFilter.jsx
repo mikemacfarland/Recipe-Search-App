@@ -14,11 +14,13 @@ function SearchFilter() {
         setCuisine,
         setIntolorances,
         setSearchTerm,
+        handleSetUrl
   } = useContext(RecipeContext)
   
   const handleSubmit = (e)=>{
     e.preventDefault()
     setOffset(0)
+    handleSetUrl()
   }
 
   const handleSetSearchTerm = ()=>{

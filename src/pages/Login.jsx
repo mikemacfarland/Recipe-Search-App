@@ -3,7 +3,6 @@ import RecipeContext from '../context/RecipeContext'
 import { Link,} from 'react-router-dom'
 
 function Login() {
-    //@TODO make button unclickable if credentials dont meet checks
   const {checkEmail,checkPw,login,showAlert,setAlert,setEmail,setPassword} = useContext(RecipeContext)
 
   const handleSignIn = (e)=>{

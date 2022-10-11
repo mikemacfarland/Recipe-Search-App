@@ -3,7 +3,6 @@ import RecipeContext from "../context/RecipeContext"
 import {auth} from '../firebase_config'
 
 function Account() {
-
     const [changeEmail,setChangeEmail] = useState(false)
     const [changeName,setChangeName] = useState(false)
     const [deleteUser,setDeleteUser] = useState(false)
@@ -14,19 +13,21 @@ function Account() {
         logOut,
         lostPassword,
         handleUpdate,
-        handleDeleteUser
+        handleDeleteUser,
     } = useContext(RecipeContext)
+
     
-    //@TODO can handle these actions without state
+
+    //@TODO can handle these actions without state?
     const handleSetChangeEmail = ()=>{
         setChangeName(false)
         !changeEmail ? setChangeEmail(true) : setChangeEmail(false)
     }
 
-    //@TODO can handle these actions without state
+    //@TODO can handle these actions without state?
     const handleSetChangeName = ()=>{
-            setChangeEmail(false)
-            !changeName ? setChangeName(true) : setChangeName(false)
+        setChangeEmail(false)
+        !changeName ? setChangeName(true) : setChangeName(false)
     }
 
     const handleEmailChange = ()=>{
@@ -45,6 +46,7 @@ function Account() {
     }
 
   return (
+    
         <div className="account">
             <h1>{auth.currentUser ? auth.currentUser.displayName : ''}</h1>
             <h4>email</h4>

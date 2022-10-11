@@ -154,7 +154,7 @@
 .home__content__item__banner {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
   align-items: flex-start;
   position: absolute;
   background: rgba(206, 201, 192, 0.9);

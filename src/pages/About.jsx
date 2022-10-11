@@ -11,7 +11,7 @@ function About() {
         <br/>This SPA currently uses the &nbsp;
         <strong>
           <a target='blank'href="https://spoonacular.com/food-api">Spoontacular API</a>
-        </strong> to generate content.
+        </strong> to generate content and firebase to host, authenticate, and store users and user data.
       </p>
     <ul className='about__list'>Future updates will include:
       <li>domain name change - will use thesaucecooking.com</li>

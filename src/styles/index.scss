@@ -175,7 +175,7 @@ $secondary-bsa:.7;
             box-shadow: inset 0 1px 4px rgba($color: #000000, $alpha: .3);
 
             &__banner{
-                @include flex(row,space-between,flex-start);
+                @include flex(row,center,flex-start);
                 position: absolute;
                 background: rgba($secondary-color, $alpha: .9);
                 top: 0;

@@ -71,6 +71,10 @@ export const RecipeProvider = ({children}) =>{
         writeUserData(currentUser.uid,userFavorites)
     }
 
+    useEffect(()=>{
+        handleWriteUserData()
+    },[userFavorites])
+
     const getUserData = (user)=>{
             const db = getDatabase();
             const favoritesRef = ref(db, 'users/' + user.uid);
@@ -78,7 +82,7 @@ export const RecipeProvider = ({children}) =>{
             const data = snapshot.val();
             //snapshot.val returns data from database attatched to user.
             //data.favorites = favorites array that was set from writeUserData()
-            setUserFavorites(data.favorites);
+            data.favorites ? setUserFavorites(data.favorites) : setUserFavorites('');
         });
     }
 
@@ -112,12 +116,7 @@ export const RecipeProvider = ({children}) =>{
     //retrieve users favorites
     useEffect(()=>{
         handleGetUserData()
-        console.log('getcurentuserdata')
     },[currentUser])
-
-    // useEffect(()=>{
-    //     handleWriteUserData()
-    // },[userFavorites])
 
     //setUrl callback
     const handleSetUrl=()=>{

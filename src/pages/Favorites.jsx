@@ -3,20 +3,9 @@ import RecipeContext from "../context/RecipeContext"
 
 function Favorites() {
 
-  const {writeUserData,getUserData,currentUser} = useContext(RecipeContext)
+  const {writeUserData,getUserData,currentUser,userFavorites} = useContext(RecipeContext)
 
  
-  const randomNumber=()=>{
-    return Math.floor(Math.random()*100000)
-  }
- 
-  const favorites = []
-  for(let i = 0;i<4;i++){
-    favorites.push(randomNumber())
-  }
-  
-  
-
   const getFaves=()=>{
     getUserData(currentUser)
   }
@@ -31,7 +20,13 @@ function Favorites() {
     //add collection organization
     //use home page filters and layout
     <div>Favorites
-
+      <h4>favorites by id</h4>
+      <ul>
+        {userFavorites? userFavorites.map(fave=>{
+          return(<p key={fave}>{fave}</p>)
+          }) : <p>no favorites</p>
+        }
+      </ul>
     </div>
   )
 }
