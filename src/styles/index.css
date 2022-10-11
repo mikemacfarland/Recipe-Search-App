@@ -139,31 +139,78 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  align-items: center;
+  align-items: left;
+  position: relative;
   user-select: none;
   width: 100%;
   max-width: 300px;
   margin: 0.5rem 0.5rem;
-  height: 300px;
+  height: fit-content;
   background-color: #CEC9C0;
   border-radius: 0.25rem;
   border: #F4F3EE 1px solid;
   box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.3);
 }
-.home__content__item h3 {
-  text-align: center;
+.home__content__item__banner {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  position: absolute;
+  background: rgba(206, 201, 192, 0.9);
+  top: 0;
+  width: 100%;
   user-select: none;
   letter-spacing: 0.03rem;
-  margin: 1.5rem auto auto auto;
   font-size: 1rem;
+  transition: 0.5s ease all;
+  overflow: visible;
+}
+.home__content__item__banner h3 {
+  text-align: center;
+  padding: 0.5rem;
+  font-size: 1.1rem;
   width: 90%;
+  height: 50px;
+  overflow-y: hidden;
+}
+.home__content__item__banner .like {
+  cursor: pointer;
+  width: 10%;
+  padding: 0.5rem 1rem 0 0;
+  transition: 0.3s ease all;
+}
+.home__content__item__banner .like .heart {
+  width: 100%;
+  height: 100%;
+}
+.home__content__item__banner .like:hover {
+  fill: red;
+}
+.home__content__item__banner .like .--liked {
+  animation: bounce;
+  animation-duration: 0.5s;
+}
+@keyframes bounce {
+  0% {
+    scale: 1;
+  }
+  50% {
+    scale: 1.1;
+  }
+  75% {
+    scale: 0.75;
+  }
+  100% {
+    scale: 1;
+  }
 }
 .home__content__item img {
   user-select: none;
   cursor: pointer;
-  width: 90%;
+  width: 100%;
+  height: 100%;
   border-radius: 0.25rem;
-  margin: 0.5rem auto 5% auto;
 }
 .home__content__navigator {
   display: flex;

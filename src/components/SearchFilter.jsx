@@ -14,7 +14,6 @@ function SearchFilter() {
         setCuisine,
         setIntolorances,
         setSearchTerm,
-        handleSetUrl,
   } = useContext(RecipeContext)
   
   const handleSubmit = (e)=>{
