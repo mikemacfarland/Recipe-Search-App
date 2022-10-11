@@ -187,24 +187,6 @@
 .home__content__item__banner .like:hover {
   fill: red;
 }
-.home__content__item__banner .like .--liked {
-  animation: bounce;
-  animation-duration: 0.5s;
-}
-@keyframes bounce {
-  0% {
-    scale: 1;
-  }
-  50% {
-    scale: 1.1;
-  }
-  75% {
-    scale: 0.75;
-  }
-  100% {
-    scale: 1;
-  }
-}
 .home__content__item img {
   user-select: none;
   cursor: pointer;

@@ -1,5 +1,7 @@
 import { createContext,useState,useEffect,useLayoutEffect} from "react";
 import { useNavigate } from "react-router-dom";
+
+// FIREBASE AUTH
 import {
     getAuth,createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
@@ -9,10 +11,45 @@ import {
     deleteUser,
     onAuthStateChanged
 } from 'firebase/auth'
+import {auth} from '../firebase_config'
 
-    // import auth from firebase config file where auth is defined and
-    // exported
-    import {auth} from '../firebase_config'
+// FIREBASE DATABASE
+
+import { 
+    getDatabase,
+    ref,
+    set,
+    onValue
+} from "firebase/database";
+
+import {database} from '../firebase_config'
+
+// WRITE DATA
+const writeUserData = (userId,favorites)=>{
+    const db = getDatabase()
+    set(ref(db, 'users/' + userId), {
+        favorites: favorites
+      });
+    }
+
+// const getUserData = (userId)
+//     const db = getDatabase();
+//     const favoritesRef = ref(db, 'users/' + userId);
+//     onValue(favorites, (snapshot) => {
+//     const data = snapshot.val();
+//     // updateStarCount(postElement, data);
+//     // from stock functions
+//     console.log(favoritesRef)
+// });
+
+
+
+
+
+
+
+
+
 
 const RecipeContext = createContext()
 
@@ -22,6 +59,7 @@ export const RecipeProvider = ({children}) =>{
     const navigate = useNavigate()
 
     // USER STATES
+    const [currentUser,setCurrentUser] = useState('')
     const [alert,setAlert] = useState('')
     const [userName,setUserName] = useState('')
     const [email,setEmail] = useState('')
@@ -31,9 +69,10 @@ export const RecipeProvider = ({children}) =>{
     const auth = getAuth()
     const alertEl = document.querySelector('.alert')
 
+    // USER STORAGE
+
     // URL/RECIPE STATES
     const randomOffset = Math.floor((Math.random() * 2000))
-    
     const [offset,setOffset] = useState(randomOffset)
     const [searchTerm,setSearchTerm] = useState('')
     const [recipeType,setRecipeType] = useState('')
@@ -42,6 +81,8 @@ export const RecipeProvider = ({children}) =>{
     const [intolorances,setIntolorances] = useState('')
     const [noOfResults,setNoOfResults] = useState(2)
     const [url,setUrl] = useState(`https://api.spoonacular.com/recipes/complexSearch?query=${searchTerm}&number=${noOfResults}&offset=${offset}&cuisine=${cuisine}&diet=${diet}&intolorances=${intolorances}&type=${recipeType}&apiKey=033797df84694890b040b816a119b147`)
+
+
 
     //RECIPES
 
@@ -90,6 +131,7 @@ export const RecipeProvider = ({children}) =>{
             const user = userCredential.user;
             login(auth,email,password)
             handleUpdate(userName)
+            setCurrentUser(user)
           })
           // Handle Additional errors
           .catch((error) => {
@@ -107,6 +149,7 @@ export const RecipeProvider = ({children}) =>{
                 const user = userCredential.user;
                 setSignedIn(true)
                 navigate('/')
+                setCurrentUser(user)
             })
             // Handle Additional Errors
             .catch((error) => {
@@ -140,6 +183,7 @@ export const RecipeProvider = ({children}) =>{
             // User is signed in, see docs for a list of available properties
             // https://firebase.google.com/docs/reference/js/firebase.User
             // const uid = user.uid;
+            setCurrentUser(user)
             setSignedIn(true)
             // ...
         } else {
@@ -168,6 +212,7 @@ export const RecipeProvider = ({children}) =>{
     const logOut = ()=>{
         signOut(auth).then(() => {
             setSignedIn(false)
+            setCurrentUser('')
         }).catch((error) => {
         });
     }
@@ -222,6 +267,7 @@ export const RecipeProvider = ({children}) =>{
         }
     }
 
+
     //@TODO refactor, if one of these functions and setters is only used in one component
     return <RecipeContext.Provider value={{
         recipes,
@@ -230,6 +276,7 @@ export const RecipeProvider = ({children}) =>{
         userName,
         url,
         offset,
+        currentUser,
         //setters
         setSearchTerm,
         setRecipeType,
@@ -237,24 +284,27 @@ export const RecipeProvider = ({children}) =>{
         setCuisine,
         setIntolorances,
         setOffset,
-        setUrl,
         setUserName,
         setAlert,
         setRecipes,
         setPassword,
         setEmail,
-        //functions
+        //callback functions
         handleSetUrl,
+        getRecipes,
         handleDeleteUser,
         handleUpdate,
-        showAlert,
-        signUp,
         login,
         logOut,
         lostPassword,
+        //helper functions
+        showAlert,
+        signUp,
         checkEmail,
         checkPw,
-        getRecipes
+        // data functions
+        writeUserData,
+        // getUserData,
         }}>
         {children}
     </RecipeContext.Provider>

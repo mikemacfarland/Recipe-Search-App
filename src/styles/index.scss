@@ -211,17 +211,7 @@ $secondary-bsa:.7;
                         fill: red;
                     }
 
-                    & .--liked{
-                        animation: bounce;
-                        animation-duration: .5s;
-                        @keyframes bounce{
-                            0% {scale:1.0;}
-                            50%{scale:1.1;}
-                            75%{scale:.75;}
-                            100%{scale:1.0;}
-                        }
-                        
-                    }
+                    
 
                 }
             
