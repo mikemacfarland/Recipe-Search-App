@@ -8,31 +8,39 @@ function ContentItem({recipe}) {
     const {
         userFavorites,
         setUserFavorites,
-        handleWriteUserData,
-        signedIn
+        signedIn,
     } = useContext(RecipeContext)
 
     const [liked,setLiked] = useState(false)
 
     const handleLike =()=>{
+        const ids = userFavorites ? userFavorites.map(recipe=>{return recipe.id}) : []
         const favorites = userFavorites ? userFavorites.filter(item=>item.id !== recipe.id) : []
-        if(userFavorites && userFavorites.includes(recipe)){
+        if(userFavorites && ids.includes(recipe.id)){
             const favorites = userFavorites.filter(item=>item.id !== recipe.id)
             setUserFavorites(favorites)
+            console.log('unliked')
             setLiked(false)
         }
-        else{
+        else if(userFavorites && !userFavorites.includes(recipe)){
+            console.log('liked')
             favorites.push(recipe)
             setUserFavorites(favorites)
             setLiked(true)
         }
+        
+    }
+
+    const checkLiked =()=>{
+        const ids = userFavorites ? userFavorites.map(recipe=>{return recipe.id}) : []
+        ids.includes(recipe.id) ? setLiked(true) : setLiked(false)
     }
 
     useEffect(()=>{
-        userFavorites.includes(recipe) ? setLiked(true) : setLiked(false)
+        checkLiked()
     },[])
 
-    const handleOpenRecipe = async(id)=>{
+    const handleOpenRecipe = async(recipe)=>{
         //@TODO STORE API KEY ELSEWHERE
         // const response = await fetch(`https://api.spoonacular.com/recipes/${id}/information?apiKey=033797df84694890b040b816a119b147`)
         // const data = await response.json()

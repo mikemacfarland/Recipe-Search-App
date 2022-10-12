@@ -49,7 +49,7 @@ export const RecipeProvider = ({children}) =>{
 
     // RANDOM NUM
     const randomNum = ()=>{return Math.floor((Math.random() * 2000))}
-    const [offset,setOffset] = useState(randomNum())
+    const [offset,setOffset] = useState(0)
     const [searchTerm,setSearchTerm] = useState('')
     const [recipeType,setRecipeType] = useState('')
     const [diet,setDiet] = useState('')
@@ -67,14 +67,6 @@ export const RecipeProvider = ({children}) =>{
         });
     }
 
-    const handleWriteUserData = ()=>{
-        writeUserData(currentUser.uid,userFavorites)
-    }
-
-    // useEffect(()=>{
-    //     handleWriteUserData()
-    // },[userFavorites])
-
     const getUserData = (user)=>{
             const db = getDatabase();
             const favoritesRef = ref(db, 'users/' + user.uid);
@@ -86,22 +78,34 @@ export const RecipeProvider = ({children}) =>{
         });
     }
 
-    const handleGetUserData = ()=>{
-        getUserData(currentUser)
+    const handleWriteUserData = ()=>{
+            writeUserData(currentUser.uid,userFavorites)
     }
+
+    const handleGetUserData = ()=>{
+            getUserData(currentUser)
+    }
+
+    // getuserData on currentuser change
+    useEffect(()=>{
+        signedIn && currentUser ? handleGetUserData() : console.log('no current user, no one signed in2')
+    },[currentUser])
+
+    // writeuserdata on userfavorites change if user is signed in
+    useEffect(()=>{
+        signedIn && currentUser ? handleWriteUserData() : console.log('no current user, no one signed in1')
+    },[userFavorites])
 
     //RECIPES
 
     //ON LOAD
     //@TODO fix exhaustive dependencies
-    //@TODO refactor these callbacks
-    //on page load api call for recipes
+    //@TODO refactor callbacks
     useEffect(()=>{
         handleGetRecipes()
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
      
-    //find a 
     //this is for search and offset
     useEffect(()=>{
         handleSetUrl()
@@ -113,11 +117,6 @@ export const RecipeProvider = ({children}) =>{
         handleGetRecipes()
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[url])
-
-    //retrieve users favorites
-    useEffect(()=>{
-        handleGetUserData()
-    },[currentUser])
 
     //setUrl callback
     const handleSetUrl=()=>{
@@ -225,6 +224,7 @@ export const RecipeProvider = ({children}) =>{
         signOut(auth).then(() => {
             setSignedIn(false)
             setCurrentUser('')
+            setUserFavorites('')
         }).catch((error) => {
         });
     }

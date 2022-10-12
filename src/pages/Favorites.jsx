@@ -6,8 +6,6 @@ function Favorites() {
 
   const {writeUserData,getUserData,currentUser,userFavorites} = useContext(RecipeContext)
 
-  console.log(userFavorites.length)
-
   return (
     <div>
         {userFavorites.length === 0 ? 
@@ -17,7 +15,9 @@ function Favorites() {
           </div> :
           <div className='home__content'>
           {userFavorites.map(recipe=>{
-          return(<ContentItem key={recipe.id} recipe={recipe}/>)
+            return(
+              <ContentItem key={recipe.id} recipe={recipe}/>
+            )
           })}
           </div>
         }
