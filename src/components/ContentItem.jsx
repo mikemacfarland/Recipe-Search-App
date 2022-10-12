@@ -1,14 +1,17 @@
 import { useEffect } from "react"
 import { useContext,useState} from "react"
+import { useNavigate } from "react-router-dom"
 import { ReactComponent as Heart} from '../assets/icons/heart.svg'
 import RecipeContext from "../context/RecipeContext"
 
 function ContentItem({recipe}) {
 
+    const navigate = useNavigate()
     const {
         userFavorites,
         setUserFavorites,
         signedIn,
+        setCurrentRecipe
     } = useContext(RecipeContext)
 
     const [liked,setLiked] = useState(false)
@@ -42,9 +45,11 @@ function ContentItem({recipe}) {
 
     const handleOpenRecipe = async(recipe)=>{
         //@TODO STORE API KEY ELSEWHERE
-        // const response = await fetch(`https://api.spoonacular.com/recipes/${id}/information?apiKey=033797df84694890b040b816a119b147`)
-        // const data = await response.json()
-        console.log('openrecipe')
+        const response = await fetch(`https://api.spoonacular.com/recipes/${recipe}/information?apiKey=033797df84694890b040b816a119b147`)
+        const data = await response.json()
+        setCurrentRecipe(data)
+        console.log(data)
+        navigate('/recipe')
     }
 
   return (

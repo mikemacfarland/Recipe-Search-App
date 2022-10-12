@@ -8,13 +8,14 @@ function Content() {
         recipes,
         offset,
         setOffset,
-        handleSetUrl
+        handleSetUrl,
+        noOfResults,
     } = useContext(RecipeContext)
 
     const handleOffset = (e)=>{
         const currentOffset = offset
-        e.target.innerText === 'Previous' && currentOffset >= 16 ? setOffset(currentOffset - 16) :
-        e.target.innerText === 'Next' ? setOffset(currentOffset + 16) : 
+        e.target.innerText === 'Previous' && currentOffset >= noOfResults ? setOffset(currentOffset - noOfResults) :
+        e.target.innerText === 'Next' ? setOffset(currentOffset + noOfResults) : 
         offset === 0 ? setOffset(0) : setOffset(0)
         // window.scrollTo(0,0)
     }

@@ -49,13 +49,14 @@ export const RecipeProvider = ({children}) =>{
 
     // RANDOM NUM
     const randomNum = ()=>{return Math.floor((Math.random() * 2000))}
-    const [offset,setOffset] = useState(0)
+    const [offset,setOffset] = useState(randomNum)
     const [searchTerm,setSearchTerm] = useState('')
     const [recipeType,setRecipeType] = useState('')
     const [diet,setDiet] = useState('')
     const [cuisine,setCuisine] = useState('')
     const [intolorances,setIntolorances] = useState('')
     const [noOfResults,setNoOfResults] = useState(4)
+    const [currentRecipe,setCurrentRecipe] = useState('')
     const [url,setUrl] = useState(`https://api.spoonacular.com/recipes/complexSearch?query=${searchTerm}&number=${noOfResults}&offset=${offset}&cuisine=${cuisine}&diet=${diet}&intolorances=${intolorances}&type=${recipeType}&apiKey=033797df84694890b040b816a119b147`)
 
     // WRITE DATA
@@ -88,12 +89,14 @@ export const RecipeProvider = ({children}) =>{
 
     // getuserData on currentuser change
     useEffect(()=>{
-        signedIn && currentUser ? handleGetUserData() : console.log('no current user, no one signed in2')
+        //could use void() here
+        signedIn && currentUser && handleGetUserData()
     },[currentUser])
 
     // writeuserdata on userfavorites change if user is signed in
     useEffect(()=>{
-        signedIn && currentUser ? handleWriteUserData() : console.log('no current user, no one signed in1')
+        //could use void() here
+        signedIn && currentUser && handleWriteUserData()  
     },[userFavorites])
 
     //RECIPES
@@ -288,9 +291,12 @@ export const RecipeProvider = ({children}) =>{
         userName,
         url,
         offset,
+        noOfResults,
         currentUser,
         userFavorites,
+        currentRecipe,
         //setters
+        setCurrentRecipe,
         setSearchTerm,
         setRecipeType,
         setDiet,
