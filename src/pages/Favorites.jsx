@@ -1,32 +1,27 @@
 import { useContext } from "react"
 import RecipeContext from "../context/RecipeContext"
+import ContentItem from '../components/ContentItem'
 
 function Favorites() {
 
   const {writeUserData,getUserData,currentUser,userFavorites} = useContext(RecipeContext)
 
- 
-  const getFaves=()=>{
-    getUserData(currentUser)
-  }
-
-  const setFaves=()=>{
-    console.log('set favorites')
-  }
-
-
+  console.log(userFavorites.length)
 
   return (
-    //add collection organization
-    //use home page filters and layout
-    <div>Favorites
-      <h4>favorites by id</h4>
-      <ul>
-        {userFavorites? userFavorites.map(fave=>{
-          return(<p key={fave}>{fave}</p>)
-          }) : <p>no favorites</p>
+    <div>
+        {userFavorites.length === 0 ? 
+          <div className="home__content">
+              <h3>No favorites here, like recipes to show them here</h3>
+              {/* @TODO put clever image here */}
+          </div> :
+          <div className='home__content'>
+          {userFavorites.map(recipe=>{
+          return(<ContentItem key={recipe.id} recipe={recipe}/>)
+          })}
+          </div>
         }
-      </ul>
+      
     </div>
   )
 }

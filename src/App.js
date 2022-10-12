@@ -1,6 +1,7 @@
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Favorites from "./pages/Favorites";
+import Recipe from "./pages/Recipe";
 import Account from "./pages/Account";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
@@ -24,6 +25,7 @@ function App() {
               <Route exact path='/about' element={<About/>}/>
               <Route exact path='/account' element={<Account/>} />
               <Route exact path='/favorites' element={<Favorites/>} />
+              <Route exact path='/recipe' element={<Recipe/>}/>
               <Route exact path='/signup' element={<Signup/>}/>
               <Route exact path='/login' element={<Login/>}/>
               <Route exact path='/forgotPassword' element={<ForgotPassword/>}/>

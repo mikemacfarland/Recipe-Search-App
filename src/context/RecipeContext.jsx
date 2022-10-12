@@ -55,7 +55,7 @@ export const RecipeProvider = ({children}) =>{
     const [diet,setDiet] = useState('')
     const [cuisine,setCuisine] = useState('')
     const [intolorances,setIntolorances] = useState('')
-    const [noOfResults,setNoOfResults] = useState(2)
+    const [noOfResults,setNoOfResults] = useState(4)
     const [url,setUrl] = useState(`https://api.spoonacular.com/recipes/complexSearch?query=${searchTerm}&number=${noOfResults}&offset=${offset}&cuisine=${cuisine}&diet=${diet}&intolorances=${intolorances}&type=${recipeType}&apiKey=033797df84694890b040b816a119b147`)
 
     // WRITE DATA
@@ -71,9 +71,9 @@ export const RecipeProvider = ({children}) =>{
         writeUserData(currentUser.uid,userFavorites)
     }
 
-    useEffect(()=>{
-        handleWriteUserData()
-    },[userFavorites])
+    // useEffect(()=>{
+    //     handleWriteUserData()
+    // },[userFavorites])
 
     const getUserData = (user)=>{
             const db = getDatabase();
@@ -101,6 +101,7 @@ export const RecipeProvider = ({children}) =>{
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
      
+    //find a 
     //this is for search and offset
     useEffect(()=>{
         handleSetUrl()
@@ -133,8 +134,6 @@ export const RecipeProvider = ({children}) =>{
         const data = await response.json()
         setRecipes(data.results)
     }
-
-
 
     //SIGNUP & LOGIN
     const signUp = ()=>{

@@ -4,9 +4,11 @@ import ContentItem from "./ContentItem"
 
 function Content() {
     
-    const {recipes,
+    const {
+        recipes,
         offset,
         setOffset,
+        handleSetUrl
     } = useContext(RecipeContext)
 
     const handleOffset = (e)=>{
@@ -14,25 +16,31 @@ function Content() {
         e.target.innerText === 'Previous' && currentOffset >= 16 ? setOffset(currentOffset - 16) :
         e.target.innerText === 'Next' ? setOffset(currentOffset + 16) : 
         offset === 0 ? setOffset(0) : setOffset(0)
-        window.scrollTo(0,0)
+        // window.scrollTo(0,0)
     }
-
+    
     return(
+        recipes.length === 0 ? 
+            <div className="home__content">
+                <h3>No recipes here, check your filter or search term</h3>
+                {/* @TODO put clever image here */}
+            </div>
+        :
         <div className="home__content">
-        {recipes.map(recipe=>{
-            return(
-                <ContentItem key={recipe.id} recipe={recipe}/>
-            )
-        })}
-        <div className="home__content__navigator">
-            <div className="page__prev">
-                <p onClick={((e)=>handleOffset(e))}>Previous</p>
+            {recipes.map(recipe=>{
+                return(
+                    <ContentItem key={recipe.id} recipe={recipe}/>
+                )
+            })}
+            <div className="home__content__navigator">
+                <div className="page__prev">
+                    <p onClick={((e)=>handleOffset(e))}>Previous</p>
+                </div>
+                <div className="page__next">
+                    <p onClick={((e)=>handleOffset(e))}>Next</p>
+                </div>
             </div>
-            <div className="page__next">
-                <p onClick={((e)=>handleOffset(e))}>Next</p>
-            </div>
-        </div>
-        </div>
+        </div>  
     )
 }
 

@@ -14,22 +14,22 @@ function ContentItem({recipe}) {
 
     const [liked,setLiked] = useState(false)
 
-    const handleLike =(id)=>{
-        const favorites = userFavorites ? userFavorites.filter(item=>item !== id) : []
-        if(userFavorites && userFavorites.includes(id)){
-            const favorites = userFavorites.filter(item=>item !== id)
+    const handleLike =()=>{
+        const favorites = userFavorites ? userFavorites.filter(item=>item.id !== recipe.id) : []
+        if(userFavorites && userFavorites.includes(recipe)){
+            const favorites = userFavorites.filter(item=>item.id !== recipe.id)
             setUserFavorites(favorites)
             setLiked(false)
         }
         else{
-            favorites.push(id)
+            favorites.push(recipe)
             setUserFavorites(favorites)
             setLiked(true)
         }
     }
 
     useEffect(()=>{
-        userFavorites.includes(recipe.id) ? setLiked(true) : setLiked(false)
+        userFavorites.includes(recipe) ? setLiked(true) : setLiked(false)
     },[])
 
     const handleOpenRecipe = async(id)=>{
@@ -44,7 +44,7 @@ function ContentItem({recipe}) {
         <div className='home__content__item__banner'>
             <h3>{recipe.title}</h3>
             {signedIn ? 
-            <div onClick={(()=>handleLike(recipe.id))}className='like'>
+            <div onClick={(()=>handleLike(recipe))}className='like'>
                  <Heart className={`'heart' ${liked ? '--liked' : ''}`}/>
             </div>
             :''}
