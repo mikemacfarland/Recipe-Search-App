@@ -211,6 +211,48 @@
   cursor: pointer;
 }
 
+.recipe {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2.5rem;
+}
+.recipe__banner {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.recipe__banner img {
+  width: 300px;
+  border-radius: 0.25rem;
+  margin: 1.5rem auto;
+}
+.recipe__info {
+  margin: 0.75rem auto;
+  width: 80%;
+}
+.recipe__info ul, .recipe__info ol {
+  list-style-type: none;
+  padding-left: 2rem;
+}
+.recipe__info ul li, .recipe__info ol li {
+  cursor: pointer;
+}
+.recipe__info.ingredients ul {
+  list-style-type: disc;
+}
+.recipe__info.ingredients ul li:hover {
+  text-decoration: line-through;
+}
+.recipe__info.instructions ol {
+  list-style-type: decimal;
+}
+.recipe__info.instructions ol li:hover {
+  text-decoration: line-through;
+}
+
 .account {
   display: flex;
   flex-direction: column;

@@ -55,7 +55,7 @@ export const RecipeProvider = ({children}) =>{
     const [diet,setDiet] = useState('')
     const [cuisine,setCuisine] = useState('')
     const [intolorances,setIntolorances] = useState('')
-    const [noOfResults,setNoOfResults] = useState(4)
+    const [noOfResults,setNoOfResults] = useState(8)
     const [currentRecipe,setCurrentRecipe] = useState('')
     const [url,setUrl] = useState(`https://api.spoonacular.com/recipes/complexSearch?query=${searchTerm}&number=${noOfResults}&offset=${offset}&cuisine=${cuisine}&diet=${diet}&intolorances=${intolorances}&type=${recipeType}&apiKey=033797df84694890b040b816a119b147`)
 

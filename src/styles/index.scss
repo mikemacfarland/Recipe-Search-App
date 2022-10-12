@@ -247,6 +247,68 @@ $secondary-bsa:.7;
     }
 }
 
+.recipe{
+    @include flex(column,center,center);
+    margin-top: 2.5rem;
+
+    &__banner{
+        @include flex(column,center,center);
+
+        // & h1{
+            
+        // }
+
+        & img{
+            width: 300px;
+            border-radius: .25rem;
+            margin: 1.5rem auto;
+        }
+        
+    }
+
+    &__info{
+        margin: .75rem auto;
+        width: 80%;
+        & ul,ol{
+            list-style-type: none;
+            padding-left: 2rem;
+            
+            & li{
+                cursor: pointer;
+                
+            }
+        }
+        
+
+        &.ingredients{
+            & ul{
+                list-style-type: disc;
+                & li{
+                    &:hover{
+                        text-decoration:line-through;
+                    }
+                }
+            }
+        }
+        
+        &.instructions{
+            & ol{
+                list-style-type: decimal;
+                & li{
+                    &:hover{
+                        text-decoration:line-through;
+                    }
+                }
+
+            }
+        }
+
+    }
+
+
+
+}
+
 .account{
     @include flex(column,center,flex-start);
     margin-top: 1.5rem;
