@@ -18,7 +18,6 @@ function Account() {
     } = useContext(RecipeContext)
 
     
-
     //@TODO can handle these actions without state?
     // const handleSetChangeEmail = ()=>{
     //     setChangeName(false)

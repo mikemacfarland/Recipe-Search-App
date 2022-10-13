@@ -8,7 +8,6 @@ function Content() {
         recipes,
         offset,
         setOffset,
-        handleSetUrl,
         noOfResults,
     } = useContext(RecipeContext)
 

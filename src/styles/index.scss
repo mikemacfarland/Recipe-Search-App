@@ -291,6 +291,7 @@ $secondary-bsa:.7;
         &.instructions{
             & ol{
                 cursor: pointer;
+                user-select: none;
                 list-style-type: decimal;
                 & li{
                     &:hover{

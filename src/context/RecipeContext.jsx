@@ -52,7 +52,7 @@ export const RecipeProvider = ({children}) =>{
     // URL/RECIPE STATES
 
     // RANDOM NUM
-    const randomNum = ()=>{return Math.floor((Math.random() * 2000))}
+    const randomNum = ()=>{return Math.floor((Math.random() * 900))}
     const [offset,setOffset] = useState(randomNum)
     const [searchTerm,setSearchTerm] = useState('')
     const [recipeType,setRecipeType] = useState('')
@@ -108,18 +108,21 @@ export const RecipeProvider = ({children}) =>{
     //ON LOAD
     useEffect(()=>{
         handleGetRecipes()
+        console.log('getrecipes on load')
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
      
     //this is for search and offset
     useEffect(()=>{
         handleSetUrl()
+        console.log('set url from offset')
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[offset])
 
     //recipes api call on url update (search and offset update)
     useEffect(()=>{
         handleGetRecipes()
+        console.log('getrecipes on url change')
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[url])
 
@@ -130,12 +133,14 @@ export const RecipeProvider = ({children}) =>{
     
     // getRecipes callback
     const handleGetRecipes = ()=>{
+        console.log('fetch from ',url)
         getRecipes(url)
     }
 
     async function getRecipes(url){
         const response = await fetch(url)
         const data = await response.json()
+        console.log(data.results)
         setRecipes(data.results)
     }
 

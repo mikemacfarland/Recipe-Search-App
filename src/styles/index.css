@@ -246,6 +246,7 @@
 }
 .recipe__info.instructions ol {
   cursor: pointer;
+  user-select: none;
   list-style-type: decimal;
 }
 .recipe__info.instructions ol li:hover {

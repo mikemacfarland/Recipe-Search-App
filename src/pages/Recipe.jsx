@@ -50,16 +50,18 @@ function Recipe() {
         </ul>
       </div>
 
+       
       <div className="recipe__info instructions">
-        <h4>cooking instructions</h4>
+        {currentRecipe.analyzedInstructions[0].steps.length > 0 ? <h4>cooking instructions</h4> : <h4>No cooking Instructions Avaliable</h4>}
         <ol>
           {currentRecipe.analyzedInstructions[0].steps.map(step=>{
             return(
               <li key={step.step} onClick={crossOut} >{step.step}</li>
             )
           })}
-        </ol>
-      </div>
+        </ol> 
+      </div> 
+      
     </div>
   )
 }
