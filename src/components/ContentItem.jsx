@@ -20,7 +20,7 @@ function ContentItem({recipe}) {
         const ids = userFavorites ? userFavorites.map(recipe=>{return recipe.id}) : []
         const favorites = userFavorites ? userFavorites.filter(item=>item.id !== recipe.id) : []
         if(userFavorites && ids.includes(recipe.id)){
-            const favorites = userFavorites.filter(item=>item.id !== recipe.id)
+            const favorites = userFavorites ? userFavorites.filter(item=>item.id !== recipe.id) : []
             setUserFavorites(favorites)
             console.log('unliked')
             setLiked(false)

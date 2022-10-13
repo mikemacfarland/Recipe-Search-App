@@ -3,10 +3,9 @@ import RecipeContext from "../context/RecipeContext"
 import {auth} from '../firebase_config'
 
 function Account() {
-    const [changeEmail,setChangeEmail] = useState(false)
+    // const [changeEmail,setChangeEmail] = useState(false)
     const [changeName,setChangeName] = useState(false)
     const [deleteUser,setDeleteUser] = useState(false)
-
     //@TODO component is getting manually refreshed by window.
     // add state or mofidy existing state 
     const {
@@ -14,44 +13,67 @@ function Account() {
         lostPassword,
         handleUpdate,
         handleDeleteUser,
+        setEmail,
+        setPassword,
+        setAlert,
+        showAlert
     } = useContext(RecipeContext)
 
     
 
     //@TODO can handle these actions without state?
-    const handleSetChangeEmail = ()=>{
-        setChangeName(false)
-        !changeEmail ? setChangeEmail(true) : setChangeEmail(false)
-    }
+    // const handleSetChangeEmail = ()=>{
+    //     setChangeName(false)
+    //     !changeEmail ? setChangeEmail(true) : setChangeEmail(false)
+    // }
 
     //@TODO can handle these actions without state?
     const handleSetChangeName = ()=>{
-        setChangeEmail(false)
+        // setChangeEmail(false)
         !changeName ? setChangeName(true) : setChangeName(false)
+        
     }
 
-    const handleEmailChange = ()=>{
-        const newEmail = document.querySelector('#changeEmail').value
-        (newEmail)
-    }
+    // const handleEmailChange = ()=>{
+    //     const newEmail = document.querySelector('#changeEmail').value
+    //     (newEmail)
+    // }
 
     const handleNameChange = ()=>{
         const newName = document.querySelector('#changeName').value
         handleUpdate(newName)
         window.location.reload(false)
+        setAlert('Name Changed')
     }
 
     const handleLogout=()=>{
         logOut()
+        setAlert('User Logged Out')
+        showAlert('message')
+    }
+
+    //@TODO these are repeated in login page, make them global?
+    const handleSetEmail =(e)=>{
+        setEmail(e.target.value)
+      }
+    
+    const handleSetPassword = (e)=>{
+        setPassword(e.target.value)
+      }
+
+    const handleHandleDeleteUser=(e)=>{
+        e.preventDefault()
+        handleDeleteUser(auth.currentUser)
     }
 
   return (
     
         <div className="account">
             <h1>{auth.currentUser ? auth.currentUser.displayName : ''}</h1>
-            <h4>email</h4>
+            
 
-            <div>
+            <div className="account__item">
+                <h4>email</h4>
                 <p>{auth.currentUser? auth.currentUser.email : ''}</p>
                 {/* <div className="account__link" onClick={handleSetChangeEmail} >Change Email</div>
                 {changeEmail ?  <div>
@@ -60,7 +82,7 @@ function Account() {
                                 </div> : '' */}
             </div>
 
-            <div>
+            <div className="account__item">
             <div className="account__link" onClick={handleSetChangeName} >Change Username</div>
                 {changeName ?   <div>
                                     <input id='changeName'></input>
@@ -70,26 +92,44 @@ function Account() {
             </div>
 
             <div className="account__link" onClick={lostPassword}>Request Change Password</div>
-            <div>
+            <div className="account__item">
                 <h4>Member since</h4> 
                 <p>{auth.currentUser? auth.currentUser.metadata.creationTime : ''}</p>
             </div>
 
-            <div>
+            <div className="account__item">
                 <h4>Last Login</h4>
                 <p>{auth.currentUser ? auth.currentUser.metadata.lastSignInTime : ''}</p>
             </div>
+
+            <div className="account__item">
                 <a onClick={handleLogout} href="/">Logout</a>
-            {/* <div className="danger">
-                <h4>danger zone</h4>
-                <div className="account__link" onClick={(()=>setDeleteUser(true))} >delete account</div>
-                {deleteUser ?   <div>
-                                    <p>Are you sure?</p>
-                                    <button onClick={handleDeleteUser}>Yes</button>
-                                    <button onClick={(()=>setDeleteUser(false))}>No</button>
-                                </div> : ''
+            </div>
+                
+            
+            <div className="danger">
+                <div className="danger__banner">
+                    <h4>Danger zone</h4>
+                    <div className="account__link" onClick={(()=>setDeleteUser(true))} >delete account</div>
+                </div>
+                {deleteUser ?   <form onSubmit={handleHandleDeleteUser} className="danger__confirmation">
+                                    <legend>Are you sure?</legend>
+                                    <fieldset className="danger__auth">
+                                        <label htmlFor="email">Email</label>
+                                        <input onBlur={handleSetEmail} type="text" />
+                                        <label htmlFor="password">Password</label>
+                                        <input onBlur={handleSetPassword}type="text" />
+                                    
+                                    <div className="danger__buttons">
+                                        {/* should button be a submit button? probs */}
+                                        <button>Yes</button>
+                                        <button onClick={(()=>setDeleteUser(false))}>No</button>
+                                    </div>
+                                    </fieldset>
+                                </form> : ''
                 }
-            </div> */}
+
+            </div>
 
         </div> 
   )

@@ -237,19 +237,21 @@
   list-style-type: none;
   padding-left: 2rem;
 }
-.recipe__info ul li, .recipe__info ol li {
-  cursor: pointer;
-}
 .recipe__info.ingredients ul {
   list-style-type: disc;
+  cursor: pointer;
 }
 .recipe__info.ingredients ul li:hover {
   text-decoration: line-through;
 }
 .recipe__info.instructions ol {
+  cursor: pointer;
   list-style-type: decimal;
 }
 .recipe__info.instructions ol li:hover {
+  text-decoration: line-through;
+}
+.recipe__info .--lineThrough {
   text-decoration: line-through;
 }
 
@@ -258,12 +260,55 @@
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
+  width: 90%;
   margin-top: 1.5rem;
+}
+.account__item {
+  margin-top: 1rem;
 }
 .account__link {
   user-select: none;
   cursor: pointer;
   text-decoration: underline;
+}
+.account .danger {
+  color: red;
+  width: 100%;
+  margin-top: 3rem;
+  border: 2px solid firebrick;
+  border-radius: 0.75rem;
+}
+.account .danger__banner {
+  margin: 0.75rem;
+}
+.account .danger__confirmation {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  margin: 0.75rem 0.75rem;
+}
+.account .danger__auth {
+  border: none;
+  width: 80%;
+  margin: 0.75rem auto;
+}
+.account .danger__auth input {
+  width: 100%;
+  outline: none;
+}
+.account .danger__buttons {
+  width: 100%;
+  margin-top: 0.75rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.account .danger__buttons button {
+  width: 60px;
+  margin: 0 0.5rem;
 }
 
 .about {

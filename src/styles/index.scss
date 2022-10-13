@@ -273,16 +273,13 @@ $secondary-bsa:.7;
             list-style-type: none;
             padding-left: 2rem;
             
-            & li{
-                cursor: pointer;
-                
-            }
         }
         
 
         &.ingredients{
             & ul{
                 list-style-type: disc;
+                cursor: pointer;
                 & li{
                     &:hover{
                         text-decoration:line-through;
@@ -293,6 +290,7 @@ $secondary-bsa:.7;
         
         &.instructions{
             & ol{
+                cursor: pointer;
                 list-style-type: decimal;
                 & li{
                     &:hover{
@@ -303,6 +301,10 @@ $secondary-bsa:.7;
             }
         }
 
+        & .--lineThrough{
+            text-decoration: line-through;
+        }
+
     }
 
 
@@ -311,12 +313,57 @@ $secondary-bsa:.7;
 
 .account{
     @include flex(column,center,flex-start);
+    width: 90%;
     margin-top: 1.5rem;
     
+    &__item{
+        margin-top: 1rem;
+    }
+
     &__link{
         user-select: none;
         cursor: pointer;
         text-decoration: underline;
+    }
+
+    & .danger{
+        color: red;
+        width: 100%;
+        margin-top: 3rem;
+        border: 2px solid firebrick;
+        border-radius: .75rem;
+
+        &__banner{
+            margin: .75rem
+        }
+
+        //form element
+        &__confirmation{
+            @include flex(column,space-between,flex-start);
+            flex-wrap: wrap;
+            margin: .75rem .75rem;
+        }
+        
+        &__auth{
+            border: none;
+            width: 80%;
+            margin: .75rem auto ;
+            input{
+                width: 100%;
+                outline: none;
+            }
+        }
+
+        &__buttons{
+            width: 100%;
+            margin-top: .75rem;
+            @include flex(row,center,center);
+            button{
+                width: 60px;
+                margin: 0 .5rem;
+            }
+        }
+
     }
 
 }

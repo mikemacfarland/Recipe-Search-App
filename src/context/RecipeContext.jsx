@@ -6,6 +6,7 @@ import {
     getAuth,createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
     sendPasswordResetEmail,
+    reauthenticateWithCredential,
     updateProfile,
     signOut,
     deleteUser,
@@ -30,7 +31,6 @@ export const RecipeProvider = ({children}) =>{
     //@TODO STORE API KEY ELSEWHWERE
     const navigate = useNavigate()
     // USER STATES
-    
     
     const [alert,setAlert] = useState('')
     const [userName,setUserName] = useState('')
@@ -75,7 +75,7 @@ export const RecipeProvider = ({children}) =>{
             const data = snapshot.val();
             //snapshot.val returns data from database attatched to user.
             //data.favorites = favorites array that was set from writeUserData()
-            data.favorites ? setUserFavorites(data.favorites) : setUserFavorites('');
+            !data === null ? setUserFavorites(data.favorites) : setUserFavorites('');
         });
     }
 
@@ -207,18 +207,37 @@ export const RecipeProvider = ({children}) =>{
         });
     })
 
-    //DELETE USER
-    //@TODO GET DELETE USER WORKING
-    //reauthenticate?
-    const handleDeleteUser = (user)=>{
-        deleteUser(user).then(() => {
-            // setSignedIn(false)
-            // User deleted.
-            ('userDELETE')
+    //REAUTHENTICATE USER
+    const handleReauthenicate = ()=>{
+        const user = auth.currentUser;
+        // why this isnt documented in firebase docs is a mystery
+        const credential = signInWithEmailAndPassword(auth, email, password)
+        reauthenticateWithCredential(user,credential).then(() => {
+            console.log('reauthenticated')
+        // User re-authenticated.
         }).catch((error) => {
-            console.log(error)
-            // An error ocurred
-            // ...
+            console.log(error.message)
+            console.log('reauthenticate error')
+            // console.log(error.code)
+        });
+    }
+
+    //DELETE USER
+    const handleDeleteUser = (user)=>{
+        handleReauthenicate(email,password)
+        deleteUser(user).then(() => {
+            setAlert('User Deleted')
+            showAlert('message')
+            logOut()
+            navigate('/')
+            console.log('userdeleted')
+            ('userDELETE')
+            // User deleted.
+        }).catch((error) => {
+            console.log('userdeleted error')
+            // console.log(error)
+            // console.log(error.code)
+            // console.log(error.message)
         });
     }
 
@@ -228,6 +247,9 @@ export const RecipeProvider = ({children}) =>{
             setSignedIn(false)
             setCurrentUser('')
             setUserFavorites('')
+            setPassword('')
+            setEmail('')
+            navigate('/')
         }).catch((error) => {
         });
     }
@@ -310,18 +332,19 @@ export const RecipeProvider = ({children}) =>{
         setEmail,
         setUserFavorites,
         //callback functions
+        handleReauthenicate,
         handleWriteUserData,
         handleSetUrl,
         getUserData,
         getRecipes,
         handleDeleteUser,
         handleUpdate,
+        signUp,
         login,
         logOut,
         lostPassword,
         //helper functions
         showAlert,
-        signUp,
         checkEmail,
         checkPw,
         }}>

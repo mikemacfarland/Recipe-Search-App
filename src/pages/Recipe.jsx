@@ -7,6 +7,9 @@ function Recipe() {
     currentRecipe
   } = useContext(RecipeContext)
 
+  const crossOut=(e)=>{
+    e.target.classList.toggle('--lineThrough')
+  }
 
   return (
     <div className='recipe'>
@@ -41,7 +44,7 @@ function Recipe() {
         <ul>
           {currentRecipe.extendedIngredients.map(ingredient=>{
             return(
-              <li key={ingredient.id}>{ingredient.original}</li>
+              <li onClick={crossOut} key={ingredient.id}>{ingredient.original}</li>
             )
           })}
         </ul>
@@ -52,7 +55,7 @@ function Recipe() {
         <ol>
           {currentRecipe.analyzedInstructions[0].steps.map(step=>{
             return(
-              <li>{step.step}</li>
+              <li onClick={crossOut} >{step.step}</li>
             )
           })}
         </ol>
