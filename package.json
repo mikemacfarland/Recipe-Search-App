@@ -1,6 +1,6 @@
 {
   "name": "The Sauce",
-  "version": ".086",
+  "version": ".1",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",

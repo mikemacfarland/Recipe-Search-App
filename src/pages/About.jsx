@@ -5,7 +5,7 @@ function About() {
   return (
     <div className='about'>
       <h1>About</h1>
-      <h5>The Sauce V.086 - Development Build</h5>
+      <h5>The Sauce V.1 - Development Build</h5>
       <p>Developed and Designed by &nbsp;
         <strong>Mike Macfarland</strong>
         <br/>This SPA currently uses the &nbsp;

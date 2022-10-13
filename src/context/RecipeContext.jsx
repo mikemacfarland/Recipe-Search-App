@@ -1,6 +1,4 @@
 //@TODO REFACTOR CONTEXT
-
-
 import { createContext,useState,useEffect,useLayoutEffect} from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -28,7 +26,7 @@ import {
 import {database} from '../firebase_config'
 
 
-// CONTEXT
+// APP CONTEXT
 const RecipeContext = createContext()
 export const RecipeProvider = ({children}) =>{
     
@@ -108,21 +106,21 @@ export const RecipeProvider = ({children}) =>{
     //ON LOAD
     useEffect(()=>{
         handleGetRecipes()
-        console.log('getrecipes on load')
+        // console.log('getrecipes on load')
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
      
     //this is for search and offset
     useEffect(()=>{
         handleSetUrl()
-        console.log('set url from offset')
+        // console.log('set url from offset')
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[offset])
 
     //recipes api call on url update (search and offset update)
     useEffect(()=>{
         handleGetRecipes()
-        console.log('getrecipes on url change')
+        // console.log('getrecipes on url change')
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[url])
 
@@ -133,14 +131,14 @@ export const RecipeProvider = ({children}) =>{
     
     // getRecipes callback
     const handleGetRecipes = ()=>{
-        console.log('fetch from ',url)
+        // console.log('fetch from ',url)
         getRecipes(url)
     }
 
     async function getRecipes(url){
         const response = await fetch(url)
         const data = await response.json()
-        console.log(data.results)
+        // console.log(data.results)
         setRecipes(data.results)
     }
 
