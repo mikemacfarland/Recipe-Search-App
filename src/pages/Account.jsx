@@ -46,8 +46,6 @@ function Account() {
 
     const handleLogout=()=>{
         logOut()
-        setAlert('User Logged Out')
-        showAlert('message')
     }
 
     //@TODO these are repeated in login page, make them global?

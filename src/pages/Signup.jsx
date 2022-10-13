@@ -4,22 +4,18 @@ import RecipeContext from '../context/RecipeContext'
 
 function Signup() {
 
-  const {signUp,checkEmail,checkPw,setUserName,setPassword,setEmail,setAlert,showAlert} = useContext(RecipeContext)
+  const {signUp,checkEmail,checkPw,setUserName,setPassword,setEmail,showAlert} = useContext(RecipeContext)
 
   const handleSignUp = (e)=>{
     e.preventDefault()
-    // (`email=${checkEmail()}  Pw=${checkPw()}`)
     if(!checkPw() && !checkEmail()){
-      setAlert('invalid password or email')
-      showAlert('error')
+      showAlert('error','invalid password or email')
     }
     if(!checkPw() && checkEmail()){
-      setAlert('password must be 8 characters long with 1 uppercase letter, 1 number and 1 special character')
-      showAlert('error')
+      showAlert('error','password must be 8 characters long with 1 uppercase letter, 1 number and 1 special character')
     }
     if(!checkEmail() && checkPw()){
-      setAlert('invalid email')
-      showAlert('error')
+      showAlert('error','invalid email')
     }
     else if(checkEmail() && checkPw()){
       signUp()

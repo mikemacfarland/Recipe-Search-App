@@ -4,13 +4,12 @@ import { Link } from "react-router-dom"
 
 function ForgotPassword() {
 
-  const {lostPassword,email,checkEmail,showAlert,setEmail,setAlert} = useContext(RecipeContext)
+  const {lostPassword,checkEmail,showAlert,setEmail,} = useContext(RecipeContext)
 
   const handleLostPassword = (e)=>{
     e.preventDefault()
     if(!checkEmail()){
-      setAlert('Invalid email')
-      showAlert('error')
+      showAlert('error','Invalid email')
     }
     else if(checkEmail()){
       lostPassword()

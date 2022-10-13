@@ -3,23 +3,16 @@ import RecipeContext from '../context/RecipeContext'
 import { Link,} from 'react-router-dom'
 
 function Login() {
-  const {checkEmail,checkPw,login,showAlert,setAlert,setEmail,setPassword} = useContext(RecipeContext)
+  const {checkEmail,checkPw,login,showAlert,setEmail,setPassword} = useContext(RecipeContext)
 
   const handleSignIn = (e)=>{
+    (!checkEmail() && checkPw()) ? showAlert('error','Invalid Email adress') :
+    (checkEmail() && !checkPw()) ? showAlert('error','Invalid Password') :
+    (!checkEmail() && !checkPw()) ? showAlert('error','Invalid Email or Password') :
+    login()
     e.preventDefault()
-    if(!checkEmail() && checkPw()){
-      setAlert('Invalid Email adress')
-      showAlert('error')
-    }
-    if(checkEmail() && !checkPw()){
-      setAlert('Invalid Password')
-      showAlert('error')
-    }
-    else if(checkEmail() && checkPw()){
-      login()
-    }
-    
   }
+    
 
   const handleSetEmail =(e)=>{
     setEmail(e.target.value)
@@ -31,7 +24,7 @@ function Login() {
 
   return (
     <div className='login'>
-      <form onSubmit={handleSignIn} className='login__form' action="signIn">
+      <form onSubmit={handleSignIn} className='login__form'>
         <fieldset>
           <legend>LOGIN</legend>
           <label htmlFor="email">Email</label>

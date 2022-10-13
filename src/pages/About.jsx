@@ -13,6 +13,8 @@ function About() {
           <a target='blank'href="https://spoonacular.com/food-api">Spoontacular API</a>
         </strong> to generate content and firebase to host, authenticate, and store users and user data.
       </p>
+      <p>To use all features in this app, login with email: <strong>test@test.com</strong> password: <strong>testTest1!</strong><br/>
+      or create your own account <a href="/signup">here</a></p>
     <ul className='about__list'>Future updates will include:
       <li>switch to a more reliable API</li>
       <li>domain name change - will use thesaucecooking.com</li>

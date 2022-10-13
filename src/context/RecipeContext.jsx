@@ -103,9 +103,9 @@ export const RecipeProvider = ({children}) =>{
 
     //RECIPES
 
-    //ON LOAD
     //@TODO fix exhaustive dependencies
     //@TODO refactor callbacks
+    //ON LOAD
     useEffect(()=>{
         handleGetRecipes()
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -250,6 +250,8 @@ export const RecipeProvider = ({children}) =>{
             setPassword('')
             setEmail('')
             navigate('/')
+            
+            showAlert('message','User Logged Out')
         }).catch((error) => {
         });
     }
