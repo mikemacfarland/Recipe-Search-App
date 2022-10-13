@@ -55,7 +55,7 @@ function Recipe() {
         <ol>
           {currentRecipe.analyzedInstructions[0].steps.map(step=>{
             return(
-              <li onClick={crossOut} >{step.step}</li>
+              <li key={step.step} onClick={crossOut} >{step.step}</li>
             )
           })}
         </ol>

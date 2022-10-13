@@ -22,11 +22,14 @@ function ContentItem({recipe}) {
         if(userFavorites && ids.includes(recipe.id)){
             const favorites = userFavorites ? userFavorites.filter(item=>item.id !== recipe.id) : []
             setUserFavorites(favorites)
-            console.log('unliked')
             setLiked(false)
         }
         else if(userFavorites && !userFavorites.includes(recipe)){
-            console.log('liked')
+            favorites.push(recipe)
+            setUserFavorites(favorites)
+            setLiked(true)
+        }
+        else if(userFavorites === null || userFavorites.length === 0){
             favorites.push(recipe)
             setUserFavorites(favorites)
             setLiked(true)

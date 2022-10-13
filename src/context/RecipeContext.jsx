@@ -1,3 +1,6 @@
+//@TODO REFACTOR CONTEXT
+
+
 import { createContext,useState,useEffect,useLayoutEffect} from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -43,7 +46,7 @@ export const RecipeProvider = ({children}) =>{
 
     // USER STORAGE
     const [currentUser,setCurrentUser] = useState('')
-    const [userFavorites,setUserFavorites] = useState('')
+    const [userFavorites,setUserFavorites] = useState(null)
 
     // URL/RECIPE STATES
 
@@ -59,8 +62,6 @@ export const RecipeProvider = ({children}) =>{
     const [currentRecipe,setCurrentRecipe] = useState('')
     const [url,setUrl] = useState(`https://api.spoonacular.com/recipes/complexSearch?query=${searchTerm}&number=${noOfResults}&offset=${offset}&cuisine=${cuisine}&diet=${diet}&intolorances=${intolorances}&type=${recipeType}&apiKey=033797df84694890b040b816a119b147`)
 
-    // WRITE DATA
-    //@TODO useeffect when user data state is changed, call this to update database
     const writeUserData = (userId,favorites)=>{
         const db = getDatabase()
         set(ref(db, 'users/' + userId), {
@@ -75,7 +76,7 @@ export const RecipeProvider = ({children}) =>{
             const data = snapshot.val();
             //snapshot.val returns data from database attatched to user.
             //data.favorites = favorites array that was set from writeUserData()
-            !data === null ? setUserFavorites(data.favorites) : setUserFavorites('');
+            data ? setUserFavorites(data.favorites) : setUserFavorites(null)
         });
     }
 
@@ -304,8 +305,6 @@ export const RecipeProvider = ({children}) =>{
         }
     }
 
-
-    //@TODO refactor, if one of these functions and setters is only used in one component
     return <RecipeContext.Provider value={{
         recipes,
         alert,

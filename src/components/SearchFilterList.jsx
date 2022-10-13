@@ -4,7 +4,6 @@ function SearchFilterList({title,filter,setType}) {
 
     const [active,setActive] = useState(false)
 
-    //@TODO refactor for loop in this function
     const checkCheck = (e)=>{
         const labels = document.querySelectorAll('label')
         for(let i = 0; i < labels.length; i++){

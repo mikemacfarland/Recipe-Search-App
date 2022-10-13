@@ -11,7 +11,6 @@ function Favorites() {
         {userFavorites.length === 0 ? 
           <div className="home__content">
               <h3>No favorites here, like recipes to show them here</h3>
-              {/* @TODO put clever image here */}
           </div> :
           <div className='home__content'>
           {userFavorites.map(recipe=>{

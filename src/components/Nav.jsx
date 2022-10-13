@@ -3,9 +3,6 @@ import LogoLink from './LogoLink'
 import { useContext } from 'react'
 import RecipeContext from '../context/RecipeContext'
 
-
-//@TODO add favorites page
-//@TODO add lists page with favorites?
 function Nav() {
 
   const {signedIn} = useContext(RecipeContext)

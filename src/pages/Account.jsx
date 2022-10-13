@@ -6,8 +6,6 @@ function Account() {
     // const [changeEmail,setChangeEmail] = useState(false)
     const [changeName,setChangeName] = useState(false)
     const [deleteUser,setDeleteUser] = useState(false)
-    //@TODO component is getting manually refreshed by window.
-    // add state or mofidy existing state 
     const {
         logOut,
         lostPassword,
