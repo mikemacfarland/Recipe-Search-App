@@ -36,6 +36,11 @@ function Content() {
                 <div className="page__prev">
                     <p onClick={((e)=>handleOffset(e))}>Previous</p>
                 </div>
+
+                <div className="page__offset">
+                    <p>{offset} - {offset + noOfResults}</p>
+                </div>
+
                 <div className="page__next">
                     <p onClick={((e)=>handleOffset(e))}>Next</p>
                 </div>

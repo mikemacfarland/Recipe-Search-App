@@ -203,9 +203,10 @@
   justify-content: center;
   align-items: center;
   width: 90%;
-  text-decoration: underline;
 }
-.home__content__navigator p {
+.home__content__navigator .page__next,
+.home__content__navigator .page__prev {
+  text-decoration: underline;
   margin: 0 1rem;
   user-select: none;
   cursor: pointer;

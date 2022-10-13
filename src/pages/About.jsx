@@ -19,6 +19,7 @@ function About() {
       <li>switch to a more reliable API</li>
       <li>domain name change - will use thesaucecooking.com</li>
       <li>favorites page lists</li>
+      <li>favorite an item from recipe page</li>
       <li>performance and error/message handling updates</li>
     </ul>
     <Link className='__homeLink' to='/'>Back to Recipes</Link></div>

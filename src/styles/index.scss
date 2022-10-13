@@ -236,13 +236,19 @@ $secondary-bsa:.7;
         &__navigator{
             @include flex(row,center,center);
             width: 90%;
-            text-decoration: underline;
+            
 
-            & p{
+            
+            .page__next,
+            .page__prev{
+                text-decoration: underline;
                 margin: 0 1rem;
                 user-select: none;
                 cursor: pointer;
             }
+            // & p{
+            //     
+            // }
         }
     }
 }
