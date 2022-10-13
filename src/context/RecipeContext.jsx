@@ -13,6 +13,7 @@ import {
     updateProfile,
     signOut,
     deleteUser,
+    EmailAuthProvider,
     onAuthStateChanged
 } from 'firebase/auth'
 import {auth} from '../firebase_config'
@@ -150,9 +151,7 @@ export const RecipeProvider = ({children}) =>{
           // Handle Additional errors
           .catch((error) => {
             const errorCode = error.code;
-            errorCode === 'auth/email-already-in-use' ? setAlert('User already exists') : setAlert('')
-            
-            showAlert()
+            errorCode === 'auth/email-already-in-use' ? showAlert('error','User already exists') : setAlert('')
           });
     }
 
@@ -165,17 +164,15 @@ export const RecipeProvider = ({children}) =>{
                 navigate('/')
                 setCurrentUser(user)
                 getUserData(user.uid)
+                setEmail('')
+                setPassword('')
             })
             // Handle Additional Errors
             .catch((error) => {
                 const errorCode = error.code;
-                const errorMessage = error.message;
-                errorCode === 'auth/user-not-found' ? setAlert('User not found/invalid Email') :
-                errorCode === 'auth/internal-error' ? setAlert('Invalid email/password') :
-                errorCode === 'auth/wrong-password' ? setAlert('Invalid Password') : setAlert('')
-                (errorCode)
-                (errorMessage)
-                showAlert('error')
+                errorCode === 'auth/user-not-found' ? showAlert('error','User not found/invalid Email') :
+                errorCode === 'auth/internal-error' ? showAlert('error','Invalid email/password') :
+                errorCode === 'auth/wrong-password' ? showAlert('error','Invalid Password') : setAlert('')
             });
     }
 
@@ -212,33 +209,35 @@ export const RecipeProvider = ({children}) =>{
     const handleReauthenicate = ()=>{
         const user = auth.currentUser;
         // why this isnt documented in firebase docs is a mystery
-        const credential = signInWithEmailAndPassword(auth, email, password)
+        // const credential = signInWithEmailAndPassword(auth, email, password)
+        const credential = EmailAuthProvider.credential(email,password)
         reauthenticateWithCredential(user,credential).then(() => {
-            console.log('reauthenticated')
         // User re-authenticated.
         }).catch((error) => {
-            console.log(error.message)
-            console.log('reauthenticate error')
-            // console.log(error.code)
+            const errorCode = error.code
+            errorCode === 'auth/invalid-email' ? showAlert('error','Invalid-Email') :
+            errorCode === 'auth/wrong-password' ? showAlert('error','Wrong Password') :
+            errorCode === 'auth/user-mismatch' ? showAlert('error','Invalid Email') : 
+            errorCode === 'auth/internal-error' ? showAlert('error','Invalid Email or Password') :
+            showAlert('error','Unknown Error')
         });
     }
 
-    //DELETE USER
+    // DELETE USER
     const handleDeleteUser = (user)=>{
-        handleReauthenicate(email,password)
+        handleReauthenicate()
         deleteUser(user).then(() => {
-            setAlert('User Deleted')
-            showAlert('message')
-            logOut()
+            showAlert('message','User Deleted')
+            // logOut()
             navigate('/')
             console.log('userdeleted')
             ('userDELETE')
             // User deleted.
         }).catch((error) => {
             console.log('userdeleted error')
-            // console.log(error)
-            // console.log(error.code)
-            // console.log(error.message)
+            console.log(error)
+            console.log(error.code)
+           
         });
     }
 
@@ -259,22 +258,22 @@ export const RecipeProvider = ({children}) =>{
     const lostPassword = async ()=>{
         sendPasswordResetEmail(auth, email)
         .then(() => {
-            setAlert(`email sent to ${email}`)
-            showAlert('message')
+            showAlert('message',`email sent to ${email}`)
         })
         .catch((error) => {
             const errorCode = error.code;
-            errorCode === 'auth/invalid-email' ? setAlert('Invalid email') :
-            errorCode === 'auth/user-not-found' ? setAlert('User not found') : 
-            errorCode === 'auth/too-many-requests' ? setAlert('Too many requests, Try again later') : setAlert('')
-            showAlert('error')
+            errorCode === 'auth/invalid-email' ? showAlert('error','Invalid email') :
+            errorCode === 'auth/user-not-found' ? showAlert('error','User not found') : 
+            errorCode === 'auth/too-many-requests' ? showAlert('error','Too many requests, Try again later') : setAlert('')
         });
     }
 
     //HELPER FUNCTIONS
-    const showAlert =(type)=> {
+    const showAlert =(type,alert)=> {
+        setAlert(alert)
         const alertTimeout = () => setTimeout(() => {
             alertEl.classList.remove(`--${type}`);
+            setAlert('')
         }, 4000);
         if (alertEl.classList.contains(`--${type}`)) {
             clearTimeout(alertTimeout);
