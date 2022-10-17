@@ -545,3 +545,17 @@ $secondary-bsa:.7;
         
     // }
 }
+
+@media screen and (min-width: 1024px){
+
+    .search__filters{
+        flex-wrap: nowrap;
+
+        &__item{
+            width: 25%;
+        }
+
+    }
+}
+
+

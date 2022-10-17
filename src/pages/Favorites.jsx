@@ -8,7 +8,7 @@ function Favorites() {
 
   return (
     <div>
-        {userFavorites.length === 0 ? 
+        {userFavorites === null || userFavorites.length === 0 ?
           <div className="home__content">
               <h3>No favorites here, like recipes to show them here</h3>
           </div> :

@@ -462,4 +462,13 @@
   margin: auto auto 0.4rem auto;
 }
 
+@media screen and (min-width: 1024px) {
+  .search__filters {
+    flex-wrap: nowrap;
+  }
+  .search__filters__item {
+    width: 25%;
+  }
+}
+
 /*# sourceMappingURL=index.css.map */
