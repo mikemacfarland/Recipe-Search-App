@@ -480,7 +480,11 @@ $secondary-bsa:.7;
 
             &.--active{
                 display: block;
-                height: fit-content;
+                height: 330px;
+                overflow-y: scroll;
+                ::-webkit-scrollbar{
+                    display: none;
+                }
                 transition: all .3s ease;
                 @include box-shadow(0,2px,4px,.5 )
             }

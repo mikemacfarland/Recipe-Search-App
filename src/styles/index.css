@@ -418,9 +418,13 @@
 }
 .search__filters__item__list.--active {
   display: block;
-  height: fit-content;
+  height: 330px;
+  overflow-y: scroll;
   transition: all 0.3s ease;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+.search__filters__item__list.--active ::-webkit-scrollbar {
+  display: none;
 }
 .search__filters__item__list__li input {
   display: none;
