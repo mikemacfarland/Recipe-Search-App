@@ -1,5 +1,5 @@
 //@TODO REFACTOR CONTEXT
-import { createContext,useState,useEffect,useLayoutEffect} from "react";
+import { createContext,useState,useEffect,useCallback} from "react";
 import { useNavigate } from "react-router-dom";
 
 // FIREBASE AUTH
@@ -14,7 +14,6 @@ import {
     EmailAuthProvider,
     onAuthStateChanged
 } from 'firebase/auth'
-import {auth} from '../firebase_config'
 
 // FIREBASE DATABASE
 import { 
@@ -22,9 +21,7 @@ import {
     ref,
     set,
     onValue
-} from "firebase/database";
-import {database} from '../firebase_config'
-
+} from "firebase/database"
 
 // APP CONTEXT
 const RecipeContext = createContext()
@@ -51,15 +48,20 @@ export const RecipeProvider = ({children}) =>{
 
     // RANDOM NUM
     const randomNum = ()=>{return Math.floor((Math.random() * 900))}
+    // can put noOfResults in state in future when feature is added to change # of results in search
+    const noOfResults = 8
     const [offset,setOffset] = useState(randomNum)
     const [searchTerm,setSearchTerm] = useState('')
     const [recipeType,setRecipeType] = useState('')
     const [diet,setDiet] = useState('')
     const [cuisine,setCuisine] = useState('')
     const [intolorances,setIntolorances] = useState('')
-    const [noOfResults,setNoOfResults] = useState(8)
     const [currentRecipe,setCurrentRecipe] = useState('')
     const [url,setUrl] = useState(`https://api.spoonacular.com/recipes/complexSearch?query=${searchTerm}&number=${noOfResults}&offset=${offset}&cuisine=${cuisine}&diet=${diet}&intolorances=${intolorances}&type=${recipeType}&apiKey=033797df84694890b040b816a119b147`)
+
+    const log = (string)=>{
+        console.log(string)
+    }
 
     const writeUserData = (userId,favorites)=>{
         const db = getDatabase()
@@ -69,38 +71,31 @@ export const RecipeProvider = ({children}) =>{
     }
 
     const getUserData = (user)=>{
+            log('get user data')
             const db = getDatabase();
             const favoritesRef = ref(db, 'users/' + user.uid);
             onValue(favoritesRef, (snapshot) => {
             const data = snapshot.val();
-            //snapshot.val returns data from database attatched to user.
-            //data.favorites = favorites array that was set from writeUserData()
             data ? setUserFavorites(data.favorites) : setUserFavorites(null)
-        });
+        })
     }
 
-    const handleWriteUserData = ()=>{
-            writeUserData(currentUser.uid,userFavorites)
-    }
+    // on refresh, data does not show up on favorites page
+    const handleWriteUserData = useCallback(()=>{
+        console.log('write user data')
+        if(currentUser && signedIn) writeUserData(currentUser.uid,userFavorites)
+        // getUserData(currentUser)
+    },[userFavorites,signedIn,currentUser])
 
     const handleGetUserData = ()=>{
-            getUserData(currentUser)
+        getUserData(currentUser)
     }
+    
 
-    // getuserData on currentuser change
     useEffect(()=>{
-        //could use void() here
-        signedIn && currentUser && handleGetUserData()
-    },[currentUser])
-
-    // writeuserdata on userfavorites change if user is signed in
-    useEffect(()=>{
-        //could use void() here
-        signedIn && currentUser && handleWriteUserData()  
-    },[userFavorites])
-
+        handleWriteUserData()
+    },[userFavorites,handleWriteUserData])
     //RECIPES
-
     //@TODO fix exhaustive dependencies
     //@TODO refactor callbacks
     //ON LOAD
@@ -166,9 +161,10 @@ export const RecipeProvider = ({children}) =>{
                 setSignedIn(true)
                 navigate('/')
                 setCurrentUser(user)
-                getUserData(user.uid)
                 setEmail('')
                 setPassword('')
+                // console.log(user)
+                getUserData(user)
             })
             // Handle Additional Errors
             .catch((error) => {
@@ -337,8 +333,8 @@ export const RecipeProvider = ({children}) =>{
         //callback functions
         handleReauthenicate,
         handleWriteUserData,
+        handleGetUserData,
         handleSetUrl,
-        getUserData,
         getRecipes,
         handleDeleteUser,
         handleUpdate,

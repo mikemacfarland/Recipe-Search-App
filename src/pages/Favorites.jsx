@@ -4,7 +4,7 @@ import ContentItem from '../components/ContentItem'
 
 function Favorites() {
 
-  const {writeUserData,getUserData,currentUser,userFavorites} = useContext(RecipeContext)
+  const {userFavorites} = useContext(RecipeContext)
 
   return (
     <div>

@@ -1,4 +1,4 @@
-import { useContext,useState,useEffect } from "react"
+import { useContext,useState} from "react"
 import RecipeContext from "../context/RecipeContext"
 import {auth} from '../firebase_config'
 
@@ -14,7 +14,6 @@ function Account() {
         setEmail,
         setPassword,
         setAlert,
-        showAlert
     } = useContext(RecipeContext)
 
     
