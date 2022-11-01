@@ -64,7 +64,6 @@ export const RecipeProvider = ({children}) =>{
 
     const [url,setUrl] = useState(`https://api.spoonacular.com/recipes/complexSearch?query=${urlEndpoints.searchTerm}&number=${urlEndpoints.noOfResults}&offset=${urlEndpoints.offset}&cuisine=${urlEndpoints.cuisine}&diet=${urlEndpoints.diet}&intolorances=${urlEndpoints.intolorances}&type=${urlEndpoints.recipeType}&apiKey=033797df84694890b040b816a119b147`)
 
-
     //HANDLE SET URL CALLBACK
     const handleSetUrl = useCallback(()=>{
         setUrl(`https://api.spoonacular.com/recipes/complexSearch?query=${urlEndpoints.searchTerm}&number=${urlEndpoints.noOfResults}&offset=${urlEndpoints.offset}&cuisine=${urlEndpoints.cuisine}&diet=${urlEndpoints.diet}&intolorances=${urlEndpoints.intolorances}&type=${urlEndpoints.recipeType}&apiKey=033797df84694890b040b816a119b147`)
@@ -108,7 +107,8 @@ export const RecipeProvider = ({children}) =>{
     const handleWriteUserData = useCallback(()=>{
         if(currentUser && signedIn) writeUserData(currentUser.uid,userFavorites)
         // getUserData(currentUser)
-    },[userFavorites,signedIn,currentUser])
+        // update dependencies?
+    },[userFavorites])
 
     const handleGetUserData = ()=>{
         getUserData(currentUser)
