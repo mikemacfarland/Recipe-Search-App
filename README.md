@@ -18,3 +18,9 @@ hosted on firebase.
 `npm start`
 
 
+# Project Goals/Skills
+    - Single page appliction
+    - React Router
+    - React Context
+    - Firebase
+    - GitHub workflow
