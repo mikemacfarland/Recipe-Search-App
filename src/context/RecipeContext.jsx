@@ -61,6 +61,7 @@ export const RecipeProvider = ({children}) =>{
         intolorances: '',
         recipeType: '',
     })
+
     const [url,setUrl] = useState(`https://api.spoonacular.com/recipes/complexSearch?query=${urlEndpoints.searchTerm}&number=${urlEndpoints.noOfResults}&offset=${urlEndpoints.offset}&cuisine=${urlEndpoints.cuisine}&diet=${urlEndpoints.diet}&intolorances=${urlEndpoints.intolorances}&type=${urlEndpoints.recipeType}&apiKey=033797df84694890b040b816a119b147`)
 
 
@@ -103,7 +104,7 @@ export const RecipeProvider = ({children}) =>{
         })
     }
 
-    // on refresh, data does not show up on favorites page? writs userdata on load
+    //@TODO on refresh, data does not show up on favorites page because it writes data on load. 
     const handleWriteUserData = useCallback(()=>{
         if(currentUser && signedIn) writeUserData(currentUser.uid,userFavorites)
         // getUserData(currentUser)
@@ -290,6 +291,7 @@ export const RecipeProvider = ({children}) =>{
         signedIn,
         userName,
         url,
+        urlEndpoints,
         noOfResults,
         currentUser,
         userFavorites,
@@ -305,6 +307,7 @@ export const RecipeProvider = ({children}) =>{
         setUrlEndpoints,
         setUserFavorites,
         //callback functions
+        handleSetUrl,
         handleReauthenicate,
         handleWriteUserData,
         handleGetUserData,

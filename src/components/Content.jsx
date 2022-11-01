@@ -6,16 +6,16 @@ function Content() {
     
     const {
         recipes,
-        offset,
-        setOffset,
+        urlEndpoints,
+        setUrlEndpoints,
         noOfResults,
     } = useContext(RecipeContext)
 
     const handleOffset = (e)=>{
-        const currentOffset = offset
-        e.target.innerText === 'Previous' && currentOffset >= noOfResults ? setOffset(currentOffset - noOfResults) :
-        e.target.innerText === 'Next' ? setOffset(currentOffset + noOfResults) : 
-        offset === 0 ? setOffset(0) : setOffset(0)
+        const currentOffset = urlEndpoints.offset
+        e.target.innerText === 'Previous' && currentOffset >= noOfResults ? setUrlEndpoints({...urlEndpoints,offset:(currentOffset - noOfResults)}) :
+        e.target.innerText === 'Next' ? setUrlEndpoints({...urlEndpoints,offset:(currentOffset + noOfResults)}) : 
+        urlEndpoints.offset === 0 ? setUrlEndpoints({...urlEndpoints,offset:0}) : setUrlEndpoints({...urlEndpoints,offset:0})
         // window.scrollTo(0,0)
     }
     
@@ -38,7 +38,7 @@ function Content() {
                 </div>
 
                 <div className="page__offset">
-                    <p>{offset} - {offset + noOfResults}</p>
+                    <p>{urlEndpoints.offset} - {urlEndpoints.offset + noOfResults}</p>
                 </div>
 
                 <div className="page__next">

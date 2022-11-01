@@ -8,12 +8,16 @@ import SearchFilterList from './SearchFilterList'
 function SearchFilter() {
 
   const {
-      setUrlEndpoints
+      setUrlEndpoints,
+      urlEndpoints,
+      handleSetUrl
   } = useContext(RecipeContext)
   
   const handleSubmit = (e)=>{
     e.preventDefault()
-    setUrlEndpoints.offset(0)
+    setUrlEndpoints({...urlEndpoints,offset:0})
+
+    handleSetUrl()
   }
 
   const handleSetSearchTerm = ()=>{
@@ -21,16 +25,18 @@ function SearchFilter() {
     setUrlEndpoints.searchTerm(userSearchTerm)
   }
 
+  
+
   return (
     <div className='search'>
       <form onSubmit={handleSubmit} className='search__form'>
           <input onBlur={handleSetSearchTerm} id="searchTerm" className='search__input' type="text" placeholder='Search Keyword'/>
           <button type='submit'>Search<img src={Icons.searchIcon} alt="search" /></button>
         <div className='search__filters'>
-          <SearchFilterList setType={setUrlEndpoints} title='Recipe Type' filter={filters.recipeType}/>
-          <SearchFilterList setType={setUrlEndpoints} title='Diet' filter={filters.diets}/>
-          <SearchFilterList setType={setUrlEndpoints} title='Cuisine' filter={filters.cuisines}/>
-          <SearchFilterList setType={setUrlEndpoints} title='Intolorances' filter={filters.intolorances}/>
+          <SearchFilterList type={'recipeType'} title='Recipe Type' filter={filters.recipeType}/>
+          <SearchFilterList type={'diet'} title='Diet' filter={filters.diets}/>
+          <SearchFilterList type={'cuisine'} title='Cuisine' filter={filters.cuisines}/>
+          <SearchFilterList type={'intolorances'} title='Intolorances' filter={filters.intolorances}/>
         </div>
       </form>
     </div>

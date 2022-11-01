@@ -1,8 +1,15 @@
-import { useState } from "react"
+import { useState,useContext } from "react"
+import RecipeContext from "../context/RecipeContext"
 
-function SearchFilterList({title,filter,setType}) {
+function SearchFilterList({title,filter,type}) {
 
     const [active,setActive] = useState(false)
+    const {urlEndpoints,setUrlEndpoints} = useContext(RecipeContext)
+    
+    const handleSetUrlEndpoints = (arr)=>{
+        //@QUESTION how do i pass type dynamically to set properties of urlEndpoints based on type passed to component?
+        setUrlEndpoints({...urlEndpoints,type:arr})
+      }
 
     const checkCheck = (e)=>{
         const labels = document.querySelectorAll('label')
@@ -15,7 +22,7 @@ function SearchFilterList({title,filter,setType}) {
         inputs.forEach(input=>{
             inputTypes.push(input.innerText)
         })
-        setType(inputTypes)
+        handleSetUrlEndpoints(inputTypes)
     }
 
     window.addEventListener('click',(e)=>{
