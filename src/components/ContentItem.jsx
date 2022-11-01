@@ -44,7 +44,7 @@ function ContentItem({recipe}) {
 
     useEffect(()=>{
         checkLiked()
-    },[])
+    })
 
     const handleOpenRecipe = async(recipe)=>{
         //@TODO STORE API KEY ELSEWHERE
