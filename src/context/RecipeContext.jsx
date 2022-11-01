@@ -52,6 +52,21 @@ export const RecipeProvider = ({children}) =>{
     const noOfResults = 8
 
     // URL STATES
+
+    // function reducer(state,action){
+    //     return {}
+    // }
+
+    // const [urlEndpoints,dispatch] = useReducer(reducer,{
+    //     searchTerm: '',
+    //     noOfResults: 8,
+    //     offset: randomNum(),
+    //     cuisine: '',
+    //     diet: '',
+    //     intolorances: '',
+    //     recipeType: '',
+    // })
+
     const [urlEndpoints,setUrlEndpoints] = useState({
         searchTerm: '',
         noOfResults: 8,
@@ -74,18 +89,17 @@ export const RecipeProvider = ({children}) =>{
 
     //GET RECIPES
     const getRecipes = useCallback( async ()=>{
-        console.log(url)
         const response = await fetch(url)
         const data = await response.json()
         console.log(data.results)
         setRecipes(data.results)
+        //@TODO does this dependency cause callback to run every time url is updated....?
     },[url])
 
     useEffect(()=>{
-        console.log('useEffect get recipes on load')
         getRecipes()
-    },[])
-
+    },[getRecipes])
+    
     // USER DATA
     function writeUserData(userId, favorites) {
         const db = getDatabase();
@@ -103,21 +117,15 @@ export const RecipeProvider = ({children}) =>{
         })
     }
 
-    //@TODO on refresh, data does not show up on favorites page because it writes data on load. 
-    const handleWriteUserData = useCallback(()=>{
-        if(currentUser && signedIn) writeUserData(currentUser.uid,userFavorites)
-        // getUserData(currentUser)
-        // update dependencies?
-    },[userFavorites])
+    //@TODO on refresh, data does not show up on favorites page because it rewrites
+    const handleWriteUserData = ()=>{
+        currentUser && signedIn && writeUserData(currentUser.uid,userFavorites)
+    }
 
     const handleGetUserData = ()=>{
         getUserData(currentUser)
     }
     
-    useEffect(()=>{
-        handleWriteUserData()
-    },[userFavorites,handleWriteUserData])
-
     //SIGNUP & LOGIN
     const signUp = ()=>{
         createUserWithEmailAndPassword(auth, email, password)
@@ -309,7 +317,6 @@ export const RecipeProvider = ({children}) =>{
         //callback functions
         handleSetUrl,
         handleReauthenicate,
-        handleWriteUserData,
         handleGetUserData,
         getRecipes,
         handleDeleteUser,
