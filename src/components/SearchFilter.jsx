@@ -10,19 +10,16 @@ function SearchFilter() {
   const {
       setUrlEndpoints,
       urlEndpoints,
-      handleSetUrl
   } = useContext(RecipeContext)
   
   const handleSubmit = (e)=>{
     e.preventDefault()
     setUrlEndpoints({...urlEndpoints,offset:0})
-
-    handleSetUrl()
   }
 
   const handleSetSearchTerm = ()=>{
     const userSearchTerm = document.querySelector('#searchTerm').value
-    setUrlEndpoints.searchTerm(userSearchTerm)
+    setUrlEndpoints({...urlEndpoints,searchTerm: userSearchTerm})
   }
 
   

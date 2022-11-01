@@ -52,21 +52,6 @@ export const RecipeProvider = ({children}) =>{
     const noOfResults = 8
 
     // URL STATES
-
-    // function reducer(state,action){
-    //     return {}
-    // }
-
-    // const [urlEndpoints,dispatch] = useReducer(reducer,{
-    //     searchTerm: '',
-    //     noOfResults: 8,
-    //     offset: randomNum(),
-    //     cuisine: '',
-    //     diet: '',
-    //     intolorances: '',
-    //     recipeType: '',
-    // })
-
     const [urlEndpoints,setUrlEndpoints] = useState({
         searchTerm: '',
         noOfResults: 8,
@@ -89,17 +74,23 @@ export const RecipeProvider = ({children}) =>{
 
     //GET RECIPES
     const getRecipes = useCallback( async ()=>{
+        console.log(url)
         const response = await fetch(url)
         const data = await response.json()
         console.log(data.results)
         setRecipes(data.results)
-        //@TODO does this dependency cause callback to run every time url is updated....?
+        //@TODO url dependancy causes this callback 
     },[url])
 
+    // writing more effective useEffects with useCallback and proper use of dependencies
     useEffect(()=>{
         getRecipes()
     },[getRecipes])
     
+    useEffect(()=>{
+        handleSetUrl()
+    },[urlEndpoints.offset,handleSetUrl])
+
     // USER DATA
     function writeUserData(userId, favorites) {
         const db = getDatabase();
