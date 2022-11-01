@@ -50,28 +50,51 @@ export const RecipeProvider = ({children}) =>{
     const randomNum = ()=>{return Math.floor((Math.random() * 900))}
     // can put noOfResults in state in future when feature is added to change # of results in search
     const noOfResults = 8
-    const [offset,setOffset] = useState(randomNum)
-    const [searchTerm,setSearchTerm] = useState('')
-    const [recipeType,setRecipeType] = useState('')
-    const [diet,setDiet] = useState('')
-    const [cuisine,setCuisine] = useState('')
-    const [intolorances,setIntolorances] = useState('')
+
+    // URL STATES
+    const [urlEndpoints,setUrlEndpoints] = useState({
+        searchTerm: '',
+        noOfResults: 8,
+        offset: randomNum(),
+        cuisine: '',
+        diet: '',
+        intolorances: '',
+        recipeType: '',
+    })
+    const [url,setUrl] = useState(`https://api.spoonacular.com/recipes/complexSearch?query=${urlEndpoints.searchTerm}&number=${urlEndpoints.noOfResults}&offset=${urlEndpoints.offset}&cuisine=${urlEndpoints.cuisine}&diet=${urlEndpoints.diet}&intolorances=${urlEndpoints.intolorances}&type=${urlEndpoints.recipeType}&apiKey=033797df84694890b040b816a119b147`)
+
+
+    //HANDLE SET URL CALLBACK
+    const handleSetUrl = useCallback(()=>{
+        setUrl(`https://api.spoonacular.com/recipes/complexSearch?query=${urlEndpoints.searchTerm}&number=${urlEndpoints.noOfResults}&offset=${urlEndpoints.offset}&cuisine=${urlEndpoints.cuisine}&diet=${urlEndpoints.diet}&intolorances=${urlEndpoints.intolorances}&type=${urlEndpoints.recipeType}&apiKey=033797df84694890b040b816a119b147`)
+    },[urlEndpoints])
+
     const [currentRecipe,setCurrentRecipe] = useState('')
-    const [url,setUrl] = useState(`https://api.spoonacular.com/recipes/complexSearch?query=${searchTerm}&number=${noOfResults}&offset=${offset}&cuisine=${cuisine}&diet=${diet}&intolorances=${intolorances}&type=${recipeType}&apiKey=033797df84694890b040b816a119b147`)
+    // (`https://api.spoonacular.com/recipes/complexSearch?query=${searchTerm}&number=${noOfResults}&offset=${offset}&cuisine=${cuisine}&diet=${diet}&intolorances=${intolorances}&type=${recipeType}&apiKey=033797df84694890b040b816a119b147`)
 
-    const log = (string)=>{
-        console.log(string)
-    }
+    //GET RECIPES
+    const getRecipes = useCallback( async ()=>{
+        console.log(url)
+        const response = await fetch(url)
+        const data = await response.json()
+        console.log(data.results)
+        setRecipes(data.results)
+    },[url])
 
-    const writeUserData = (userId,favorites)=>{
-        const db = getDatabase()
+    useEffect(()=>{
+        console.log('useEffect get recipes on load')
+        getRecipes()
+    },[])
+
+    // USER DATA
+    function writeUserData(userId, favorites) {
+        const db = getDatabase();
         set(ref(db, 'users/' + userId), {
             favorites: favorites
         });
     }
 
     const getUserData = (user)=>{
-            log('get user data')
             const db = getDatabase();
             const favoritesRef = ref(db, 'users/' + user.uid);
             onValue(favoritesRef, (snapshot) => {
@@ -80,9 +103,8 @@ export const RecipeProvider = ({children}) =>{
         })
     }
 
-    // on refresh, data does not show up on favorites page
+    // on refresh, data does not show up on favorites page? writs userdata on load
     const handleWriteUserData = useCallback(()=>{
-        console.log('write user data')
         if(currentUser && signedIn) writeUserData(currentUser.uid,userFavorites)
         // getUserData(currentUser)
     },[userFavorites,signedIn,currentUser])
@@ -91,51 +113,9 @@ export const RecipeProvider = ({children}) =>{
         getUserData(currentUser)
     }
     
-
     useEffect(()=>{
         handleWriteUserData()
     },[userFavorites,handleWriteUserData])
-    //RECIPES
-    //@TODO fix exhaustive dependencies
-    //@TODO refactor callbacks
-    //ON LOAD
-    useEffect(()=>{
-        handleGetRecipes()
-        // console.log('getrecipes on load')
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[])
-     
-    //this is for search and offset
-    useEffect(()=>{
-        handleSetUrl()
-        // console.log('set url from offset')
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[offset])
-
-    //recipes api call on url update (search and offset update)
-    useEffect(()=>{
-        handleGetRecipes()
-        // console.log('getrecipes on url change')
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[url])
-
-    //setUrl callback
-    const handleSetUrl=()=>{
-        setUrl(`https://api.spoonacular.com/recipes/complexSearch?query=${searchTerm}&number=${noOfResults}&offset=${offset}&cuisine=${cuisine}&diet=${diet}&intolorances=${intolorances}&type=${recipeType}&apiKey=033797df84694890b040b816a119b147`)    
-    }
-    
-    // getRecipes callback
-    const handleGetRecipes = ()=>{
-        // console.log('fetch from ',url)
-        getRecipes(url)
-    }
-
-    async function getRecipes(url){
-        const response = await fetch(url)
-        const data = await response.json()
-        // console.log(data.results)
-        setRecipes(data.results)
-    }
 
     //SIGNUP & LOGIN
     const signUp = ()=>{
@@ -163,7 +143,6 @@ export const RecipeProvider = ({children}) =>{
                 setCurrentUser(user)
                 setEmail('')
                 setPassword('')
-                // console.log(user)
                 getUserData(user)
             })
             // Handle Additional Errors
@@ -311,30 +290,24 @@ export const RecipeProvider = ({children}) =>{
         signedIn,
         userName,
         url,
-        offset,
         noOfResults,
         currentUser,
         userFavorites,
         currentRecipe,
         //setters
         setCurrentRecipe,
-        setSearchTerm,
-        setRecipeType,
-        setDiet,
-        setCuisine,
-        setIntolorances,
-        setOffset,
         setUserName,
         setAlert,
         setRecipes,
         setPassword,
         setEmail,
+        setUrl,
+        setUrlEndpoints,
         setUserFavorites,
         //callback functions
         handleReauthenicate,
         handleWriteUserData,
         handleGetUserData,
-        handleSetUrl,
         getRecipes,
         handleDeleteUser,
         handleUpdate,
