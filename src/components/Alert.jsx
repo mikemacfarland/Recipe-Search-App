@@ -3,9 +3,8 @@ import RecipeContext from "../context/RecipeContext"
 
 function Alert() {
 
-    const {alert} = useContext(RecipeContext)
-
-    
+  const {alert} = useContext(RecipeContext)
+  
   return (
     <div className="alert">{alert}</div>
   )

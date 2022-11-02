@@ -12,15 +12,10 @@ function Login() {
     login()
     e.preventDefault()
   }
-    
 
-  const handleSetEmail =(e)=>{
-    setEmail(e.target.value)
-  }
+  const handleSetEmail =(e)=> setEmail(e.target.value)
 
-  const handleSetPassword = (e)=>{
-    setPassword(e.target.value)
-  }
+  const handleSetPassword = (e)=> setPassword(e.target.value)
 
   return (
     <div className='login'>

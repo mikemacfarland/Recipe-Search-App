@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect,useCallback } from "react"
 import { useContext,useState} from "react"
 import { useNavigate } from "react-router-dom"
 import { ReactComponent as Heart} from '../assets/icons/heart.svg'
@@ -7,18 +7,15 @@ import RecipeContext from "../context/RecipeContext"
 function ContentItem({recipe}) {
 
     const navigate = useNavigate()
-    const {
-        userFavorites,
-        setUserFavorites,
-        signedIn,
-        setCurrentRecipe,
-    } = useContext(RecipeContext)
+    const {userFavorites,setUserFavorites,signedIn,setCurrentRecipe,} = useContext(RecipeContext)
 
     const [liked,setLiked] = useState(false)
 
     const handleLike =()=>{
+
         const ids = userFavorites ? userFavorites.map(recipe=>{return recipe.id}) : []
         const favorites = userFavorites ? userFavorites.filter(item=>item.id !== recipe.id) : []
+
         if(userFavorites && ids.includes(recipe.id)){
             const favorites = userFavorites ? userFavorites.filter(item=>item.id !== recipe.id) : []
             setUserFavorites(favorites)
@@ -36,15 +33,14 @@ function ContentItem({recipe}) {
         }
     }
 
-    const checkLiked =()=>{
+    const checkLiked = useCallback(()=>{
         const ids = userFavorites ? userFavorites.map(recipe=>{return recipe.id}) : []
         ids.includes(recipe.id) ? setLiked(true) : setLiked(false)
-    }
+    },[recipe,userFavorites])
 
-    // on render - checkLiked
     useEffect(()=>{
         checkLiked()
-    })
+    },[checkLiked])
 
     const handleOpenRecipe = async(recipe)=>{
         //@TODO STORE API KEY ELSEWHERE

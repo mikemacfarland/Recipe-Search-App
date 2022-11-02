@@ -7,25 +7,19 @@ import SearchFilterList from './SearchFilterList'
 
 function SearchFilter() {
 
-  const {
-      setUrlEndpoints,
-      urlEndpoints,
-  } = useContext(RecipeContext)
+  const {setUrlEndpoints,urlEndpoints,} = useContext(RecipeContext)
   
   const handleSubmit = (e)=>{
     const userSearchTerm = document.querySelector('#searchTerm').value
     e.preventDefault()
-    setUrlEndpoints({
-      ...urlEndpoints,offset:0,
-      ...urlEndpoints,searchTerm:userSearchTerm
-    })
+    setUrlEndpoints({...urlEndpoints,offset:0,searchTerm:userSearchTerm})
   }
 
   return (
     <div className='search'>
       <form onSubmit={handleSubmit} className='search__form'>
-          <input id="searchTerm" className='search__input' type="text" placeholder='Search Keyword'/>
-          <button type='submit'>Search<img src={Icons.searchIcon} alt="search" /></button>
+        <input id="searchTerm" className='search__input' type="text" placeholder='Search Keyword'/>
+        <button type='submit'>Search<img src={Icons.searchIcon} alt="search" /></button>
         <div className='search__filters'>
           <SearchFilterList type={'recipeType'} title='Recipe Type' filter={filters.recipeType}/>
           <SearchFilterList type={'diet'} title='Diet' filter={filters.diets}/>

@@ -20,7 +20,6 @@ function ForgotPassword() {
     setEmail(e.target.value)
   }
 
-
   return (
     <div className='login'>
       <form onSubmit={handleLostPassword} className='login__form' action="signIn">

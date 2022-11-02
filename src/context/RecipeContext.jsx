@@ -1,4 +1,4 @@
-//@TODO REFACTOR CONTEXT
+// @TODO REFACTOR CONTEXT
 import { createContext,useState,useEffect,useCallback} from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -25,12 +25,12 @@ import {
 
 // APP CONTEXT
 const RecipeContext = createContext()
-export const RecipeProvider = ({children}) =>{
+    export const RecipeProvider = ({children}) =>{
     
     //@TODO STORE API KEY ELSEWHWERE
     const navigate = useNavigate()
+
     // USER STATES
-    
     const [alert,setAlert] = useState('')
     const [userName,setUserName] = useState('')
     const [email,setEmail] = useState('')
@@ -44,9 +44,7 @@ export const RecipeProvider = ({children}) =>{
     const [currentUser,setCurrentUser] = useState('')
     const [userFavorites,setUserFavorites] = useState(null)
 
-    // URL/RECIPE STATES
-
-    // RANDOM NUM
+    // RANDOM NUM FOR INIT OFFSET
     const randomNum = ()=>{return Math.floor((Math.random() * 900))}
 
     // URL STATES
@@ -62,20 +60,20 @@ export const RecipeProvider = ({children}) =>{
     const [currentRecipe,setCurrentRecipe] = useState('')
     const [url,setUrl] = useState(`https://api.spoonacular.com/recipes/complexSearch?query=${urlEndpoints.searchTerm}&number=${urlEndpoints.noOfResults}&offset=${urlEndpoints.offset}&cuisine=${urlEndpoints.cuisine}&diet=${urlEndpoints.diet}&intolorances=${urlEndpoints.intolorances}&type=${urlEndpoints.recipeType}&apiKey=033797df84694890b040b816a119b147`)
 
-    //HANDLE SET URL CALLBACK
+    // HANDLE SET URL CALLBACK
     const handleSetUrl = useCallback(()=>{
         setUrl(`https://api.spoonacular.com/recipes/complexSearch?query=${urlEndpoints.searchTerm}&number=${urlEndpoints.noOfResults}&offset=${urlEndpoints.offset}&cuisine=${urlEndpoints.cuisine}&diet=${urlEndpoints.diet}&intolorances=${urlEndpoints.intolorances}&type=${urlEndpoints.recipeType}&apiKey=033797df84694890b040b816a119b147`)
     },[urlEndpoints])
 
-    //GET RECIPES
+    // GET RECIPES
     const getRecipes = useCallback( async ()=>{
         const response = await fetch(url)
         const data = await response.json()
         console.log(data.results)
         setRecipes(data.results)
-        //@TODO url dependancy causes this callback 
     },[url])
 
+    // GET USER DATA (FAVORITES)
     const getUserData = useCallback(()=>{
         const db = getDatabase();
         const favoritesRef = ref(db, 'users/' + currentUser.uid);
@@ -85,6 +83,7 @@ export const RecipeProvider = ({children}) =>{
         })
     },[currentUser.uid])
 
+    // WRITE USER DATA (FAVORITES)
     const writeUserData = useCallback(()=>{
         const db = getDatabase();
         if (currentUser && signedIn && userFavorites !== null){
@@ -94,7 +93,7 @@ export const RecipeProvider = ({children}) =>{
         }
     },[currentUser,signedIn,userFavorites])
 
-    // useEffect HOOKS
+    // USEEFFECT HOOKS
     useEffect(()=>{
         getRecipes()
     },[getRecipes])
@@ -111,7 +110,7 @@ export const RecipeProvider = ({children}) =>{
         writeUserData()
     },[writeUserData,userFavorites])
 
-    //SIGNUP & LOGIN
+    // SIGNUP
     const signUp = ()=>{
         createUserWithEmailAndPassword(auth, email, password)
           .then((userCredential) => {
@@ -127,7 +126,7 @@ export const RecipeProvider = ({children}) =>{
           });
     }
 
-    //LOGIN
+    // LOGIN
     const login = async ()=>{
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
@@ -148,7 +147,7 @@ export const RecipeProvider = ({children}) =>{
             });
     }
 
-    //UPDATE PROFILE
+    // UPDATE USER PROFILE
     const handleUpdate = (name)=>{
         updateProfile(auth.currentUser, {
                 displayName: name
@@ -160,7 +159,7 @@ export const RecipeProvider = ({children}) =>{
         });
     }
 
-    //ON UPDATE
+    // ON USER AUTH UPDATE/SIGNOUT/SIGNIN
     useEffect(()=>{
         onAuthStateChanged(auth, (user) => {
         if (user) {
@@ -177,7 +176,7 @@ export const RecipeProvider = ({children}) =>{
         });
     })
 
-    //REAUTHENTICATE USER
+    // REAUTHENTICATE USER FOR RE-AUTH REQUIRED ACTIONS
     const handleReauthenicate = ()=>{
         const user = auth.currentUser;
         // why this isnt documented in firebase docs is a mystery
@@ -195,7 +194,7 @@ export const RecipeProvider = ({children}) =>{
         });
     }
 
-    // DELETE USER
+    // DELETE USER - REQUIRES REAUTHENTICATION
     const handleDeleteUser = (user)=>{
         handleReauthenicate()
         deleteUser(user).then(() => {
@@ -213,7 +212,7 @@ export const RecipeProvider = ({children}) =>{
         });
     }
 
-    //LOGOUT
+    // LOGOUT
     const logOut = ()=>{
         signOut(auth).then(() => {
             setSignedIn(false)
@@ -228,7 +227,7 @@ export const RecipeProvider = ({children}) =>{
         });
     }
 
-    //LOST PW
+    // LOST PW EMAIL REQUEST
     const lostPassword = async ()=>{
         sendPasswordResetEmail(auth, email)
         .then(() => {
@@ -242,7 +241,8 @@ export const RecipeProvider = ({children}) =>{
         });
     }
 
-    //HELPER FUNCTIONS
+    // HELPER FUNCTIONS
+    // @TODO fix alerts not showing up, or showing up very briefly and dissapearing
     const showAlert =(type,alert)=> {
         setAlert(alert)
         const alertTimeout = () => setTimeout(() => {
@@ -288,7 +288,7 @@ export const RecipeProvider = ({children}) =>{
         currentUser,
         userFavorites,
         currentRecipe,
-        //setters
+        // SETTERS
         setCurrentRecipe,
         setUserName,
         setAlert,
@@ -298,7 +298,7 @@ export const RecipeProvider = ({children}) =>{
         setUrl,
         setUrlEndpoints,
         setUserFavorites,
-        //callback functions
+        // CALLBACKS
         handleSetUrl,
         handleReauthenicate,
         getUserData,
@@ -309,7 +309,7 @@ export const RecipeProvider = ({children}) =>{
         login,
         logOut,
         lostPassword,
-        //helper functions
+        // HELPER FUNCTIONS
         showAlert,
         checkEmail,
         checkPw,

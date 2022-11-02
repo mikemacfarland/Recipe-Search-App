@@ -7,9 +7,7 @@ function Recipe() {
     currentRecipe
   } = useContext(RecipeContext)
 
-  const crossOut=(e)=>{
-    e.target.classList.toggle('--lineThrough')
-  }
+  const crossOut=(e)=> e.target.classList.toggle('--lineThrough')
 
   return (
     <div className='recipe'>
@@ -18,20 +16,22 @@ function Recipe() {
         <img src={currentRecipe.image} alt="" />
       </div>
       
-      {currentRecipe.diets.length > 0 ? <div className="recipe__info diets">
-        <h4>Diets</h4>
-        <ul>
-          {currentRecipe.diets.map(diet=>{return(<li key={diet}>{diet}</li>)})}
-        </ul>
-      </div>
+      {currentRecipe.diets.length > 0 ? 
+        <div className="recipe__info diets">
+          <h4>Diets</h4>
+          <ul>
+            {currentRecipe.diets.map(diet=>{return(<li key={diet}>{diet}</li>)})}
+          </ul>
+        </div>
       : null}
 
-      {currentRecipe.occasions.length > 0 ? <div className="recipe__info occasions">
-        <h4>Occasions</h4>
-        <ul>
-          {currentRecipe.occasions.map(occasion=>{return(<div key={occasion}>{occasion}</div>)})}
-        </ul>
-      </div>
+      {currentRecipe.occasions.length > 0 ? 
+        <div className="recipe__info occasions">
+          <h4>Occasions</h4>
+          <ul>
+            {currentRecipe.occasions.map(occasion=>{return(<div key={occasion}>{occasion}</div>)})}
+          </ul>
+        </div>
       : null}
 
       <div className="recipe__info summary">
@@ -50,7 +50,6 @@ function Recipe() {
         </ul>
       </div>
 
-       
       <div className="recipe__info instructions">
         {currentRecipe.analyzedInstructions[0].steps.length > 0 ? <h4>cooking instructions</h4> : <h4>No cooking Instructions Avaliable</h4>}
         <ol>
@@ -61,7 +60,6 @@ function Recipe() {
           })}
         </ol> 
       </div> 
-      
     </div>
   )
 }

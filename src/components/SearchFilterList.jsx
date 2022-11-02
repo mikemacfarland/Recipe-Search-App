@@ -6,9 +6,7 @@ function SearchFilterList({title,filter,type}) {
     const [active,setActive] = useState(false)
     const {urlEndpoints,setUrlEndpoints} = useContext(RecipeContext)
     
-    const handleSetUrlEndpoints = (arr)=>{
-        setUrlEndpoints({...urlEndpoints,[type]:arr})
-      }
+    const handleSetUrlEndpoints = (arr)=>{setUrlEndpoints({...urlEndpoints,[type]:arr,offset:0})}
 
     const checkCheck = (e)=>{
         const labels = document.querySelectorAll('label')
@@ -27,28 +25,25 @@ function SearchFilterList({title,filter,type}) {
     window.addEventListener('click',(e)=>{
         const lists = document.querySelectorAll('.--active')
         lists.forEach(list=>{
-            if(!list.contains(e.target) && e.target !== list.previousSibling){
-                setActive(false)
-            }
+            if(!list.contains(e.target) && e.target !== list.previousSibling) setActive(false)
         })
     })
     
     //@TODO UI if selections are made, indicate in the parent element to user
-  return (<div className="search__filters__item">
-            <h4 onClick={(()=>setActive(active ? false : true))}>{title}</h4>
-            <ul className={`search__filters__item__list ${active ? '--active' : ''}`}>
+  return (
+    <div className="search__filters__item">
+        <h4 onClick={(()=>setActive(active ? false : true))}>{title}</h4>
+        <ul className={`search__filters__item__list ${active ? '--active' : ''}`}>
             {filter.map(filter=>{
                 return(
-                    <li className='search__filters__item__list__li'  key={filter}>
+                    <li className='search__filters__item__list__li' key={filter}>
                         <label htmlFor={filter}>{filter}</label>
-                        <input 
-                        onChange={(e)=>checkCheck(e)}
-                         id={filter} type="checkbox" />
+                        <input onChange={(e)=>checkCheck(e)} id={filter} type="checkbox" />
                     </li>
                 )
             })}
-            </ul>
-        </div>
+        </ul>
+    </div>
   )
 }
 

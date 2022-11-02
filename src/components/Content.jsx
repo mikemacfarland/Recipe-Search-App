@@ -4,19 +4,15 @@ import ContentItem from "./ContentItem"
 
 function Content() {
     
-    const {
-        recipes,
-        urlEndpoints,
-        setUrlEndpoints,
-    } = useContext(RecipeContext)
+    const {recipes,urlEndpoints,setUrlEndpoints,} = useContext(RecipeContext)
 
     const handleOffset = (location)=>{
         const currentOffset = urlEndpoints.offset
-        if(location === 'previous' && currentOffset >= urlEndpoints.noOfResults) 
+        if(location === 'previous' && currentOffset >= urlEndpoints.noOfResults)
             setUrlEndpoints({...urlEndpoints,offset:(currentOffset - urlEndpoints.noOfResults)})
-        if(location === 'next') 
-            setUrlEndpoints({...urlEndpoints,offset:(currentOffset + urlEndpoints.noOfResults)}) 
-        if(urlEndpoints.offset === 0 && location === 'previous') 
+        if(location === 'next')
+            setUrlEndpoints({...urlEndpoints,offset:(currentOffset + urlEndpoints.noOfResults)})
+        if(urlEndpoints.offset === 0 && location === 'previous')
             setUrlEndpoints({...urlEndpoints,offset:0})
     }
     
@@ -24,7 +20,6 @@ function Content() {
         recipes.length === 0 ? 
             <div className="home__content">
                 <h3>No recipes here, check your filter or search term</h3>
-                {/* @TODO put clever image here */}
             </div>
         :
         <div className="home__content">

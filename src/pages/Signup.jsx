@@ -4,7 +4,14 @@ import RecipeContext from '../context/RecipeContext'
 
 function Signup() {
 
-  const {signUp,checkEmail,checkPw,setUserName,setPassword,setEmail,showAlert} = useContext(RecipeContext)
+  const {signUp,
+      checkEmail,
+      checkPw,
+      setUserName,
+      setPassword,
+      setEmail,
+      showAlert
+  } = useContext(RecipeContext)
 
   const handleSignUp = (e)=>{
     e.preventDefault()
@@ -22,33 +29,23 @@ function Signup() {
     }
   }
 
-  const handleSetPw = (e)=>{
-    setPassword(e.target.value)
-  }
+  const handleSetPw = (e)=> setPassword(e.target.value)
+  
+  const handleSetEmail = (e) => setEmail(e.target.value)
 
-  const handleSetEmail = (e) =>{
-    setEmail(e.target.value)
-  }
-
-  const handleSetUserName = (e)=>{
-    setUserName(e.target.value)
-  }
+  const handleSetUserName = (e)=> setUserName(e.target.value)
 
   return (
     <div className='login'>
       <form onSubmit={handleSignUp} className='login__form' action="signIn">
         <fieldset>
           <legend>SIGNUP</legend>
-
           <label htmlFor="userName">UserName</label>
           <input onBlur={handleSetUserName} id='userName' type="text" />
-
           <label htmlFor="email">Email</label>
           <input onBlur={handleSetEmail} id='email' type="text" />
-
           <label htmlFor="password">Password</label>
           <input onBlur={handleSetPw} id='password' type="text" />
-
           <button>Signup</button>
           <p>Already have an account?&nbsp;<Link to='/Login'>Login</Link></p>
         </fieldset>
