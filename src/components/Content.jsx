@@ -6,13 +6,13 @@ function Content() {
     
     const {recipes,urlEndpoints,setUrlEndpoints,} = useContext(RecipeContext)
 
-    const handleOffset = (location)=>{
+    const handleOffset = (navOffset)=>{
         const currentOffset = urlEndpoints.offset
-        if(location === 'previous' && currentOffset >= urlEndpoints.noOfResults)
+        if(navOffset === 'previous' && currentOffset >= urlEndpoints.noOfResults)
             setUrlEndpoints({...urlEndpoints,offset:(currentOffset - urlEndpoints.noOfResults)})
-        if(location === 'next')
+        if(navOffset === 'next')
             setUrlEndpoints({...urlEndpoints,offset:(currentOffset + urlEndpoints.noOfResults)})
-        if(urlEndpoints.offset === 0 && location === 'previous')
+        if(urlEndpoints.offset === 0 && navOffset === 'previous')
             setUrlEndpoints({...urlEndpoints,offset:0})
     }
     

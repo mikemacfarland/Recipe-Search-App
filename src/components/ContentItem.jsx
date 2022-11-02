@@ -38,9 +38,7 @@ function ContentItem({recipe}) {
         ids.includes(recipe.id) ? setLiked(true) : setLiked(false)
     },[recipe,userFavorites])
 
-    useEffect(()=>{
-        checkLiked()
-    },[checkLiked])
+    useEffect(()=> checkLiked())
 
     const handleOpenRecipe = async(recipe)=>{
         //@TODO STORE API KEY ELSEWHERE
