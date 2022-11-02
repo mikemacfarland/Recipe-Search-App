@@ -16,7 +16,7 @@ function Content() {
             setUrlEndpoints({...urlEndpoints,offset:(currentOffset - urlEndpoints.noOfResults)})
         if(location === 'next') 
             setUrlEndpoints({...urlEndpoints,offset:(currentOffset + urlEndpoints.noOfResults)}) 
-        if(urlEndpoints.offset === 0) 
+        if(urlEndpoints.offset === 0 && location === 'previous') 
             setUrlEndpoints({...urlEndpoints,offset:0})
     }
     

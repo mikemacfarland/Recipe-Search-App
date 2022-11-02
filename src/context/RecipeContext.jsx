@@ -67,9 +67,6 @@ export const RecipeProvider = ({children}) =>{
         setUrl(`https://api.spoonacular.com/recipes/complexSearch?query=${urlEndpoints.searchTerm}&number=${urlEndpoints.noOfResults}&offset=${urlEndpoints.offset}&cuisine=${urlEndpoints.cuisine}&diet=${urlEndpoints.diet}&intolorances=${urlEndpoints.intolorances}&type=${urlEndpoints.recipeType}&apiKey=033797df84694890b040b816a119b147`)
     },[urlEndpoints])
 
-    
-    
-
     //GET RECIPES
     const getRecipes = useCallback( async ()=>{
         const response = await fetch(url)
@@ -79,7 +76,25 @@ export const RecipeProvider = ({children}) =>{
         //@TODO url dependancy causes this callback 
     },[url])
 
-    // writing more effective useEffects with useCallback and proper use of dependencies
+    const getUserData = useCallback(()=>{
+        const db = getDatabase();
+        const favoritesRef = ref(db, 'users/' + currentUser.uid);
+        onValue(favoritesRef, (snapshot) => {
+        const data = snapshot.val();
+        data ? setUserFavorites(data.favorites) : setUserFavorites(null)
+        })
+    },[currentUser.uid])
+
+    const writeUserData = useCallback(()=>{
+        const db = getDatabase();
+        if (currentUser && signedIn && userFavorites !== null){
+            set(ref(db, 'users/' + currentUser.uid), {
+                favorites: userFavorites
+            })
+        }
+    },[currentUser,signedIn,userFavorites])
+
+    // useEffect HOOKS
     useEffect(()=>{
         getRecipes()
     },[getRecipes])
@@ -88,32 +103,14 @@ export const RecipeProvider = ({children}) =>{
         handleSetUrl()
     },[urlEndpoints.offset,handleSetUrl])
 
-    // USER DATA
-    function writeUserData(userId, favorites) {
-        const db = getDatabase();
-        set(ref(db, 'users/' + userId), {
-            favorites: favorites
-        });
-    }
-
-    const getUserData = (user)=>{
-            const db = getDatabase();
-            const favoritesRef = ref(db, 'users/' + user.uid);
-            onValue(favoritesRef, (snapshot) => {
-            const data = snapshot.val();
-            data ? setUserFavorites(data.favorites) : setUserFavorites(null)
-        })
-    }
-
-    //@TODO on refresh, data does not show up on favorites page because it rewrites
-    const handleWriteUserData = ()=>{
-        currentUser && signedIn && writeUserData(currentUser.uid,userFavorites)
-    }
-
-    const handleGetUserData = ()=>{
-        getUserData(currentUser)
-    }
+    useEffect(()=>{
+        getUserData()
+    },[getUserData])
     
+    useEffect(()=>{
+        writeUserData()
+    },[writeUserData,userFavorites])
+
     //SIGNUP & LOGIN
     const signUp = ()=>{
         createUserWithEmailAndPassword(auth, email, password)
@@ -140,7 +137,7 @@ export const RecipeProvider = ({children}) =>{
                 setCurrentUser(user)
                 setEmail('')
                 setPassword('')
-                getUserData(user)
+                getUserData()
             })
             // Handle Additional Errors
             .catch((error) => {
@@ -304,7 +301,7 @@ export const RecipeProvider = ({children}) =>{
         //callback functions
         handleSetUrl,
         handleReauthenicate,
-        handleGetUserData,
+        getUserData,
         getRecipes,
         handleDeleteUser,
         handleUpdate,

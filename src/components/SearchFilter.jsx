@@ -13,21 +13,18 @@ function SearchFilter() {
   } = useContext(RecipeContext)
   
   const handleSubmit = (e)=>{
-    e.preventDefault()
-    setUrlEndpoints({...urlEndpoints,offset:0})
-  }
-
-  const handleSetSearchTerm = ()=>{
     const userSearchTerm = document.querySelector('#searchTerm').value
-    setUrlEndpoints({...urlEndpoints,searchTerm: userSearchTerm})
+    e.preventDefault()
+    setUrlEndpoints({
+      ...urlEndpoints,offset:0,
+      ...urlEndpoints,searchTerm:userSearchTerm
+    })
   }
-
-  
 
   return (
     <div className='search'>
       <form onSubmit={handleSubmit} className='search__form'>
-          <input onBlur={handleSetSearchTerm} id="searchTerm" className='search__input' type="text" placeholder='Search Keyword'/>
+          <input id="searchTerm" className='search__input' type="text" placeholder='Search Keyword'/>
           <button type='submit'>Search<img src={Icons.searchIcon} alt="search" /></button>
         <div className='search__filters'>
           <SearchFilterList type={'recipeType'} title='Recipe Type' filter={filters.recipeType}/>
