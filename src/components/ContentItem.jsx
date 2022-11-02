@@ -1,4 +1,4 @@
-import { useEffect,useCallback } from "react"
+import { useEffect } from "react"
 import { useContext,useState} from "react"
 import { useNavigate } from "react-router-dom"
 import { ReactComponent as Heart} from '../assets/icons/heart.svg'
@@ -33,10 +33,10 @@ function ContentItem({recipe}) {
         }
     }
 
-    const checkLiked = useCallback(()=>{
+    const checkLiked = ()=>{
         const ids = userFavorites ? userFavorites.map(recipe=>{return recipe.id}) : []
         ids.includes(recipe.id) ? setLiked(true) : setLiked(false)
-    },[recipe,userFavorites])
+    }
 
     useEffect(()=> checkLiked())
 
