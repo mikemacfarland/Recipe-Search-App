@@ -48,8 +48,6 @@ export const RecipeProvider = ({children}) =>{
 
     // RANDOM NUM
     const randomNum = ()=>{return Math.floor((Math.random() * 900))}
-    // can put noOfResults in state in future when feature is added to change # of results in search
-    const noOfResults = 8
 
     // URL STATES
     const [urlEndpoints,setUrlEndpoints] = useState({
@@ -61,7 +59,7 @@ export const RecipeProvider = ({children}) =>{
         intolorances: '',
         recipeType: '',
     })
-
+    const [currentRecipe,setCurrentRecipe] = useState('')
     const [url,setUrl] = useState(`https://api.spoonacular.com/recipes/complexSearch?query=${urlEndpoints.searchTerm}&number=${urlEndpoints.noOfResults}&offset=${urlEndpoints.offset}&cuisine=${urlEndpoints.cuisine}&diet=${urlEndpoints.diet}&intolorances=${urlEndpoints.intolorances}&type=${urlEndpoints.recipeType}&apiKey=033797df84694890b040b816a119b147`)
 
     //HANDLE SET URL CALLBACK
@@ -69,12 +67,11 @@ export const RecipeProvider = ({children}) =>{
         setUrl(`https://api.spoonacular.com/recipes/complexSearch?query=${urlEndpoints.searchTerm}&number=${urlEndpoints.noOfResults}&offset=${urlEndpoints.offset}&cuisine=${urlEndpoints.cuisine}&diet=${urlEndpoints.diet}&intolorances=${urlEndpoints.intolorances}&type=${urlEndpoints.recipeType}&apiKey=033797df84694890b040b816a119b147`)
     },[urlEndpoints])
 
-    const [currentRecipe,setCurrentRecipe] = useState('')
-    // (`https://api.spoonacular.com/recipes/complexSearch?query=${searchTerm}&number=${noOfResults}&offset=${offset}&cuisine=${cuisine}&diet=${diet}&intolorances=${intolorances}&type=${recipeType}&apiKey=033797df84694890b040b816a119b147`)
+    
+    
 
     //GET RECIPES
     const getRecipes = useCallback( async ()=>{
-        console.log(url)
         const response = await fetch(url)
         const data = await response.json()
         console.log(data.results)
@@ -291,7 +288,6 @@ export const RecipeProvider = ({children}) =>{
         userName,
         url,
         urlEndpoints,
-        noOfResults,
         currentUser,
         userFavorites,
         currentRecipe,

@@ -8,15 +8,16 @@ function Content() {
         recipes,
         urlEndpoints,
         setUrlEndpoints,
-        noOfResults,
     } = useContext(RecipeContext)
 
-    const handleOffset = (e)=>{
+    const handleOffset = (location)=>{
         const currentOffset = urlEndpoints.offset
-        e.target.innerText === 'Previous' && currentOffset >= noOfResults ? setUrlEndpoints({...urlEndpoints,offset:(currentOffset - noOfResults)}) :
-        e.target.innerText === 'Next' ? setUrlEndpoints({...urlEndpoints,offset:(currentOffset + noOfResults)}) : 
-        urlEndpoints.offset === 0 ? setUrlEndpoints({...urlEndpoints,offset:0}) : setUrlEndpoints({...urlEndpoints,offset:0})
-        // window.scrollTo(0,0)
+        if(location === 'previous' && currentOffset >= urlEndpoints.noOfResults) 
+            setUrlEndpoints({...urlEndpoints,offset:(currentOffset - urlEndpoints.noOfResults)})
+        if(location === 'next') 
+            setUrlEndpoints({...urlEndpoints,offset:(currentOffset + urlEndpoints.noOfResults)}) 
+        if(urlEndpoints.offset === 0) 
+            setUrlEndpoints({...urlEndpoints,offset:0})
     }
     
     return(
@@ -34,15 +35,15 @@ function Content() {
             })}
             <div className="home__content__navigator">
                 <div className="page__prev">
-                    <p onClick={((e)=>handleOffset(e))}>Previous</p>
+                    <p onClick={()=>handleOffset('previous')}>Previous</p>
                 </div>
 
                 <div className="page__offset">
-                    <p>{urlEndpoints.offset} - {urlEndpoints.offset + noOfResults}</p>
+                    <p>{urlEndpoints.offset} - {urlEndpoints.offset + urlEndpoints.noOfResults}</p>
                 </div>
 
                 <div className="page__next">
-                    <p onClick={((e)=>handleOffset(e))}>Next</p>
+                    <p onClick={()=>handleOffset('next')}>Next</p>
                 </div>
             </div>
         </div>  
