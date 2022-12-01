@@ -36,7 +36,7 @@ function Recipe() {
 
       <div className="recipe__info summary">
         <h4>Summary</h4>
-        <p>No summary due to the recipe api summary data supplying dangerous links/html instead of a string. will either switch api, or combine DOMPurify and regex to sanitize the summary data</p>
+        <p>Summary purification will be added in next update.</p>
       </div>
       
       <div className="recipe__info ingredients">
