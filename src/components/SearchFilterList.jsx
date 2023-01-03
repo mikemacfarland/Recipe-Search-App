@@ -4,6 +4,8 @@ import RecipeContext from "../context/RecipeContext"
 function SearchFilterList({title,filter,type}) {
 
     const [active,setActive] = useState(false)
+    const [selected,setSelected] = useState(false)
+
     const {urlEndpoints,setUrlEndpoints} = useContext(RecipeContext)
     
     const handleSetUrlEndpoints = (arr)=>{setUrlEndpoints({...urlEndpoints,[type]:arr,offset:0})}
@@ -15,6 +17,7 @@ function SearchFilterList({title,filter,type}) {
             labels[i].classList.toggle('--checked')
         }
         const inputs = e.target.parentNode.parentNode.querySelectorAll('.--checked')
+        inputs.length > 0 ? setSelected(true) : setSelected(false)
         const inputTypes = []
         inputs.forEach(input=>{
             inputTypes.push(input.innerText)
@@ -32,7 +35,10 @@ function SearchFilterList({title,filter,type}) {
     //@TODO UI if selections are made, indicate in the parent element to user
   return (
     <div className="search__filters__item">
-        <h4 onClick={(()=>setActive(active ? false : true))}>{title}</h4>
+        <h4 onClick={(()=>setActive(active ? false : true))} 
+        className={`${selected ? '--selected' : ''}`} 
+        >{title}</h4>
+        {/* if this ul contains an element that is selected : turn the h4 a different color */}
         <ul className={`search__filters__item__list ${active ? '--active' : ''}`}>
             {filter.map(filter=>{
                 return(

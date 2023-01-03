@@ -404,6 +404,9 @@
   height: 100%;
   user-select: none;
 }
+.search__filters__item h4.--selected {
+  background-color: #E0AFA0;
+}
 .search__filters__item__list {
   list-style: none;
   background-color: #8A817C;

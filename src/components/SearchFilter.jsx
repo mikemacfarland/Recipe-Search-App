@@ -18,7 +18,7 @@ function SearchFilter() {
   return (
     <div className='search'>
       <form onSubmit={handleSubmit} className='search__form'>
-        <input id="searchTerm" className='search__input' type="text" placeholder='Search Keyword'/>
+        <input onKeyUp={handleSubmit} id="searchTerm" className='search__input' type="text" placeholder='Search Keyword'/>
         <button type='submit'>Search<img src={Icons.searchIcon} alt="search" /></button>
         <div className='search__filters'>
           <SearchFilterList type={'recipeType'} title='Recipe Type' filter={filters.recipeType}/>
