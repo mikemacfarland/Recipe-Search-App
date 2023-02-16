@@ -58,19 +58,34 @@ const RecipeContext = createContext()
         recipeType: '',
     })
     const [currentRecipe,setCurrentRecipe] = useState('')
-    const [url,setUrl] = useState(`https://api.spoonacular.com/recipes/complexSearch?query=${urlEndpoints.searchTerm}&number=${urlEndpoints.noOfResults}&offset=${urlEndpoints.offset}&cuisine=${urlEndpoints.cuisine}&diet=${urlEndpoints.diet}&intolorances=${urlEndpoints.intolorances}&type=${urlEndpoints.recipeType}&apiKey=033797df84694890b040b816a119b147`)
+    const [url,setUrl] = useState('')
 
-    // HANDLE SET URL CALLBACK
+    // HANDLE SET URL CALLBACK W/URL CONSTRUCTOR
     const handleSetUrl = useCallback(()=>{
-        setUrl(`https://api.spoonacular.com/recipes/complexSearch?query=${urlEndpoints.searchTerm}&number=${urlEndpoints.noOfResults}&offset=${urlEndpoints.offset}&cuisine=${urlEndpoints.cuisine}&diet=${urlEndpoints.diet}&intolorances=${urlEndpoints.intolorances}&type=${urlEndpoints.recipeType}&apiKey=033797df84694890b040b816a119b147`)
+        const url = new URL('https://api.spoonacular.com/recipes/complexSearch')
+        url.searchParams.append('apiKey','033797df84694890b040b816a119b147')
+        const urlQueries = [
+            {name:'query',value:urlEndpoints.searchTerm},
+            {name:'number',value:urlEndpoints.noOfResults},
+            {name:'offset',value:urlEndpoints.offset},
+            {name:'cuisine',value:urlEndpoints.cuisine},
+            {name:'diet',value:urlEndpoints.diet},
+            {name:'intolorances',value:urlEndpoints.intolorances},
+            {name:'type',value:urlEndpoints.recipeType},
+        ]
+        urlQueries.forEach((query)=>url.searchParams.append(query.name,query.value))
+
+        setUrl(url)
     },[urlEndpoints])
 
     // GET RECIPES
     const getRecipes = useCallback( async ()=>{
-        const response = await fetch(url)
-        const data = await response.json()
-        console.log(data.results)
-        setRecipes(data.results)
+         await (fetch(url))
+        .then((res) => res.json())
+        .then((data)=>{ 
+            return setRecipes(data.results)
+        })
+        .catch(err => console.log(err))
     },[url])
 
     // GET USER DATA (FAVORITES)
