@@ -62,30 +62,41 @@ const RecipeContext = createContext()
 
     // HANDLE SET URL CALLBACK W/URL CONSTRUCTOR
     const handleSetUrl = useCallback(()=>{
+        // creating new url object
         const url = new URL('https://api.spoonacular.com/recipes/complexSearch')
+        // setting a single query
         url.searchParams.append('apiKey','033797df84694890b040b816a119b147')
+        // array of queries
         const urlQueries = [
             {name:'query',value:urlEndpoints.searchTerm},
             {name:'number',value:urlEndpoints.noOfResults},
             {name:'offset',value:urlEndpoints.offset},
             {name:'cuisine',value:urlEndpoints.cuisine},
             {name:'diet',value:urlEndpoints.diet},
-            {name:'intolorances',value:urlEndpoints.intolorances},
+            {name:'intolerances',value:urlEndpoints.intolorances},
             {name:'type',value:urlEndpoints.recipeType},
         ]
+        // loop over queries and set each one if they are changed - (urlEndpoints in dependency array)
         urlQueries.forEach((query)=>url.searchParams.append(query.name,query.value))
-
         setUrl(url)
     },[urlEndpoints])
 
     // GET RECIPES
     const getRecipes = useCallback( async ()=>{
          await (fetch(url))
-        .then((res) => res.json())
+        .then((res) => {
+            if(res.ok){
+                return res.json()
+            }
+            // this calls catch in the event that there is a bad response
+            return Promise.reject(res)
+            })
         .then((data)=>{ 
+            
             return setRecipes(data.results)
         })
-        .catch(err => console.log(err))
+        
+        .catch(err => console.log('Failed to fetch',err))
     },[url])
 
     // GET USER DATA (FAVORITES)

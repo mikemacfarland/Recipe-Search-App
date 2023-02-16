@@ -44,7 +44,8 @@ function Recipe() {
         <ul>
           {currentRecipe.extendedIngredients.map(ingredient=>{
             return(
-              <li onClick={crossOut} key={ingredient.id}>{ingredient.original}</li>
+              // @TODO prob use uuid here for key
+              <li onClick={crossOut} key={ingredient.id + ingredient.original}>{ingredient.original}</li>
             )
           })}
         </ul>

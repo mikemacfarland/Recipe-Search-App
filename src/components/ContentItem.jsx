@@ -41,11 +41,21 @@ function ContentItem({recipe}) {
     useEffect(()=> checkLiked())
 
     const handleOpenRecipe = async(recipe)=>{
+        const url = new URL('https://api.spoonacular.com')
+        url.pathname = `recipes/${recipe}/information`
         //@TODO STORE API KEY ELSEWHERE
-        const response = await fetch(`https://api.spoonacular.com/recipes/${recipe}/information?apiKey=033797df84694890b040b816a119b147`)
-        const data = await response.json()
-        setCurrentRecipe(data)
-        console.log(data)
+        url.searchParams.append('apiKey','033797df84694890b040b816a119b147')
+
+        await fetch(url)
+        .then(res =>{
+            if(res.ok){
+                return res.json()
+            }
+            Promise.reject(res)
+        })
+        .then(data => setCurrentRecipe(data))
+        .catch(err => console.log(err))
+ 
         navigate('/recipe')
     }
 
