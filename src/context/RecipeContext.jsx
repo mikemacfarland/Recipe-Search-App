@@ -1,6 +1,7 @@
 // @TODO REFACTOR CONTEXT
 import { createContext,useState,useEffect,useCallback} from "react";
 import { useNavigate } from "react-router-dom";
+import { getData } from "../utilities/index.js"
 
 // FIREBASE AUTH
 import {
@@ -82,21 +83,9 @@ const RecipeContext = createContext()
     },[urlEndpoints])
 
     // GET RECIPES
-    const getRecipes = useCallback( async ()=>{
-         await (fetch(url))
-        .then((res) => {
-            if(res.ok){
-                return res.json()
-            }
-            // this calls catch in the event that there is a bad response
-            return Promise.reject(res)
-            })
-        .then((data)=>{ 
-            
-            return setRecipes(data.results)
-        })
-        
-        .catch(err => console.log('Failed to fetch',err))
+    const getRecipes = useCallback(()=>{
+        // see utilities/index.js for this getData function
+        getData(url,setRecipes)
     },[url])
 
     // GET USER DATA (FAVORITES)

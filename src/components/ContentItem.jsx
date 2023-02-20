@@ -3,6 +3,7 @@ import { useContext,useState} from "react"
 import { useNavigate } from "react-router-dom"
 import { ReactComponent as Heart} from '../assets/icons/heart.svg'
 import RecipeContext from "../context/RecipeContext"
+import { getData } from "../utilities/index.js"
 
 function ContentItem({recipe}) {
 
@@ -40,23 +41,26 @@ function ContentItem({recipe}) {
 
     useEffect(()=> checkLiked())
 
-    const handleOpenRecipe = async(recipe)=>{
+    const handleOpenRecipe = (recipe)=>{
         const url = new URL('https://api.spoonacular.com')
         url.pathname = `recipes/${recipe}/information`
         //@TODO STORE API KEY ELSEWHERE
         url.searchParams.append('apiKey','033797df84694890b040b816a119b147')
+        getData(url,setCurrentRecipe)
 
-        await fetch(url)
-        .then(res =>{
-            if(res.ok){
-                return res.json()
-            }
-            Promise.reject(res)
-        })
-        .then(data => setCurrentRecipe(data))
-        .catch(err => console.log(err))
- 
         navigate('/recipe')
+        // 
+        
+        // await fetch(url)
+        // .then(res =>{
+        //     if(res.ok){
+        //         return res.json()
+        //         .then(data => setCurrentRecipe(data))
+        //     }
+        //     Promise.reject(res)
+        // })
+        // .catch(err => console.log(err))
+        
     }
 
   return (

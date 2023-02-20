@@ -7,9 +7,11 @@ function Recipe() {
     currentRecipe
   } = useContext(RecipeContext)
 
+  // @TODO this should be handled with local state instead of vanilla JS
   const crossOut=(e)=> e.target.classList.toggle('--lineThrough')
 
   return (
+    <>{ currentRecipe ?
     <div className='recipe'>
       <div className='recipe__banner'>
         <h1>{currentRecipe.title}</h1>
@@ -62,6 +64,8 @@ function Recipe() {
         </ol> 
       </div> 
     </div>
+    : <div>No Current Recipe Selected</div>}
+    </>
   )
 }
 
