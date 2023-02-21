@@ -3,7 +3,7 @@ import { useContext,useState} from "react"
 import { useNavigate } from "react-router-dom"
 import { ReactComponent as Heart} from '../assets/icons/heart.svg'
 import RecipeContext from "../context/RecipeContext"
-import { getData } from "../utilities/index.js"
+import { getData } from "../services/index.js"
 
 function ContentItem({recipe}) {
 

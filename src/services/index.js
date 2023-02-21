@@ -1,4 +1,4 @@
-// UTILITY FUNCTIONS
+// SERVICE FUNCTIONS
 
 // FETCH DATA
 // Args to pass getdata: State setter function(which state to set), url PathName & Url endpoints if applicable

@@ -1,14 +1,15 @@
 import {useContext} from 'react'
 import RecipeContext from '../context/RecipeContext'
 import { Link,} from 'react-router-dom'
+import { showAlert } from '../utilities/helpers'
 
 function Login() {
-  const {checkEmail,checkPw,login,showAlert,setEmail,setPassword} = useContext(RecipeContext)
+  const {checkEmail,checkPw,login,setAlert,setEmail,setPassword} = useContext(RecipeContext)
 
   const handleSignIn = (e)=>{
-    (!checkEmail() && checkPw()) ? showAlert('error','Invalid Email adress') :
-    (checkEmail() && !checkPw()) ? showAlert('error','Invalid Password') :
-    (!checkEmail() && !checkPw()) ? showAlert('error','Invalid Email or Password') :
+    (!checkEmail() && checkPw()) ? showAlert('error','Invalid Email adress',setAlert) :
+    (checkEmail() && !checkPw()) ? showAlert('error','Invalid Password',setAlert) :
+    (!checkEmail() && !checkPw()) ? showAlert('error','Invalid Email or Password',setAlert) :
     login()
     e.preventDefault()
   }

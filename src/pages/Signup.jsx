@@ -1,28 +1,29 @@
 import { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import RecipeContext from '../context/RecipeContext'
+import { showAlert } from '../utilities/helpers'
 
 function Signup() {
 
   const {signUp,
+      setAlert,
       checkEmail,
       checkPw,
       setUserName,
       setPassword,
       setEmail,
-      showAlert
   } = useContext(RecipeContext)
 
   const handleSignUp = (e)=>{
     e.preventDefault()
     if(!checkPw() && !checkEmail()){
-      showAlert('error','invalid password or email')
+      showAlert('error','invalid password or email',setAlert)
     }
     if(!checkPw() && checkEmail()){
-      showAlert('error','password must be 8 characters long with 1 uppercase letter, 1 number and 1 special character')
+      showAlert('error','password must be 8 characters long with 1 uppercase letter, 1 number and 1 special character',setAlert)
     }
     if(!checkEmail() && checkPw()){
-      showAlert('error','invalid email')
+      showAlert('error','invalid email',setAlert)
     }
     else if(checkEmail() && checkPw()){
       signUp()
