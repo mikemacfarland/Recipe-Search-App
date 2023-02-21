@@ -27,8 +27,6 @@ import {
 // APP CONTEXT
 const RecipeContext = createContext()
     export const RecipeProvider = ({children}) =>{
-    
-    //@TODO STORE API KEY ELSEWHWERE
     const navigate = useNavigate()
 
     // USER STATES
@@ -58,35 +56,14 @@ const RecipeContext = createContext()
         intolorances: '',
         recipeType: '',
     })
+    
     const [currentRecipe,setCurrentRecipe] = useState('')
-    const [url,setUrl] = useState('')
-
-    // HANDLE SET URL CALLBACK W/URL CONSTRUCTOR
-    const handleSetUrl = useCallback(()=>{
-        // creating new url object
-        const url = new URL('https://api.spoonacular.com/recipes/complexSearch')
-        // setting a single query
-        url.searchParams.append('apiKey','033797df84694890b040b816a119b147')
-        // array of queries
-        const urlQueries = [
-            {name:'query',value:urlEndpoints.searchTerm},
-            {name:'number',value:urlEndpoints.noOfResults},
-            {name:'offset',value:urlEndpoints.offset},
-            {name:'cuisine',value:urlEndpoints.cuisine},
-            {name:'diet',value:urlEndpoints.diet},
-            {name:'intolerances',value:urlEndpoints.intolorances},
-            {name:'type',value:urlEndpoints.recipeType},
-        ]
-        // loop over queries and set each one if they are changed - (urlEndpoints in dependency array)
-        urlQueries.forEach((query)=>url.searchParams.append(query.name,query.value))
-        setUrl(url)
-    },[urlEndpoints])
 
     // GET RECIPES
     const getRecipes = useCallback(()=>{
         // see utilities/index.js for this getData function
-        getData(url,setRecipes)
-    },[url])
+        getData(setRecipes,'recipes/complexSearch',urlEndpoints)
+    },[urlEndpoints])
 
     // GET USER DATA (FAVORITES)
     const getUserData = useCallback(()=>{
@@ -112,10 +89,6 @@ const RecipeContext = createContext()
     useEffect(()=>{
         getRecipes()
     },[getRecipes])
-    
-    useEffect(()=>{
-        handleSetUrl()
-    },[urlEndpoints.offset,handleSetUrl])
 
     useEffect(()=>{
         getUserData()
@@ -298,7 +271,6 @@ const RecipeContext = createContext()
         alert,
         signedIn,
         userName,
-        url,
         urlEndpoints,
         currentUser,
         userFavorites,
@@ -310,11 +282,9 @@ const RecipeContext = createContext()
         setRecipes,
         setPassword,
         setEmail,
-        setUrl,
         setUrlEndpoints,
         setUserFavorites,
         // CALLBACKS
-        handleSetUrl,
         handleReauthenicate,
         getUserData,
         getRecipes,

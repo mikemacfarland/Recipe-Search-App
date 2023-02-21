@@ -1,12 +1,31 @@
-//  UTILITY FUNCTIONS
+// UTILITY FUNCTIONS
 
 // FETCH DATA
-// Args to pass getdata: URL,State setter function(which state to set), whether to return data or data.results
-// @TODO - could add url constructor to this function or create a url constructor function to pair with this function.
-export const getData = async (url,setState)=>{
+// Args to pass getdata: State setter function(which state to set), url PathName & Url endpoints if applicable
+export const getData = async (setState,pathName,endpoints)=>{
+    
+    // URL Constructor for fetch
+    const url = new URL('https://api.spoonacular.com')
+    url.pathname = pathName
+    url.searchParams.append('apiKey',process.env.REACT_APP_API_KEY)   
+
+    // if endpoints are passed into function append endpoints unto URL
+    if(endpoints){
+        const urlQueries = [
+            {name:'query',value:endpoints.searchTerm},
+            {name:'number',value:endpoints.noOfResults},
+            {name:'offset',value:endpoints.offset},
+            {name:'cuisine',value:endpoints.cuisine},
+            {name:'diet',value:endpoints.diet},
+            {name:'intolerances',value:endpoints.intolorances},
+            {name:'type',value:endpoints.recipeType},
+        ]
+        urlQueries.forEach((query)=>url.searchParams.append(query.name,query.value))
+    }
+
+    // Fetch data from url
     await fetch(url)
     .then( res => {
-        // if response is okay -> return response.data from response.json()
         if(res.ok){
             return res.json()
         }
