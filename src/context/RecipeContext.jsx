@@ -3,15 +3,13 @@ import { createContext,useState,useEffect,useCallback} from "react";
 import { useNavigate } from "react-router-dom";
 import { getData } from "../services/index.js"
 import { randomNum } from "../utilities/helpers.js";
-import { getUserData,writeUserData } from "../utilities/database.js";
+import { getUserData } from "../utilities/database.js";
 
 // FIREBASE AUTH
 import {
-    getAuth,createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
+    getAuth,
     sendPasswordResetEmail,
     reauthenticateWithCredential,
-    updateProfile,
     signOut,
     deleteUser,
     EmailAuthProvider,
@@ -58,55 +56,6 @@ const RecipeContext = createContext()
     useEffect(()=>{
         getRecipes()
     },[getRecipes])
-    
-    // SIGNUP
-    const signUp = ()=>{
-        createUserWithEmailAndPassword(auth, email, password)
-          .then((userCredential) => {
-            const user = userCredential.user;
-            login(auth,email,password)
-            handleUpdate(userName)
-            setCurrentUser(user)
-          })
-          // Handle Additional errors
-          .catch((error) => {
-            const errorCode = error.code;
-            errorCode === 'auth/email-already-in-use' ? setAlert({type:'--error',value:'User already exists'}) : setAlert({type:'',value:''})
-          });
-    }
-
-    // LOGIN
-    const login = async ()=>{
-        signInWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                const user = userCredential.user;
-                setSignedIn(true)
-                navigate('/')
-                setCurrentUser(user)
-                setEmail('')
-                setPassword('')
-                getUserData(user,setUserFavorites)
-            })
-            // Handle Additional Errors
-            .catch((error) => {
-                const errorCode = error.code;
-                errorCode === 'auth/user-not-found' ? setAlert({type:'--error',value:'User not found/invalid Email'}) :
-                errorCode === 'auth/internal-error' ? setAlert({type:'--error',value:'Invalid email/password'}) :
-                errorCode === 'auth/wrong-password' ? setAlert({type:'--error',value:'Invalid Password'}) : setAlert({type:'',value:''})
-            });
-    }
-
-    // UPDATE USER PROFILE
-    const handleUpdate = (name)=>{
-        updateProfile(auth.currentUser, {
-                displayName: name
-            }).then(() => {
-                //run code after values have been set
-            }).catch((error) => {
-                // An error occurred
-                // ...
-        });
-    }
 
     // ON USER AUTH UPDATE/SIGNOUT/SIGNIN
     useEffect(()=>{
@@ -157,7 +106,6 @@ const RecipeContext = createContext()
             console.log('userdeleted error')
             console.log(error)
             console.log(error.code)
-           
         });
     }
 
@@ -190,28 +138,8 @@ const RecipeContext = createContext()
         });
     }
 
-
-    // CHECK EMAIL FOR SIGNUP, LOGIN & LOST PW
-    const checkEmail = ()=>{
-        if(email.length > 5 && email.includes('@') && email.includes('.')){
-          return true
-        }
-        else{
-          return false
-        }    
-    }
-
-    // CHECK PW FOR SIGNUP
-    const checkPw = ()=>{
-        if(password.length >= 8 && /[A-Z]/.test(password) && /[a-z]/.test(password) && /[!@#$%^&*?]/.test(password) && /[0-9]/.test(password)){
-            return true
-        }
-        else{
-            return false
-        }
-    }
-
     return <RecipeContext.Provider value={{
+        auth,
         recipes,
         alert,
         signedIn,
@@ -220,6 +148,8 @@ const RecipeContext = createContext()
         currentUser,
         userFavorites,
         currentRecipe,
+        email,
+        password,
         // SETTERS
         setCurrentRecipe,
         setUserName,
@@ -227,20 +157,16 @@ const RecipeContext = createContext()
         setRecipes,
         setPassword,
         setEmail,
+        setSignedIn,
         setUrlEndpoints,
         setUserFavorites,
+        setCurrentUser,
         // CALLBACKS
         handleReauthenicate,
         getRecipes,
         handleDeleteUser,
-        handleUpdate,
-        signUp,
-        login,
         logOut,
         lostPassword,
-        // HELPER FUNCTIONS
-        checkEmail,
-        checkPw,
         }}>
         {children}
     </RecipeContext.Provider>

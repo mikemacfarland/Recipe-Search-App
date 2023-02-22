@@ -1,66 +1,69 @@
-
 // FIREBASE FUNCTIONS
 // FIREBASE AUTH
-// import {
-//     getAuth,createUserWithEmailAndPassword,
-//     signInWithEmailAndPassword,
-//     sendPasswordResetEmail,
-//     reauthenticateWithCredential,
-//     updateProfile,
-//     signOut,
-//     deleteUser,
-//     EmailAuthProvider,
-//     onAuthStateChanged
-// } from 'firebase/auth'
+import {
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    // sendPasswordResetEmail,
+    // reauthenticateWithCredential,
+    updateProfile,
+    // signOut,
+    // deleteUser,
+    // EmailAuthProvider,
+    // onAuthStateChanged
+} from 'firebase/auth'
+import { getUserData } from './database';
 
 // // SIGNUP
-// const signUp = ()=>{
-//     createUserWithEmailAndPassword(auth, email, password)
-//       .then((userCredential) => {
-//         const user = userCredential.user;
-//         login(auth,email,password)
-//         handleUpdate(userName)
-//         setCurrentUser(user)
-//       })
-//       // Handle Additional errors
-//       .catch((error) => {
-//         const errorCode = error.code;
-//         errorCode === 'auth/email-already-in-use' ? showAlert('error','User already exists') : setAlert('')
-//       });
-// }
+export const signUp = (auth,email,password,userName,setCurrentUser,setAlert,setSignedIn,setEmail,setPassword,setUserFavorites)=>{
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        login(auth,email,password,setAlert,setCurrentUser,setSignedIn,setEmail,setPassword,setUserFavorites)
+        updateUser(auth,userName)
+        setCurrentUser(user)
+      })
+      // Handle Additional errors
+      .catch((error) => {
+        console.log(error)
+        const errorCode = error.code;
+        errorCode === 'auth/email-already-in-use' ? setAlert({type:'--error',value:'User already exists'}) : setAlert({type:'',value:''})
+      });
+}
 
-// // LOGIN
-// const login = async ()=>{
-//     signInWithEmailAndPassword(auth, email, password)
-//         .then((userCredential) => {
-//             const user = userCredential.user;
-//             setSignedIn(true)
-//             navigate('/')
-//             setCurrentUser(user)
-//             setEmail('')
-//             setPassword('')
-//             getUserData()
-//         })
-//         // Handle Additional Errors
-//         .catch((error) => {
-//             const errorCode = error.code;
-//             errorCode === 'auth/user-not-found' ? showAlert('error','User not found/invalid Email') :
-//             errorCode === 'auth/internal-error' ? showAlert('error','Invalid email/password') :
-//             errorCode === 'auth/wrong-password' ? showAlert('error','Invalid Password') : setAlert('')
-//         });
-// }
+// LOGIN
+export const login = async (auth,email,password,setAlert,setCurrentUser,setSignedIn,setEmail,setPassword,setUserFavorites)=>{
+    console.log(email,password)
+    console.log(auth)
+    signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            const user = userCredential.user;
+            setSignedIn(true)
+            setEmail('')
+            setPassword('')
+            getUserData(user,setUserFavorites)
+            return setCurrentUser(user) 
+        })
+        // Handle Additional Errors
+        .catch((error) => {
+            console.log(error)
+            const errorCode = error.code;
+            errorCode === 'auth/user-not-found' ? setAlert({type:'--error',value:'User not found/invalid Email'}) :
+            errorCode === 'auth/internal-error' ? setAlert({type:'--error',value:'Invalid email/password'}) :
+            errorCode === 'auth/wrong-password' ? setAlert({type:'--error',value:'Invalid Password'}) : setAlert({type:'',value:''})
+        });
+}
 
 // // UPDATE USER PROFILE
-// const handleUpdate = (name)=>{
-//     updateProfile(auth.currentUser, {
-//             displayName: name
-//         }).then(() => {
-//             //run code after values have been set
-//         }).catch((error) => {
-//             // An error occurred
-//             // ...
-//     });
-// }
+const updateUser = (auth,name)=>{
+    updateProfile(auth.currentUser, {
+            displayName: name
+        }).then(() => {
+            //run code after values have been set
+        }).catch((error) => {
+            // An error occurred
+            console.log(error)
+    });
+}
 
 // // ON USER AUTH UPDATE/SIGNOUT/SIGNIN
 // useEffect(()=>{

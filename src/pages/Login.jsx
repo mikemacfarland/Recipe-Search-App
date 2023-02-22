@@ -1,17 +1,34 @@
 import {useContext} from 'react'
+import { useNavigate } from 'react-router-dom'
 import RecipeContext from '../context/RecipeContext'
 import { Link,} from 'react-router-dom'
-import { showAlert } from '../utilities/helpers'
+import { getUserData } from '../utilities/database'
+import { login } from '../utilities/user'
+import { checkEmail,checkPw } from '../utilities/helpers'
 
 function Login() {
-  const {checkEmail,checkPw,login,setAlert,setEmail,setPassword} = useContext(RecipeContext)
+  const {
+    setAlert,
+    setEmail,
+    setPassword,
+    setCurrentUser,
+    currentUser,
+    setUserFavorites,
+    setSignedIn,
+    email,
+    password,
+    auth} = useContext(RecipeContext)
+    
+  const navigate = useNavigate()
 
   const handleSignIn = (e)=>{
-    (!checkEmail() && checkPw()) ? setAlert({type:'--error',value:'Invalid Email adress'}) :
-    (checkEmail() && !checkPw()) ? setAlert({type:'--error',value:'Invalid Password'}) :
-    (!checkEmail() && !checkPw()) ? setAlert({type:'--error',value:'Invalid Email or Password'}) :
-    login()
+    (!checkEmail(email) && checkPw(password)) ? setAlert({type:'--error',value:'Invalid Email adress'}) :
+    (checkEmail(email) && !checkPw(password)) ? setAlert({type:'--error',value:'Invalid Password'}) :
+    (!checkEmail(email) && !checkPw(password)) ? setAlert({type:'--error',value:'Invalid Email or Password'}) :
+    login(auth,email,password,setAlert,setCurrentUser,setSignedIn,setEmail,setPassword,setUserFavorites)
     e.preventDefault()
+    
+    navigate('/')
   }
 
   const handleSetEmail =(e)=> setEmail(e.target.value)
