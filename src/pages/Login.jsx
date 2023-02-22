@@ -7,9 +7,9 @@ function Login() {
   const {checkEmail,checkPw,login,setAlert,setEmail,setPassword} = useContext(RecipeContext)
 
   const handleSignIn = (e)=>{
-    (!checkEmail() && checkPw()) ? showAlert('error','Invalid Email adress',setAlert) :
-    (checkEmail() && !checkPw()) ? showAlert('error','Invalid Password',setAlert) :
-    (!checkEmail() && !checkPw()) ? showAlert('error','Invalid Email or Password',setAlert) :
+    (!checkEmail() && checkPw()) ? setAlert({type:'--error',value:'Invalid Email adress'}) :
+    (checkEmail() && !checkPw()) ? setAlert({type:'--error',value:'Invalid Password'}) :
+    (!checkEmail() && !checkPw()) ? setAlert({type:'--error',value:'Invalid Email or Password'}) :
     login()
     e.preventDefault()
   }

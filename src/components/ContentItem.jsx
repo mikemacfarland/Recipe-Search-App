@@ -4,39 +4,38 @@ import { useNavigate } from "react-router-dom"
 import { ReactComponent as Heart} from '../assets/icons/heart.svg'
 import RecipeContext from "../context/RecipeContext"
 import { getData } from "../services/index.js"
+import { writeUserData } from "../utilities/database"
 
 function ContentItem({recipe}) {
 
     const navigate = useNavigate()
-    const {userFavorites,setUserFavorites,signedIn,setCurrentRecipe,} = useContext(RecipeContext)
+    const {userFavorites,setUserFavorites,signedIn,setCurrentRecipe,currentUser} = useContext(RecipeContext)
 
     const [liked,setLiked] = useState(false)
 
     const handleLike =()=>{
-
-        const ids = userFavorites ? userFavorites.map(recipe=>{return recipe.id}) : []
-        const favorites = userFavorites ? userFavorites.filter(item=>item.id !== recipe.id) : []
-
-        if(userFavorites && ids.includes(recipe.id)){
-            const favorites = userFavorites ? userFavorites.filter(item=>item.id !== recipe.id) : []
-            setUserFavorites(favorites)
-            setLiked(false)
+        let favorites = []
+        if(userFavorites && userFavorites.length){
+            if(userFavorites.includes(recipe)){
+                favorites = userFavorites.filter((item)=> item !== recipe)
+                setLiked(false)
+            }
+            else{
+                favorites = userFavorites
+                favorites.push(recipe)
+                setLiked(true)
+            }
         }
-        else if(userFavorites && !userFavorites.includes(recipe)){
-            favorites.push(recipe)
-            setUserFavorites(favorites)
+        else{
+            favorites = [recipe]
             setLiked(true)
         }
-        else if(userFavorites === null || userFavorites.length === 0){
-            favorites.push(recipe)
-            setUserFavorites(favorites)
-            setLiked(true)
-        }
+        setUserFavorites(favorites)
+        writeUserData(currentUser,signedIn,userFavorites)
     }
 
     const checkLiked = ()=>{
-        const ids = userFavorites ? userFavorites.map(recipe=>{return recipe.id}) : []
-        ids.includes(recipe.id) ? setLiked(true) : setLiked(false)
+        userFavorites && userFavorites.includes(recipe) ? setLiked(true) : setLiked(false)
     }
 
     useEffect(()=> checkLiked())

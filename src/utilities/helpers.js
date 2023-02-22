@@ -1,20 +1,19 @@
 // UTILITY FUNCTIONS
 
-// HELPER FUNCTIONS
-    // @TODO fix alerts not showing up, or showing up very briefly and dissapearing
-    
-    export const showAlert =(type,alert,setState)=> {
-        const alertEl = document.querySelector('.alert')
-        setState(alert)
-        const alertTimeout = () => setTimeout(() => {
-            alertEl.classList.remove(`--${type}`);
-            setState('')
-        }, 4000);
-        if (alertEl.classList.contains(`--${type}`)) {
-            clearTimeout(alertTimeout);
-        }
-        else {
-            alertEl.classList.add(`--${type}`);
-            alertTimeout();
-        }
-    }
+// HELPER FUNCTIONS    
+    // Function to show UI alerts
+   export const showAlert = (setState)=>{
+    setState(true)
+    clearTimeout()
+    setTimeout(()=>{
+        setState(false)
+    },3000)
+   }
+
+    // Random number under 900
+   export const randomNum = ()=>{
+    return Math.floor(Math.random()*900)
+   }
+
+   
+   

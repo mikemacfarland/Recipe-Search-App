@@ -2,7 +2,8 @@
 import { createContext,useState,useEffect,useCallback} from "react";
 import { useNavigate } from "react-router-dom";
 import { getData } from "../services/index.js"
-import { showAlert } from "../utilities/helpers.js";
+import { randomNum } from "../utilities/helpers.js";
+import { getUserData,writeUserData } from "../utilities/database.js";
 
 // FIREBASE AUTH
 import {
@@ -17,21 +18,13 @@ import {
     onAuthStateChanged
 } from 'firebase/auth'
 
-// FIREBASE DATABASE
-import { 
-    getDatabase,
-    ref,
-    set,
-    onValue
-} from "firebase/database"
-
 // APP CONTEXT
 const RecipeContext = createContext()
     export const RecipeProvider = ({children}) =>{
     const navigate = useNavigate()
 
     // USER STATES
-    const [alert,setAlert] = useState('')
+    const [alert,setAlert] = useState({type:'',value:'',show:false})
     const [userName,setUserName] = useState('')
     const [email,setEmail] = useState('')
     const [password,setPassword] = useState('')
@@ -44,10 +37,7 @@ const RecipeContext = createContext()
     const [currentUser,setCurrentUser] = useState('')
     const [userFavorites,setUserFavorites] = useState(null)
 
-    // RANDOM NUM FOR INIT OFFSET
-    const randomNum = ()=>{return Math.floor((Math.random() * 900))}
-
-    // URL STATES
+    // URL AND CURRENT RECIPE STATES
     const [urlEndpoints,setUrlEndpoints] = useState({
         searchTerm: '',
         noOfResults: 8,
@@ -57,48 +47,18 @@ const RecipeContext = createContext()
         intolorances: '',
         recipeType: '',
     })
-
     const [currentRecipe,setCurrentRecipe] = useState('')
 
     // GET RECIPES
     const getRecipes = useCallback(()=>{
-        // see utilities/index.js for this getData function
         getData(setRecipes,'recipes/complexSearch',urlEndpoints)
     },[urlEndpoints])
 
-    // GET USER DATA (FAVORITES)
-    const getUserData = useCallback(()=>{
-        const db = getDatabase();
-        const favoritesRef = ref(db, 'users/' + currentUser.uid);
-        onValue(favoritesRef, (snapshot) => {
-        const data = snapshot.val();
-        data ? setUserFavorites(data.favorites) : setUserFavorites(null)
-        })
-    },[currentUser.uid])
-
-    // WRITE USER DATA (FAVORITES)
-    const writeUserData = useCallback(()=>{
-        const db = getDatabase();
-        if (currentUser && signedIn && userFavorites !== null){
-            set(ref(db, 'users/' + currentUser.uid), {
-                favorites: userFavorites
-            })
-        }
-    },[currentUser,signedIn,userFavorites])
-
-    // USEEFFECT HOOKS
+    // USEEFFECTS
     useEffect(()=>{
         getRecipes()
     },[getRecipes])
-
-    useEffect(()=>{
-        getUserData()
-    },[getUserData])
     
-    useEffect(()=>{
-        writeUserData()
-    },[writeUserData,userFavorites])
-
     // SIGNUP
     const signUp = ()=>{
         createUserWithEmailAndPassword(auth, email, password)
@@ -111,7 +71,7 @@ const RecipeContext = createContext()
           // Handle Additional errors
           .catch((error) => {
             const errorCode = error.code;
-            errorCode === 'auth/email-already-in-use' ? showAlert('error','User already exists',setAlert) : setAlert('','',setAlert)
+            errorCode === 'auth/email-already-in-use' ? setAlert({type:'--error',value:'User already exists'}) : setAlert({type:'',value:''})
           });
     }
 
@@ -125,14 +85,14 @@ const RecipeContext = createContext()
                 setCurrentUser(user)
                 setEmail('')
                 setPassword('')
-                getUserData()
+                getUserData(user,setUserFavorites)
             })
             // Handle Additional Errors
             .catch((error) => {
                 const errorCode = error.code;
-                errorCode === 'auth/user-not-found' ? showAlert('error','User not found/invalid Email',setAlert) :
-                errorCode === 'auth/internal-error' ? showAlert('error','Invalid email/password',setAlert) :
-                errorCode === 'auth/wrong-password' ? showAlert('error','Invalid Password',setAlert) : setAlert('')
+                errorCode === 'auth/user-not-found' ? setAlert({type:'--error',value:'User not found/invalid Email'}) :
+                errorCode === 'auth/internal-error' ? setAlert({type:'--error',value:'Invalid email/password'}) :
+                errorCode === 'auth/wrong-password' ? setAlert({type:'--error',value:'Invalid Password'}) : setAlert({type:'',value:''})
             });
     }
 
@@ -175,11 +135,11 @@ const RecipeContext = createContext()
         // User re-authenticated.
         }).catch((error) => {
             const errorCode = error.code
-            errorCode === 'auth/invalid-email' ? showAlert('error','Invalid-Email',setAlert) :
-            errorCode === 'auth/wrong-password' ? showAlert('error','Wrong Password',setAlert) :
-            errorCode === 'auth/user-mismatch' ? showAlert('error','Invalid Email',setAlert) : 
-            errorCode === 'auth/internal-error' ? showAlert('error','Invalid Email or Password',setAlert) :
-            showAlert('error','Unknown Error',setAlert)
+            errorCode === 'auth/invalid-email' ? setAlert({type:'--error',value:'Invalid-Email'}) :
+            errorCode === 'auth/wrong-password' ? setAlert({type:'--error',value:'Wrong Password'}) :
+            errorCode === 'auth/user-mismatch' ? setAlert({type:'--error',value:'Invalid Email'}) : 
+            errorCode === 'auth/internal-error' ? setAlert({type:'--error',value:'Invalid Email or Password'}) :
+            setAlert('--error','Unknown Error',setAlert)
         });
     }
 
@@ -187,7 +147,7 @@ const RecipeContext = createContext()
     const handleDeleteUser = (user)=>{
         handleReauthenicate()
         deleteUser(user).then(() => {
-            showAlert('message','User Deleted',setAlert)
+            setAlert({type:'--message',value:'User Deleted'})
             // logOut()
             navigate('/')
             console.log('userdeleted')
@@ -211,7 +171,7 @@ const RecipeContext = createContext()
             setEmail('')
             navigate('/')
             
-            showAlert('message','User Logged Out',setAlert)
+            setAlert({type:'--message',value:'User Logged Out'})
         }).catch((error) => {
         });
     }
@@ -220,13 +180,13 @@ const RecipeContext = createContext()
     const lostPassword = async ()=>{
         sendPasswordResetEmail(auth, email)
         .then(() => {
-            showAlert('message',`email sent to ${email}`,setAlert)
+            setAlert({type:'--message',value:`email sent to ${email}`})
         })
         .catch((error) => {
             const errorCode = error.code;
-            errorCode === 'auth/invalid-email' ? showAlert('error','Invalid email',setAlert) :
-            errorCode === 'auth/user-not-found' ? showAlert('error','User not found',setAlert) : 
-            errorCode === 'auth/too-many-requests' ? showAlert('error','Too many requests, Try again later',setAlert) : setAlert('','',setAlert)
+            errorCode === 'auth/invalid-email' ? setAlert({type:'--error',value:'Invalid email'}) :
+            errorCode === 'auth/user-not-found' ? setAlert({type:'--error',value:'User not found'}) : 
+            errorCode === 'auth/too-many-requests' ? setAlert({type:'--error',value:'Too many requests, Try again later'}) : setAlert({type:'',value:''})
         });
     }
 
@@ -271,7 +231,6 @@ const RecipeContext = createContext()
         setUserFavorites,
         // CALLBACKS
         handleReauthenicate,
-        getUserData,
         getRecipes,
         handleDeleteUser,
         handleUpdate,
@@ -280,7 +239,6 @@ const RecipeContext = createContext()
         logOut,
         lostPassword,
         // HELPER FUNCTIONS
-        // showAlert,
         checkEmail,
         checkPw,
         }}>
